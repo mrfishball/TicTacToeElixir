@@ -1,5 +1,5 @@
 defmodule Game do
-  @moduledoc false
+
   @enforce_keys [:turns, :last_player]
   defstruct @enforce_keys
 

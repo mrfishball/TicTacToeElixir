@@ -1,6 +1,5 @@
 defmodule TTT do
-  @moduledoc false
-
+  
   def main(_args \\ []) do
     new()
   end

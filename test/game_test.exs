@@ -36,10 +36,8 @@ defmodule GameTest do
     assert Game.play_turn(game, :x, {2, 2}) == {:error, :not_your_turn}
   end
 
-  test "player wins horizontally" do
+  test "player wins horizontally (top line)" do
     game = Game.new
-    game2 = Game.new
-    game3 = Game.new
 
     {:ok, game} = Game.play_turn(game, :o, {0, 0})
     {:ok, game} = Game.play_turn(game, :x, {2, 1})
@@ -48,28 +46,34 @@ defmodule GameTest do
     {:ok, game} = Game.play_turn(game, :o, {2, 0})
 
     assert Game.status(game) == {:ended, {:winner, :o}}
-
-    {:ok, game2} = Game.play_turn(game2, :o, {0, 1})
-    {:ok, game2} = Game.play_turn(game2, :x, {2, 2})
-    {:ok, game2} = Game.play_turn(game2, :o, {1, 1})
-    {:ok, game2} = Game.play_turn(game2, :x, {1, 0})
-    {:ok, game2} = Game.play_turn(game2, :o, {2, 1})
-
-    assert Game.status(game2) == {:ended, {:winner, :o}}
-
-    {:ok, game3} = Game.play_turn(game3, :o, {0, 2})
-    {:ok, game3} = Game.play_turn(game3, :x, {2, 0})
-    {:ok, game3} = Game.play_turn(game3, :o, {1, 2})
-    {:ok, game3} = Game.play_turn(game3, :x, {1, 0})
-    {:ok, game3} = Game.play_turn(game3, :o, {2, 2})
-
-    assert Game.status(game3) == {:ended, {:winner, :o}}
   end
 
-  test "player wins vertically" do
+  test "player wins horizontally (middle line)" do
     game = Game.new
-    game2 = Game.new
-    game3 = Game.new
+
+    {:ok, game} = Game.play_turn(game, :o, {0, 1})
+    {:ok, game} = Game.play_turn(game, :x, {2, 2})
+    {:ok, game} = Game.play_turn(game, :o, {1, 1})
+    {:ok, game} = Game.play_turn(game, :x, {1, 0})
+    {:ok, game} = Game.play_turn(game, :o, {2, 1})
+
+    assert Game.status(game) == {:ended, {:winner, :o}}
+  end
+
+  test "player wins horizontally (bottom line)" do
+    game = Game.new
+
+    {:ok, game} = Game.play_turn(game, :o, {0, 2})
+    {:ok, game} = Game.play_turn(game, :x, {2, 0})
+    {:ok, game} = Game.play_turn(game, :o, {1, 2})
+    {:ok, game} = Game.play_turn(game, :x, {1, 0})
+    {:ok, game} = Game.play_turn(game, :o, {2, 2})
+
+    assert Game.status(game) == {:ended, {:winner, :o}}
+  end
+
+  test "player wins vertically (left most)" do
+    game = Game.new
 
     {:ok, game} = Game.play_turn(game, :o, {0, 0})
     {:ok, game} = Game.play_turn(game, :x, {2, 1})
@@ -78,27 +82,35 @@ defmodule GameTest do
     {:ok, game} = Game.play_turn(game, :o, {0, 2})
 
     assert Game.status(game) == {:ended, {:winner, :o}}
-
-    {:ok, game2} = Game.play_turn(game2, :o, {1, 0})
-    {:ok, game2} = Game.play_turn(game2, :x, {2, 2})
-    {:ok, game2} = Game.play_turn(game2, :o, {1, 1})
-    {:ok, game2} = Game.play_turn(game2, :x, {2, 0})
-    {:ok, game2} = Game.play_turn(game2, :o, {1, 2})
-
-    assert Game.status(game2) == {:ended, {:winner, :o}}
-
-    {:ok, game3} = Game.play_turn(game3, :o, {2, 0})
-    {:ok, game3} = Game.play_turn(game3, :x, {1, 1})
-    {:ok, game3} = Game.play_turn(game3, :o, {2, 1})
-    {:ok, game3} = Game.play_turn(game3, :x, {1, 0})
-    {:ok, game3} = Game.play_turn(game3, :o, {2, 2})
-
-    assert Game.status(game3) == {:ended, {:winner, :o}}
   end
 
-  test "player wins diagonally" do
+  test "player wins vertically (middle)" do
     game = Game.new
-    game2 = Game.new
+
+    {:ok, game} = Game.play_turn(game, :o, {1, 0})
+    {:ok, game} = Game.play_turn(game, :x, {2, 2})
+    {:ok, game} = Game.play_turn(game, :o, {1, 1})
+    {:ok, game} = Game.play_turn(game, :x, {2, 0})
+    {:ok, game} = Game.play_turn(game, :o, {1, 2})
+
+    assert Game.status(game) == {:ended, {:winner, :o}}
+  end
+
+  test "player wins vertically (right most)" do
+    game = Game.new
+
+    {:ok, game} = Game.play_turn(game, :o, {2, 0})
+    {:ok, game} = Game.play_turn(game, :x, {1, 1})
+    {:ok, game} = Game.play_turn(game, :o, {2, 1})
+    {:ok, game} = Game.play_turn(game, :x, {1, 0})
+    {:ok, game} = Game.play_turn(game, :o, {2, 2})
+
+    assert Game.status(game) == {:ended, {:winner, :o}}
+  end
+
+  test "player wins diagonally (from top right)" do
+    game = Game.new
+
     {:ok, game} = Game.play_turn(game, :o, {2, 0})
     {:ok, game} = Game.play_turn(game, :x, {2, 1})
     {:ok, game} = Game.play_turn(game, :o, {1, 1})
@@ -106,6 +118,10 @@ defmodule GameTest do
     {:ok, game} = Game.play_turn(game, :o, {0, 2})
 
     assert Game.status(game) == {:ended, {:winner, :o}}
+  end
+
+  test "player wins diagonally (from top left)" do
+    game = Game.new
 
     {:ok, game2} = Game.play_turn(game2, :x, {0, 0})
     {:ok, game2} = Game.play_turn(game2, :o, {2, 1})
@@ -114,7 +130,6 @@ defmodule GameTest do
     {:ok, game2} = Game.play_turn(game2, :x, {2, 2})
 
     assert Game.status(game2) == {:ended, {:winner, :x}}
-
   end
 
   test "a draw game" do

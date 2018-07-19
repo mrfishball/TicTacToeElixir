@@ -22,7 +22,7 @@ defmodule BoardTest do
     board = Board.new
     coords = [{0, 2}, {1, 0}, {2, 1}, {1, 2}]
     token = :x
-    assert Board.fill(board, coords, token) == %{
+    assert Board.update(board, coords, token) == %{
               {0, 0} => " ",
               {0, 1} => " ",
               {0, 2} => :x,
@@ -37,7 +37,7 @@ defmodule BoardTest do
 
   test "To print an empty board in CLI" do
     board = Board.new
-    assert capture_io(fn -> Board.print(board) end) ==
+    assert capture_io(fn -> Board.show(board) end) ==
       "\n\n   |   |  \n---+---+---\n   |   |  \n---+---+---\n   |   |  \n\n\n"
   end
 
@@ -48,7 +48,7 @@ defmodule BoardTest do
     token = :o
     opponent_token = :x
     assert capture_io(fn ->
-      Board.update(board, move, opponent_moves, token, opponent_token) end) ==
+      Board.render(board, move, opponent_moves, token, opponent_token) end) ==
         "\n\n O | X |  \n---+---+---\n   | X | O\n---+---+---\n   | O | X\n\n\n"
   end
 end

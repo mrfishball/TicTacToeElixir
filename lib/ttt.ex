@@ -9,7 +9,7 @@ defmodule TTT do
     board = Board.new
     game = Game.new
     status = Game.status(game)
-    Board.print(board)
+    Board.show(board)
     play(board, game, status, :x)
   end
 
@@ -76,6 +76,6 @@ defmodule TTT do
   def update_visual(board, game, turn) do
     moves = MapSet.to_list(game.turns[turn])
     oppoents_moves = MapSet.to_list(game.turns[switch_turn(turn)])
-    Board.update(board, moves, oppoents_moves, turn, switch_turn(turn))
+    Board.render(board, moves, oppoents_moves, turn, switch_turn(turn))
   end
 end

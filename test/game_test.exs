@@ -123,13 +123,13 @@ defmodule GameTest do
   test "player wins diagonally (from top left)" do
     game = Game.new
 
-    {:ok, game2} = Game.play_turn(game2, :x, {0, 0})
-    {:ok, game2} = Game.play_turn(game2, :o, {2, 1})
-    {:ok, game2} = Game.play_turn(game2, :x, {1, 1})
-    {:ok, game2} = Game.play_turn(game2, :o, {0, 1})
-    {:ok, game2} = Game.play_turn(game2, :x, {2, 2})
+    {:ok, game} = Game.play_turn(game, :x, {0, 0})
+    {:ok, game} = Game.play_turn(game, :o, {2, 1})
+    {:ok, game} = Game.play_turn(game, :x, {1, 1})
+    {:ok, game} = Game.play_turn(game, :o, {0, 1})
+    {:ok, game} = Game.play_turn(game, :x, {2, 2})
 
-    assert Game.status(game2) == {:ended, {:winner, :x}}
+    assert Game.status(game) == {:ended, {:winner, :x}}
   end
 
   test "a draw game" do

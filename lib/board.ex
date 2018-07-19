@@ -9,7 +9,7 @@ defmodule Board do
     Enum.reduce(list, board, fn point, acc -> Map.put(acc, point, token) end)
   end
 
-  def print(board) do
+  def show(board) do
     IO.puts "\n"
     for row <- @board_bounds do
       for col <- @board_bounds do
@@ -24,8 +24,8 @@ defmodule Board do
 
   def render(board, list, list2, token, token2) do
     board
-    |> fill(list, String.upcase(Atom.to_string(token)))
-    |> fill(list2, String.upcase(Atom.to_string(token2)))
-    |> print
+    |> update(list, String.upcase(Atom.to_string(token)))
+    |> update(list2, String.upcase(Atom.to_string(token2)))
+    |> show
   end
 end

@@ -73,7 +73,6 @@ defmodule TTTTest do
   end
 
   test "Player tokens are updated and rendered on the board when user provides valid input" do
-    turn = :o
     board = Board.new
     game = Game.new
     {:ok, game} = Game.play_turn(game, :o, {0, 0})
@@ -82,7 +81,7 @@ defmodule TTTTest do
     {:ok, game} = Game.play_turn(game, :x, {1, 1})
     {:ok, game} = Game.play_turn(game, :o, {2, 0})
 
-    assert capture_io(fn -> TTT.update_visual(board, game, turn) end) ==
-      "\n\n O | O | O\n---+---+---\n   | X | X\n---+---+---\n   |   |  \n\n\n"
+    assert capture_io(fn -> TTT.update_visual(board, game) end) ==
+      "\n\n o | o | o\n---+---+---\n   | x | x\n---+---+---\n   |   |  \n\n\n"
   end
 end

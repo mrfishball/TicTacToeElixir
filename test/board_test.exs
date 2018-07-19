@@ -43,12 +43,9 @@ defmodule BoardTest do
 
   test "Update the board's visual on a valid moves in CLI" do
     board = Board.new
-    move = [{0, 0}, {2, 1}, {1, 2}]
-    opponent_moves = [{1, 0}, {1, 1}, {2, 2}]
-    token = :o
-    opponent_token = :x
+    moves = %{x: [{0, 0}, {2, 1}, {1, 2}], o: [{1, 0}, {1, 1}, {2, 2}]}
     assert capture_io(fn ->
-      Board.render(board, move, opponent_moves, token, opponent_token) end) ==
-        "\n\n O | X |  \n---+---+---\n   | X | O\n---+---+---\n   | O | X\n\n\n"
+      Board.render(board, moves) end) ==
+        "\n\n x | o |  \n---+---+---\n   | o | x\n---+---+---\n   | x | o\n\n\n"
   end
 end

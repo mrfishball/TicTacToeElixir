@@ -17,7 +17,7 @@ defmodule TTT do
     input = get_input(turn)
     move = match_input(String.trim(input))
     with {:ok, game} <- Game.play_turn(game, turn, move) do
-      update_visual(board, game, turn)
+      update_visual(board, game)
       status = Game.status(game)
       turn = switch_turn(turn)
       play(board, game, status, turn)
@@ -73,9 +73,8 @@ defmodule TTT do
     end
   end
 
-  def update_visual(board, game, turn) do
-    moves = MapSet.to_list(game.turns[turn])
-    oppoents_moves = MapSet.to_list(game.turns[switch_turn(turn)])
-    Board.render(board, moves, oppoents_moves, turn, switch_turn(turn))
+  def update_visual(board, %Game{turns: %{x: p1moves, o: p2moves}} = _game) do
+    moves = %{x: MapSet.to_list(p1moves), o: MapSet.to_list(p2moves)}
+    Board.render(board, moves)
   end
 end

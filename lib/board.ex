@@ -22,10 +22,10 @@ defmodule Board do
     IO.puts "\n"
   end
 
-  def render(board, list, list2, token, token2) do
+  def render(board, %{x: p1moves, o: p2moves} = _moves) do
     board
-    |> register_move(list, String.upcase(Atom.to_string(token)))
-    |> register_move(list2, String.upcase(Atom.to_string(token2)))
+    |> register_move(p1moves, Atom.to_string(:x))
+    |> register_move(p2moves, Atom.to_string(:o))
     |> show
   end
 end

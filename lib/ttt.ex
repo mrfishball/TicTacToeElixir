@@ -1,5 +1,5 @@
 defmodule TTT do
-  
+
   def main(_args \\ []) do
     new()
   end
@@ -51,11 +51,11 @@ defmodule TTT do
 
   def get_input(turn) do
     move = IO.gets "'#{turn}', please enter a number from 1 to 9 only: "
-    case not valid_input?(move) do
-      true ->
+    case valid_input?(move) do
+      true -> move
+      false ->
         IO.puts "\nInvalid move. Please try again.\n"
         get_input(turn)
-      false -> move
     end
   end
 

@@ -1,24 +1,19 @@
 defmodule Board do
-  @moduledoc """
-    This is the game's visual engine.
-  """
+
+  @board_bounds 0..2
   def new do
-    for col <- 0..2, row <- 0..2, into: %{}, do: {{col, row}, " "}
+    for col <- @board_bounds, row <- @board_bounds,
+      into: %{}, do: {{col, row}, "#{(col + row + 1) + (row * 2)}"}
   end
 
-  defp put(board, {col, row}, val) do
-    Map.put(board, {col, row}, val)
+  def register_move(board, list, token) do
+    Enum.reduce(list, board, fn point, acc -> Map.put(acc, point, token) end)
   end
 
-  # Break down and register each move in the list and it's token onto the board
-  def fill(board, list, token) do
-    Enum.reduce(list, board, fn point, acc -> put(acc, point, token) end)
-  end
-
-  def print(board) do
+  def show(board) do
     IO.puts "\n"
-    for row <- 0..2 do
-      for col <- 0..2 do
+    for row <- @board_bounds do
+      for col <- @board_bounds do
         " " <> board[{col, row}]
       end
       |> Enum.join(" |")
@@ -28,10 +23,10 @@ defmodule Board do
     IO.puts "\n"
   end
 
-  def update(board, list, list2, token, token2) do
+  def render(board, %{x: p1moves, o: p2moves} = _moves) do
     board
-    |> fill(list, String.upcase(Atom.to_string(token)))
-    |> fill(list2, String.upcase(Atom.to_string(token2)))
-    |> print
+    |> register_move(p1moves, Atom.to_string(:x))
+    |> register_move(p2moves, Atom.to_string(:o))
+    |> show
   end
 end

@@ -1,7 +1,5 @@
 defmodule Game do
-  @moduledoc """
-    This module handles player interactions
-  """
+
   @enforce_keys [:turns, :last_player]
   defstruct @enforce_keys
 
@@ -9,8 +7,6 @@ defmodule Game do
   @valid_tokens [:x, :o]
 
   def new do
-    # Use MapSet for fast look up and
-    # potentially better solution when working with grid??
     %Game{turns: %{x: MapSet.new, o: MapSet.new}, last_player: :player}
   end
 
@@ -42,10 +38,13 @@ defmodule Game do
   end
 
   defp draw?(turns) do
+    current_moves(turns) >= :math.pow(Enum.count(@board_bound), 2)
+  end
+
+  defp current_moves(turns) do
     turns
     |> Map.values
     |> Enum.reduce(0, &(MapSet.size(&1) + &2))
-    >= :math.pow(Enum.count(@board_bound), 2)
   end
 
   defp player_won?(player_turns) do
@@ -71,7 +70,6 @@ defmodule Game do
     max = Enum.count(bound)
     [(for i <- bound, do: {i, i})] ++
       [(for i <- bound, do: {i, max - i - 1})]
-
   end
 
   # Provide game status updates

@@ -16,13 +16,33 @@ defmodule TTTTest do
     for input <- inputs, do: assert TTT.valid_input?(input) == true
   end
 
-  test "Whitespaces or newlines before or/and after a valid input will be ignored, such input will be a valid one" do
-    inputs = ["  3  ", "    7", "4 ", "\n2\n\n"]
+  test "Whitespaces before a valid input will be ignored, such input will be a valid one" do
+    inputs = ["  3", "    7", " 4"]
     for input <- inputs, do: assert TTT.valid_input?(input) == true
   end
 
-  test "A number smaller than '1' or greater than '9' will be invalidated" do
-    invalids = ["-1", "-23", "0", "10", "50", "120"]
+  test "Whitespaces after a valid input will be ignored, such input will be a valid one" do
+    inputs = ["1  ", "2    ", "8 "]
+    for input <- inputs, do: assert TTT.valid_input?(input) == true
+  end
+
+  test "Newlines after a valid input will be ignored, such input will be a valid one" do
+    inputs = ["2\n\n", "6\n"]
+    for input <- inputs, do: assert TTT.valid_input?(input) == true
+  end
+
+  test "Newlines before a valid input will be ignored, such input will be a valid one" do
+    inputs = ["\n\n7", "\n3"]
+    for input <- inputs, do: assert TTT.valid_input?(input) == true
+  end
+
+  test "A number smaller than '1' will be invalidated" do
+    invalids = ["-1", "-23", "0"]
+    for input <- invalids, do: assert TTT.valid_input?(input) == false
+  end
+
+  test "A number greater than '9' will be invalidated" do
+    invalids = ["10", "50", "120"]
     for input <- invalids, do: assert TTT.valid_input?(input) == false
   end
 
@@ -52,7 +72,7 @@ defmodule TTTTest do
     assert TTT.match_input("5") == {1, 1}
   end
 
-  test "Board is updated and rendered correctly" do
+  test "Player tokens are updated and rendered on the board when user provides valid input" do
     turn = :o
     board = Board.new
     game = Game.new

@@ -5,7 +5,7 @@ defmodule Board do
     for col <- @board_bounds, row <- @board_bounds, into: %{}, do: {{col, row}, " "}
   end
 
-  def update(board, list, token) do
+  def register_move(board, list, token) do
     Enum.reduce(list, board, fn point, acc -> Map.put(acc, point, token) end)
   end
 
@@ -24,8 +24,8 @@ defmodule Board do
 
   def render(board, list, list2, token, token2) do
     board
-    |> update(list, String.upcase(Atom.to_string(token)))
-    |> update(list2, String.upcase(Atom.to_string(token2)))
+    |> register_move(list, String.upcase(Atom.to_string(token)))
+    |> register_move(list2, String.upcase(Atom.to_string(token2)))
     |> show
   end
 end

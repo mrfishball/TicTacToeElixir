@@ -22,7 +22,7 @@ defmodule BoardTest do
     board = Board.new
     coords = [{0, 2}, {1, 0}, {2, 1}, {1, 2}]
     token = :x
-    assert Board.update(board, coords, token) == %{
+    assert Board.register_move(board, coords, token) == %{
               {0, 0} => " ",
               {0, 1} => " ",
               {0, 2} => :x,

@@ -1,6 +1,6 @@
 # Tic Tac Toe in Elixir!
 
-[![Build Status](https://travis-ci.com/mrfishball/TTT-in-Elixir.svg?branch=master)](https://travis-ci.com/mrfishball/TTT-in-Elixir)
+[![Build Status](https://travis-ci.com/mrfishball/TicTacToeElixir.svg?branch=master)](https://travis-ci.com/mrfishball/TicTacToeElixir)
 
 A fun Tic Tac Toe game!
 

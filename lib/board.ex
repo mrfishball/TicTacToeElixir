@@ -2,7 +2,7 @@ defmodule Board do
 
   @board_bounds 0..2
   def new do
-    for col <- @board_bounds, row <- @board_bounds, into: %{}, do: {{col, row}, " "}
+    for col <- @board_bounds, row <- @board_bounds, into: %{}, do: {{col, row}, "#{ (col + row + 1) + (row * 2) }"}
   end
 
   def register_move(board, list, token) do

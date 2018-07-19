@@ -38,10 +38,13 @@ defmodule Game do
   end
 
   defp draw?(turns) do
+    current_moves(turns) >= :math.pow(Enum.count(@board_bound), 2)
+  end
+
+  defp current_moves(turns) do
     turns
     |> Map.values
     |> Enum.reduce(0, &(MapSet.size(&1) + &2))
-    >= :math.pow(Enum.count(@board_bound), 2)
   end
 
   defp player_won?(player_turns) do
@@ -67,7 +70,6 @@ defmodule Game do
     max = Enum.count(bound)
     [(for i <- bound, do: {i, i})] ++
       [(for i <- bound, do: {i, max - i - 1})]
-
   end
 
   # Provide game status updates

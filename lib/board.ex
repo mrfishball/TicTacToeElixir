@@ -4,8 +4,8 @@ defmodule Board do
   def new do
     for col <- @board_bounds, row <- @board_bounds, into: %{}, do: {{col, row}, " "}
   end
-  
-  def fill(board, list, token) do
+
+  def update(board, list, token) do
     Enum.reduce(list, board, fn point, acc -> Map.put(acc, point, token) end)
   end
 
@@ -22,7 +22,7 @@ defmodule Board do
     IO.puts "\n"
   end
 
-  def update(board, list, list2, token, token2) do
+  def render(board, list, list2, token, token2) do
     board
     |> fill(list, String.upcase(Atom.to_string(token)))
     |> fill(list2, String.upcase(Atom.to_string(token2)))

@@ -1,7 +1,5 @@
 defmodule TTT do
-  @moduledoc """
-    This module handles player interactions and game flow.
-  """
+  @moduledoc false
 
   def main(_args \\ []) do
     new()
@@ -53,7 +51,7 @@ defmodule TTT do
   end
 
   def get_input(turn) do
-    move = IO.gets "'#{turn}', please enter a number from 1 to 9 only:"
+    move = IO.gets "'#{turn}', please enter a number from 1 to 9 only: "
     case not valid_input?(move) do
       true ->
         IO.puts "\nInvalid move. Please try again.\n"

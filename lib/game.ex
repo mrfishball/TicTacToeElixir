@@ -1,7 +1,5 @@
 defmodule Game do
-  @moduledoc """
-    This module handles player interactions
-  """
+  @moduledoc false
   @enforce_keys [:turns, :last_player]
   defstruct @enforce_keys
 
@@ -9,8 +7,6 @@ defmodule Game do
   @valid_tokens [:x, :o]
 
   def new do
-    # Use MapSet for fast look up and
-    # potentially better solution when working with grid??
     %Game{turns: %{x: MapSet.new, o: MapSet.new}, last_player: :player}
   end
 

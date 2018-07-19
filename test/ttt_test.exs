@@ -18,7 +18,15 @@ defmodule TTTTest do
     input4 = ",,"
     input5 = "10"
     input6 = "0"
-    input7 = "5"
+    input7 = "9"
+    input8 = "@@@"
+    input9 = "哈"
+    input10 = "-1"
+    input11 = "   1   "
+    input12 = "\#{1+1}"
+    input13 = "6666666666666666666666666"
+    input14 = "\n"
+
     assert TTT.valid_input?(input1) == :true
     assert TTT.valid_input?(input2) == :false
     assert TTT.valid_input?(input3) == :false
@@ -26,12 +34,19 @@ defmodule TTTTest do
     assert TTT.valid_input?(input5) == :false
     assert TTT.valid_input?(input6) == :false
     assert TTT.valid_input?(input7) == :true
+    assert TTT.valid_input?(input8) == :false
+    assert TTT.valid_input?(input9) == :false
+    assert TTT.valid_input?(input10) == :false
+    assert TTT.valid_input?(input11) == :true
+    assert TTT.valid_input?(input12) == :false
+    assert TTT.valid_input?(input13) == :false
+    assert TTT.valid_input?(input14) == :false
   end
 
   test "Valid user input will be map to the correct coordinate on the board" do
-    TTT.match_input("1") == {0, 0}
-    TTT.match_input("9") == {2, 2}
-    TTT.match_input("5") == {1, 1}
+    assert TTT.match_input("1") == {0, 0}
+    assert TTT.match_input("9") == {2, 2}
+    assert TTT.match_input("5") == {1, 1}
   end
 
   test "Visual board is updated accordingly" do

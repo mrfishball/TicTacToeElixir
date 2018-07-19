@@ -1,7 +1,5 @@
 defmodule Board do
-  @moduledoc """
-    This is the game's visual engine.
-  """
+  @moduledoc false
   def new do
     for col <- 0..2, row <- 0..2, into: %{}, do: {{col, row}, " "}
   end

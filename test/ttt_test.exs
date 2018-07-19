@@ -82,6 +82,6 @@ defmodule TTTTest do
     {:ok, game} = Game.play_turn(game, :o, {2, 0})
 
     assert capture_io(fn -> TTT.update_visual(board, game) end) ==
-      "\n\n o | o | o\n---+---+---\n   | x | x\n---+---+---\n   |   |  \n\n\n"
+      "\n\n o | o | o\n---+---+---\n 4 | x | x\n---+---+---\n 7 | 8 | 9\n\n\n"
   end
 end

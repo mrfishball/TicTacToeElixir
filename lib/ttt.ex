@@ -6,14 +6,8 @@ defmodule TTT do
 
   def new do
     IO.puts "Let's play Tic Tac Toe!\n"
-    choice = IO.gets "Please select a game mode: \n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
+    choice = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
     game_mode(choice)
-
-    board = Board.new
-    game = Game.new
-    status = Game.status(game)
-    Board.show(board)
-    play(board, game, status, :x)
   end
 
   def game_mode(choice) do
@@ -24,11 +18,20 @@ defmodule TTT do
     end
   end
 
+  def start(player1, player2) do
+    board = Board.new
+    game = Game.new(player1, player2)
+    status = Game.status(game)
+    Board.show(board)
+    play(board, game, status, player1)
+  end
+
   def player_player do
     p1name = set_player_name(1)
     p2name = set_player_name(2)
     player1 = Player.new(p1name, :x, :human)
     player2 = Player.new(p2name, :o, :human)
+    start(player1, player2)
   end
 
   def player_comp do
@@ -36,6 +39,7 @@ defmodule TTT do
     p2name = set_player_name(2)
     player1 = Player.new(p1name, :x, :human)
     player2 = Player.new(p2name, :o, :computer)
+    start(player1, player2)
   end
 
   def comp_comp do
@@ -43,11 +47,12 @@ defmodule TTT do
     p2name = set_player_name(2)
     player1 = Player.new(p1name, :x, :computer)
     player2 = Player.new(p2name, :o, :computer)
+    start(player1, player2)
   end
 
   def set_player_name(flag) do
     name = IO.gets "Please enter your name (Player #{flag}): "
-    case valid_input?(name) do
+    case valid_name?(name) do
       true -> name
       false ->
         set_player_name(flag)
@@ -58,14 +63,22 @@ defmodule TTT do
     name == String.trim(name)
   end
 
-  def play(board, game, status, turn) when status == :underway do
-    input = get_input(turn)
-    move = match_input(String.trim(input))
-    with {:ok, game} <- Game.play_turn(game, turn, move) do
+  def play(board, game, status, %Player{name: _name, token: token, type: type} = turn)
+    when status == :underway do
+    cond do
+      type == :human ->
+        input = get_input(turn)
+        move = match_input(String.trim(input))
+        make_a_move(board, game, token, move)
+    end
+    status = Game.status(game)
+    turn = switch_turn(game, token)
+    play(board, game, status, turn)
+  end
+
+  def make_a_move(board, game, token, move) do
+    with {:ok, game} <- Game.play_turn(game, token, move) do
       update_visual(board, game)
-      status = Game.status(game)
-      turn = switch_turn(turn)
-      play(board, game, status, turn)
     else
       {:error, error} -> IO.puts "\nInvalid move: #{error}. Please try again. \n"
       play(board, game, status, turn)
@@ -80,11 +93,11 @@ defmodule TTT do
     IO.puts "Game over!\nIt's a #{outcome}!"
   end
 
-  def switch_turn(last_player) do
-    if last_player == :x do
-      :o
+  def switch_turn(%Game{players: %{p1: player1, p2: player2}} = game, last_player) do
+    if last_player == player1.token do
+      player2
     else
-      :x
+      player1
     end
   end
 

@@ -74,7 +74,9 @@ defmodule TTTTest do
 
   test "Player tokens are updated and rendered on the board when user provides valid input" do
     board = Board.new
-    game = Game.new
+    p1 = Player.new("Steven", :x, :human)
+    p2 = Player.new("Connie", :o, :human)
+    game = Game.new(p1, p2)
     {:ok, game} = Game.play_turn(game, :o, {0, 0})
     {:ok, game} = Game.play_turn(game, :x, {2, 1})
     {:ok, game} = Game.play_turn(game, :o, {1, 0})

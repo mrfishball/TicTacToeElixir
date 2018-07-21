@@ -4,11 +4,17 @@ defmodule TTTTest do
   doctest TTT
 
   test "Game will automatically switch turn to 'o' after 'x' has played and vice versa" do
+    p1 = Player.new("Steven", :x, :human)
+    p2 = Player.new("Connie", :o, :human)
+    game = Game.new(p1, p2)
+
     first_player = :x
-    assert TTT.switch_turn(first_player) == :o
+    assert TTT.switch_turn(game, first_player) ==
+      %Player{name: "Connie", token: :o, type: :human}
 
     first_player = :o
-    assert TTT.switch_turn(first_player) == :x
+    assert TTT.switch_turn(game, first_player) ==
+      %Player{name: "Steven", token: :x, type: :human}
   end
 
   test "A number '1' through '9' will be a valid input" do

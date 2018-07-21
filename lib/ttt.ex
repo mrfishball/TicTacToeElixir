@@ -12,9 +12,9 @@ defmodule TTT do
 
   def game_mode(choice) do
     cond do
-      choice == 1 -> player_player
-      choice == 2 -> player_comp
-      choice == 3 -> comp_comp
+      choice == "1" -> player_player()
+      choice == "2" -> player_comp()
+      choice == "3" -> comp_comp()
     end
   end
 
@@ -70,19 +70,14 @@ defmodule TTT do
         input = get_input(turn)
         move = match_input(String.trim(input))
         make_a_move(board, game, token, move)
+      type == :computer ->
+        input = get_input(turn)
+        move = match_input(String.trim(input))
+        make_a_move(board, game, token, move)
     end
     status = Game.status(game)
     turn = switch_turn(game, token)
     play(board, game, status, turn)
-  end
-
-  def make_a_move(board, game, token, move) do
-    with {:ok, game} <- Game.play_turn(game, token, move) do
-      update_visual(board, game)
-    else
-      {:error, error} -> IO.puts "\nInvalid move: #{error}. Please try again. \n"
-      play(board, game, status, turn)
-    end
   end
 
   def play(_board, _game, {_progress, {outcome, person}} = status, _turn) when status != :underway do
@@ -93,7 +88,18 @@ defmodule TTT do
     IO.puts "Game over!\nIt's a #{outcome}!"
   end
 
-  def switch_turn(%Game{players: %{p1: player1, p2: player2}} = game, last_player) do
+  def make_a_move(board, game, token, move) do
+    with {:ok, game} <- Game.play_turn(game, token, move) do
+      update_visual(board, game)
+    else
+      {:error, error} -> IO.puts "\nInvalid move: #{error}. Please try again. \n"
+      input = get_input(token)
+      move = match_input(String.trim(input))
+      make_a_move(board, game, token, move)
+    end
+  end
+
+  def switch_turn(%Game{players: %{p1: player1, p2: player2}} = _game, last_player) do
     if last_player == player1.token do
       player2
     else

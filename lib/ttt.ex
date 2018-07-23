@@ -60,8 +60,7 @@ defmodule TTT do
         move = match_input(String.trim(input))
         make_a_move(board, game, turn, move)
       type == :computer ->
-        input = get_move(turn)
-        move = match_input(String.trim(input))
+        move = generate_move(game, 1)
         make_a_move(board, game, turn, move)
     end
   end
@@ -85,6 +84,18 @@ defmodule TTT do
       input = get_move(turn)
       move = match_input(String.trim(input))
       make_a_move(board, game, turn, move)
+    end
+  end
+
+  def generate_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, input) do
+    input_string = Integer.to_string(input)
+    move = match_input(input_string)
+    cond do
+      MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
+        input = input + 1
+        generate_move(game, input)
+      true ->
+        move
     end
   end
 
@@ -126,6 +137,7 @@ defmodule TTT do
 
   def match_input(move) do
     move = String.to_integer(move)
+    IO.puts move
     get_row(move)
     |> get_coord(move)
   end

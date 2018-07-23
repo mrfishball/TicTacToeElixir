@@ -6,15 +6,16 @@ defmodule TTT do
 
   def new do
     IO.puts "Let's play Tic Tac Toe!\n"
-    choice = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
+    input = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
+    choice = String.trim(input)
     game_mode(choice)
   end
 
   def game_mode(choice) do
     cond do
-      choice == "1" -> player_player()
-      choice == "2" -> player_comp()
-      choice == "3" -> comp_comp()
+      choice === "1" -> player_player()
+      choice === "2" -> player_comp()
+      choice === "3" -> comp_comp()
     end
   end
 
@@ -51,7 +52,8 @@ defmodule TTT do
   end
 
   def set_player_name(flag) do
-    name = IO.gets "Please enter your name (Player #{flag}): "
+    input = IO.gets "Please enter your name (Player #{flag}): "
+    name = String.trim(input)
     case valid_name?(name) do
       true -> name
       false ->
@@ -60,7 +62,7 @@ defmodule TTT do
   end
 
   def valid_name?(name) do
-    name == String.trim(name)
+    name != ""
   end
 
   def play(board, game, status, %Player{name: _name, token: token, type: type} = turn)

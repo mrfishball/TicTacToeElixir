@@ -14,9 +14,9 @@ defmodule TTT do
 
   def game_mode(choice) do
     cond do
-      choice === "1" -> player_player()
-      choice === "2" -> player_comp()
-      choice === "3" -> comp_comp()
+      choice == "1" -> player_player()
+      choice == "2" -> player_comp()
+      choice == "3" -> comp_comp()
     end
   end
 

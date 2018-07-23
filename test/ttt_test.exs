@@ -4,9 +4,9 @@ defmodule TTTTest do
   doctest TTT
 
   test "Game will automatically switch turn to 'o' after 'x' has played and vice versa" do
-    p1 = Player.new("Steven", :x, :human)
-    p2 = Player.new("Connie", :o, :human)
-    game = Game.new(p1, p2)
+    p1 = Player.setup("Steven", :x, :human)
+    p2 = Player.setup("Connie", :o, :human)
+    game = Game.setup(p1, p2)
 
     first_player = :x
     assert TTT.switch_turn(game, first_player) ==
@@ -79,10 +79,10 @@ defmodule TTTTest do
   end
 
   test "Player tokens are updated and rendered on the board when user provides valid input" do
-    board = Board.new
-    p1 = Player.new("Steven", :x, :human)
-    p2 = Player.new("Connie", :o, :human)
-    game = Game.new(p1, p2)
+    board = Board.setup
+    p1 = Player.setup("Steven", :x, :human)
+    p2 = Player.setup("Connie", :o, :human)
+    game = Game.setup(p1, p2)
     {:ok, game} = Game.play_turn(game, :o, {0, 0})
     {:ok, game} = Game.play_turn(game, :x, {2, 1})
     {:ok, game} = Game.play_turn(game, :o, {1, 0})
@@ -128,10 +128,10 @@ defmodule TTTTest do
   end
 
   test "Computer player will always take the next avilable move" do
-    p1 = Player.new("Steven", :x, :human)
-    p2 = Player.new("Comp", :o, :computer)
-    game = Game.new(p1, p2)
-    game2 = Game.new(p1, p2)
+    p1 = Player.setup("Steven", :x, :human)
+    p2 = Player.setup("Comp", :o, :computer)
+    game = Game.setup(p1, p2)
+    game2 = Game.setup(p1, p2)
 
     {:ok, game} = Game.play_turn(game, :x, {0, 0})
     {:ok, game2} = Game.play_turn(game2, :x, {2, 0})

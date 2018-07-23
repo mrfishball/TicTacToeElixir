@@ -1,10 +1,10 @@
 defmodule TTT do
 
   def main(_args \\ []) do
-    new()
+    new_game()
   end
 
-  def new do
+  def new_game do
     IO.puts "Let's play Tic Tac Toe!\n"
     input = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
     String.trim(input)
@@ -21,8 +21,8 @@ defmodule TTT do
   end
 
   def start({player1, player2} = _players) do
-    board = Board.new
-    game = Game.new(player1, player2)
+    board = Board.setup
+    game = Game.setup(player1, player2)
     status = Game.status(game)
     Board.show(board)
     play(board, game, status, player1)
@@ -31,24 +31,24 @@ defmodule TTT do
   def player_player do
     p1name = set_player_name(1)
     p2name = set_player_name(2)
-    player1 = Player.new(p1name, :x, :human)
-    player2 = Player.new(p2name, :o, :human)
+    player1 = Player.setup(p1name, :x, :human)
+    player2 = Player.setup(p2name, :o, :human)
     {player1, player2}
   end
 
   def player_comp do
     p1name = set_player_name(1)
     p2name = set_player_name(2)
-    player1 = Player.new(p1name, :x, :human)
-    player2 = Player.new(p2name, :o, :computer)
+    player1 = Player.setup(p1name, :x, :human)
+    player2 = Player.setup(p2name, :o, :computer)
     {player1, player2}
   end
 
   def comp_comp do
     p1name = set_player_name(1)
     p2name = set_player_name(2)
-    player1 = Player.new(p1name, :x, :computer)
-    player2 = Player.new(p2name, :o, :computer)
+    player1 = Player.setup(p1name, :x, :computer)
+    player2 = Player.setup(p2name, :o, :computer)
     {player1, player2}
   end
 

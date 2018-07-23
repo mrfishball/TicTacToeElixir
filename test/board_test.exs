@@ -1,7 +1,6 @@
 defmodule BoardTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
-  doctest Board
 
   test "Board has all the correct coordinates and they are represented by empty slots" do
     board = Board.setup

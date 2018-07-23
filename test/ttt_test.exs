@@ -1,7 +1,6 @@
 defmodule TTTTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
-  doctest TTT
 
   test "Game will automatically switch turn to 'o' after 'x' has played and vice versa" do
     p1 = Player.setup("Steven", :x, :human)

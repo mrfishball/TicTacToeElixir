@@ -1,6 +1,5 @@
 defmodule GameTest do
   use ExUnit.Case
-  doctest Game
 
   test "player can make a move" do
     p1 = Player.setup("Steven", :x, :human)

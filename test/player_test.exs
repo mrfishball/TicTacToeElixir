@@ -1,6 +1,5 @@
 defmodule PlayerTest do
   use ExUnit.Case
-  doctest Player
 
   test "Player struct is correctly created" do
     name = "Steven"

@@ -6,6 +6,7 @@ defmodule PlayerTest do
     name = "Steven"
     token = :x
     type = :human
-    assert Player.new(name, token, type) == %Player{name: "Steven", token: :x, type: :human}
+    assert Player.new(name, token, type) ==
+      %Player{name: "Steven", token: :x, type: :human}
   end
 end

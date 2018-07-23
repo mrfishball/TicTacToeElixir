@@ -11,7 +11,7 @@ defmodule Game do
     turns: %{p1token => MapSet.new, p2token => MapSet.new},
     last_player: :player}
   end
-  # Check if the potential play is valid before making the actual move
+
   def play_turn(%Game{turns: turns, last_player: last_player} = state, token, cell) do
     cond do
       token == last_player ->
@@ -73,7 +73,6 @@ defmodule Game do
       [(for i <- bound, do: {i, max - i - 1})]
   end
 
-  # Provide game status updates
   def status(%Game{players: players, turns: turns}) do
     cond do
       player_won?(turns[players.p1.token]) ->

@@ -137,7 +137,6 @@ defmodule TTT do
 
   def match_input(move) do
     move = String.to_integer(move)
-    IO.puts move
     get_row(move)
     |> get_coord(move)
   end

@@ -56,11 +56,11 @@ defmodule TTT do
     when status == :underway do
     cond do
       type == :human ->
-        input = get_input(turn)
+        input = get_move(turn)
         move = match_input(String.trim(input))
         make_a_move(board, game, turn, move)
       type == :computer ->
-        input = get_input(turn)
+        input = get_move(turn)
         move = match_input(String.trim(input))
         make_a_move(board, game, turn, move)
     end
@@ -82,7 +82,7 @@ defmodule TTT do
       play(board, game, status, turn)
     else
       {:error, error} -> IO.puts "\nInvalid move: #{error}. Please try again. \n"
-      input = get_input(turn)
+      input = get_move(turn)
       move = match_input(String.trim(input))
       make_a_move(board, game, turn, move)
     end
@@ -114,13 +114,13 @@ defmodule TTT do
     Regex.match?(~r/^[1-9]{1}$/, String.trim(input))
   end
 
-  def get_input(%Player{name: name, token: token} = turn) do
+  def get_move(%Player{name: name, token: token} = turn) do
     move = IO.gets "#{name} - '#{token}', please enter a number from 1 to 9 only: "
     case valid_input?(move) do
       true -> move
       false ->
         IO.puts "\nInvalid move. Please try again.\n"
-        get_input(turn)
+        get_move(turn)
     end
   end
 

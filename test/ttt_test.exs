@@ -92,4 +92,38 @@ defmodule TTTTest do
     assert capture_io(fn -> TTT.update_visual(board, game) end) ==
       "\n\n o | o | o\n---+---+---\n 4 | x | x\n---+---+---\n 7 | 8 | 9\n\n\n"
   end
+
+  test "A string with only whitespaces is not a valid name" do
+    name = " "
+    name2 = "  "
+    name3 = "   "
+    assert TTT.valid_name?(String.trim(name)) == false
+    assert TTT.valid_name?(String.trim(name2)) == false
+    assert TTT.valid_name?(String.trim(name3)) == false
+  end
+
+  test "An empty string is not a valid name" do
+    name = ""
+    assert TTT.valid_name?(name) == false
+  end
+
+  test "A string with any number of characters is a valid name" do
+    name = "a"
+    name2 = "abc"
+    name3 = "123"
+    name4 = "%$#!**(:>/__-=+"
+    assert TTT.valid_name?(name) == true
+    assert TTT.valid_name?(name2) == true
+    assert TTT.valid_name?(name3) == true
+    assert TTT.valid_name?(name4) == true
+  end
+
+  test "A string that's a combination of characters and whitespaces is a valid name" do
+    name = " abc"
+    name2 = "zzz  "
+    name3 = "  ggtth*&^$$#)    "
+    assert TTT.valid_name?(String.trim(name)) == true
+    assert TTT.valid_name?(String.trim(name2)) == true
+    assert TTT.valid_name?(String.trim(name3)) == true
+  end
 end

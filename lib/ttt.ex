@@ -9,6 +9,7 @@ defmodule TTT do
     input = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
     choice = String.trim(input)
     game_mode(choice)
+    |> start()
   end
 
   def game_mode(choice) do
@@ -19,7 +20,7 @@ defmodule TTT do
     end
   end
 
-  def start(player1, player2) do
+  def start({player1, player2} = _players) do
     board = Board.new
     game = Game.new(player1, player2)
     status = Game.status(game)
@@ -32,7 +33,7 @@ defmodule TTT do
     p2name = set_player_name(2)
     player1 = Player.new(p1name, :x, :human)
     player2 = Player.new(p2name, :o, :human)
-    start(player1, player2)
+    {player1, player2}
   end
 
   def player_comp do
@@ -40,7 +41,7 @@ defmodule TTT do
     p2name = set_player_name(2)
     player1 = Player.new(p1name, :x, :human)
     player2 = Player.new(p2name, :o, :computer)
-    start(player1, player2)
+    {player1, player2}
   end
 
   def comp_comp do
@@ -48,7 +49,7 @@ defmodule TTT do
     p2name = set_player_name(2)
     player1 = Player.new(p1name, :x, :computer)
     player2 = Player.new(p2name, :o, :computer)
-    start(player1, player2)
+    {player1, player2}
   end
 
   def set_player_name(flag) do
@@ -62,7 +63,6 @@ defmodule TTT do
   end
 
   def valid_name?(name) do
-    IO.puts "#{:x}"
     name != ""
   end
 
@@ -78,14 +78,10 @@ defmodule TTT do
         move = match_input(String.trim(input))
         make_a_move(board, game, turn, move)
     end
-    # IO.inspect(game)
-    # status = Game.status(game)
-    # turn = switch_turn(game, token)
-    # play(board, game, status, turn)
   end
 
   def play(_board, _game, {_progress, {outcome, person}} = status, _turn) when status != :underway do
-    IO.puts "Game over!\n#{outcome} is #{person}!"
+    IO.puts "Game over!\nThe #{outcome} is #{person}!"
   end
 
   def play(_board, _game, {_progress, outcome} = status, _turn) when status != :underway do

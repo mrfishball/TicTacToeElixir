@@ -62,24 +62,26 @@ defmodule TTT do
   end
 
   def valid_name?(name) do
+    IO.puts "#{:x}"
     name != ""
   end
 
-  def play(board, game, status, %Player{name: _name, token: token, type: type} = turn)
+  def play(board, game, status, %Player{name: _name, token: _token, type: type} = turn)
     when status == :underway do
     cond do
       type == :human ->
         input = get_input(turn)
         move = match_input(String.trim(input))
-        make_a_move(board, game, token, move)
+        make_a_move(board, game, turn, move)
       type == :computer ->
         input = get_input(turn)
         move = match_input(String.trim(input))
-        make_a_move(board, game, token, move)
+        make_a_move(board, game, turn, move)
     end
-    status = Game.status(game)
-    turn = switch_turn(game, token)
-    play(board, game, status, turn)
+    # IO.inspect(game)
+    # status = Game.status(game)
+    # turn = switch_turn(game, token)
+    # play(board, game, status, turn)
   end
 
   def play(_board, _game, {_progress, {outcome, person}} = status, _turn) when status != :underway do
@@ -90,14 +92,17 @@ defmodule TTT do
     IO.puts "Game over!\nIt's a #{outcome}!"
   end
 
-  def make_a_move(board, game, token, move) do
+  def make_a_move(board, game, %Player{name: _name, token: token, type: _type} = turn, move) do
     with {:ok, game} <- Game.play_turn(game, token, move) do
       update_visual(board, game)
+      status = Game.status(game)
+      turn = switch_turn(game, token)
+      play(board, game, status, turn)
     else
       {:error, error} -> IO.puts "\nInvalid move: #{error}. Please try again. \n"
-      input = get_input(token)
+      input = get_input(turn)
       move = match_input(String.trim(input))
-      make_a_move(board, game, token, move)
+      make_a_move(board, game, turn, move)
     end
   end
 
@@ -113,8 +118,8 @@ defmodule TTT do
     Regex.match?(~r/^[1-9]{1}$/, String.trim(input))
   end
 
-  def get_input(turn) do
-    move = IO.gets "'#{turn}', please enter a number from 1 to 9 only: "
+  def get_input(%Player{name: name, token: token} = turn) do
+    move = IO.gets "#{name} - '#{token}', please enter a number from 1 to 9 only: "
     case valid_input?(move) do
       true -> move
       false ->

@@ -126,4 +126,17 @@ defmodule TTTTest do
     assert TTT.valid_name?(String.trim(name2)) == true
     assert TTT.valid_name?(String.trim(name3)) == true
   end
+
+  test "Computer player will always take the next avilable move" do
+    p1 = Player.new("Steven", :x, :human)
+    p2 = Player.new("Comp", :o, :computer)
+    game = Game.new(p1, p2)
+    game2 = Game.new(p1, p2)
+
+    {:ok, game} = Game.play_turn(game, :x, {0, 0})
+    {:ok, game2} = Game.play_turn(game2, :x, {2, 0})
+
+    assert TTT.generate_move(game, 1) == {1, 0}
+    assert TTT.generate_move(game2, 1) == {0, 0}
+  end
 end

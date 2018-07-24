@@ -8,12 +8,12 @@ defmodule TTT do
     when status == :underway do
     cond do
       type == :human ->
-        input = get_move(turn)
-        move = match_input(String.trim(input))
-        make_a_move(board, game, turn, move)
+        get_move(turn)
+        |> match_input()
+        |> make_a_move(board, game, turn)
       type == :computer ->
-        move = generate_move(game, 1)
-        make_a_move(board, game, turn, move)
+        generate_move(game, 1)
+        |> make_a_move(board, game, turn)
     end
   end
 
@@ -25,7 +25,7 @@ defmodule TTT do
     IO.puts "Game over!\nIt's a #{outcome}!"
   end
 
-  def make_a_move(board, game, %Player{name: _name, token: token, type: _type} = turn, move) do
+  def make_a_move(move, board, game, %Player{name: _name, token: token, type: _type} = turn) do
     with {:ok, game} <- Game.play_turn(game, token, move) do
       update_visual(board, game)
       status = Game.status(game)
@@ -34,14 +34,13 @@ defmodule TTT do
     else
       {:error, error} -> IO.puts "\nInvalid move: #{error}. Please try again. \n"
       input = get_move(turn)
-      move = match_input(String.trim(input))
+      move = match_input(input)
       make_a_move(board, game, turn, move)
     end
   end
 
   def generate_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
-    input_string = Integer.to_string(starting_move)
-    move = match_input(input_string)
+    move = match_input(starting_move)
     cond do
       MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
         starting_move = starting_move + 1
@@ -66,7 +65,7 @@ defmodule TTT do
   def get_move(%Player{name: name, token: token} = turn) do
     move = IO.gets "#{name} - '#{token}', please enter a number from 1 to 9 only: "
     case valid_input?(move) do
-      true -> move
+      true -> String.to_integer(String.trim(move))
       false ->
         IO.puts "\nInvalid move. Please try again.\n"
         get_move(turn)
@@ -74,8 +73,8 @@ defmodule TTT do
   end
 
   def match_input(move) do
-    move = String.to_integer(move)
-    get_row(move)
+    move
+    |> get_row()
     |> get_coord(move)
   end
 

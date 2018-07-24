@@ -126,16 +126,22 @@ defmodule TTTTest do
     assert TTT.valid_name?(String.trim(name3)) == true
   end
 
-  test "Computer player will always take the next avilable move" do
+  test "Computer player will always take the next open spot following opponent's move if there are no preceding spots" do
     p1 = Player.setup("Steven", :x, :human)
     p2 = Player.setup("Comp", :o, :computer)
     game = Game.setup(p1, p2)
-    game2 = Game.setup(p1, p2)
 
     {:ok, game} = Game.play_turn(game, :x, {0, 0})
-    {:ok, game2} = Game.play_turn(game2, :x, {2, 0})
 
     assert TTT.generate_move(game, 1) == {1, 0}
-    assert TTT.generate_move(game2, 1) == {0, 0}
   end
+
+  test "Computer player will always take the first available spot preceding the opponent's move" do
+    p1 = Player.setup("Steven", :x, :human)
+    p2 = Player.setup("Comp", :o, :computer)
+    game2 = Game.setup(p1, p2)
+
+    {:ok, game2} = Game.play_turn(game2, :x, {2, 0})
+
+    assert TTT.generate_move(game2, 1) == {0, 0}
 end

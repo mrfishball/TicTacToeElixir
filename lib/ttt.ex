@@ -14,9 +14,9 @@ defmodule TTT do
 
   def game_mode(choice) do
     cond do
-      choice == "1" -> player_player()
-      choice == "2" -> player_comp()
-      choice == "3" -> comp_comp()
+      choice == "1" -> player_vs_player()
+      choice == "2" -> player_vs_comp()
+      choice == "3" -> comp_vs_comp()
     end
   end
 
@@ -28,7 +28,7 @@ defmodule TTT do
     play(board, game, status, player1)
   end
 
-  def player_player do
+  def player_vs_player do
     p1name = set_player_name(1)
     p2name = set_player_name(2)
     player1 = Player.setup(p1name, :x, :human)
@@ -36,7 +36,7 @@ defmodule TTT do
     {player1, player2}
   end
 
-  def player_comp do
+  def player_vs_comp do
     p1name = set_player_name(1)
     p2name = set_player_name(2)
     player1 = Player.setup(p1name, :x, :human)
@@ -44,7 +44,7 @@ defmodule TTT do
     {player1, player2}
   end
 
-  def comp_comp do
+  def comp_vs_comp do
     p1name = set_player_name(1)
     p2name = set_player_name(2)
     player1 = Player.setup(p1name, :x, :computer)
@@ -107,7 +107,7 @@ defmodule TTT do
     end
   end
 
-  def set_player_name(flag) do
+  def set_player_name(player_number) do
     input = IO.gets "Please enter your name (Player #{flag}): "
     name = String.trim(input)
     case valid_name?(name) do

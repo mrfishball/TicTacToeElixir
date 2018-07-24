@@ -52,7 +52,7 @@ defmodule Setup do
   end
 
   def set_player_name(player_number) do
-    input = IO.gets "Please enter your name (Player #{player_number}): "
+    input = IO.gets "\nPlease enter your name (Player #{player_number}): "
     name = String.trim(input)
     case valid_name?(name) do
       true -> name

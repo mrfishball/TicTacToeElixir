@@ -35,9 +35,8 @@ defmodule TTT do
       play(board, game, status, turn)
     else
       {:error, error} -> IO.puts "\nInvalid move: #{error}. Please try again. \n"
-      input = get_move(turn)
-      move = match_input(input)
-      make_a_move(board, game, turn, move)
+      status = Game.status(game)
+      play(board, game, status, turn)
     end
   end
 

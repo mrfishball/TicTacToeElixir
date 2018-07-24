@@ -8,11 +8,13 @@ defmodule TTT do
     when status == :underway do
     cond do
       type == :human ->
-        get_move(turn)
+        turn
+        |> get_move()
         |> match_input()
         |> make_a_move(board, game, turn)
       type == :computer ->
-        generate_move(game, 1)
+        game
+        |> generate_move(1)
         |> make_a_move(board, game, turn)
     end
   end

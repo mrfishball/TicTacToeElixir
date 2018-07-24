@@ -1,10 +1,14 @@
 defmodule Setup do
   def new_game do
+    game_menu()
+    |> game_mode()
+    |> start()
+  end
+
+  def game_menu do
     IO.puts "Let's play Tic Tac Toe!\n"
     input = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
     String.trim(input)
-    |> game_mode()
-    |> start()
   end
 
   def game_mode(choice) do

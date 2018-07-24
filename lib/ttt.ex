@@ -87,13 +87,13 @@ defmodule TTT do
     end
   end
 
-  def generate_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, input) do
-    input_string = Integer.to_string(input)
+  def generate_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
+    input_string = Integer.to_string(starting_move)
     move = match_input(input_string)
     cond do
       MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
-        input = input + 1
-        generate_move(game, input)
+        starting_move = starting_move + 1
+        generate_move(game, starting_move)
       true ->
         move
     end
@@ -108,12 +108,12 @@ defmodule TTT do
   end
 
   def set_player_name(player_number) do
-    input = IO.gets "Please enter your name (Player #{flag}): "
+    input = IO.gets "Please enter your name (Player #{player_number}): "
     name = String.trim(input)
     case valid_name?(name) do
       true -> name
       false ->
-        set_player_name(flag)
+        set_player_name(player_number)
     end
   end
 

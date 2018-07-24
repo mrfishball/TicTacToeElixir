@@ -144,4 +144,5 @@ defmodule TTTTest do
     {:ok, game2} = Game.play_turn(game2, :x, {2, 0})
 
     assert TTT.generate_move(game2, 1) == {0, 0}
+  end
 end

@@ -87,6 +87,11 @@ defmodule TTT do
     end
   end
 
+  # This function will simulate user input with the variable starting_move set to 1.
+  # It will then be passed on to match_input and output an cooordinate such as {0, 0}...
+  # That coordinate will be checked against all existing moves, if exist, the whole
+  # process will start over (starting_move will be incremented, matched to a coordinate...)
+  # until an avilable spot is found and returned.
   def generate_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
     input_string = Integer.to_string(starting_move)
     move = match_input(input_string)

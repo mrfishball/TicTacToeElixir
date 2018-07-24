@@ -1,55 +1,7 @@
 defmodule TTT do
 
   def main(_args \\ []) do
-    new_game()
-  end
-
-  def new_game do
-    IO.puts "Let's play Tic Tac Toe!\n"
-    input = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
-    String.trim(input)
-    |> game_mode()
-    |> start()
-  end
-
-  def game_mode(choice) do
-    cond do
-      choice == "1" -> player_vs_player()
-      choice == "2" -> player_vs_comp()
-      choice == "3" -> comp_vs_comp()
-    end
-  end
-
-  def start({player1, player2} = _players) do
-    board = Board.setup
-    game = Game.setup(player1, player2)
-    status = Game.status(game)
-    Board.show(board)
-    play(board, game, status, player1)
-  end
-
-  def player_vs_player do
-    p1name = set_player_name(1)
-    p2name = set_player_name(2)
-    player1 = Player.setup(p1name, :x, :human)
-    player2 = Player.setup(p2name, :o, :human)
-    {player1, player2}
-  end
-
-  def player_vs_comp do
-    p1name = set_player_name(1)
-    p2name = set_player_name(2)
-    player1 = Player.setup(p1name, :x, :human)
-    player2 = Player.setup(p2name, :o, :computer)
-    {player1, player2}
-  end
-
-  def comp_vs_comp do
-    p1name = set_player_name(1)
-    p2name = set_player_name(2)
-    player1 = Player.setup(p1name, :x, :computer)
-    player2 = Player.setup(p2name, :o, :computer)
-    {player1, player2}
+    Setup.new_game()
   end
 
   def play(board, game, status, %Player{name: _name, token: _token, type: type} = turn)
@@ -87,11 +39,6 @@ defmodule TTT do
     end
   end
 
-  # This function will simulate user input with the variable starting_move set to 1.
-  # It will then be passed on to match_input and output an cooordinate such as {0, 0}...
-  # That coordinate will be checked against all existing moves, if exist, the whole
-  # process will start over (starting_move will be incremented, matched to a coordinate...)
-  # until an avilable spot is found and returned.
   def generate_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
     input_string = Integer.to_string(starting_move)
     move = match_input(input_string)
@@ -110,20 +57,6 @@ defmodule TTT do
     else
       player1
     end
-  end
-
-  def set_player_name(player_number) do
-    input = IO.gets "Please enter your name (Player #{player_number}): "
-    name = String.trim(input)
-    case valid_name?(name) do
-      true -> name
-      false ->
-        set_player_name(player_number)
-    end
-  end
-
-  def valid_name?(name) do
-    name != ""
   end
 
   def valid_input?(input) do

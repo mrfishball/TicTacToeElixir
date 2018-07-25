@@ -12,9 +12,13 @@ defmodule TTT do
         |> get_move()
         |> match_input()
         |> make_a_move(board, game, turn)
-      type == :computer ->
+      type == :naive_comp ->
         game
-        |> generate_move(1)
+        |> generate_naive_move(1)
+        |> make_a_move(board, game, turn)
+      true ->
+        game
+        |> generate_random_move()
         |> make_a_move(board, game, turn)
     end
   end
@@ -40,12 +44,23 @@ defmodule TTT do
     end
   end
 
-  def generate_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
+  def generate_naive_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
     move = match_input(starting_move)
     cond do
       MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
         starting_move = starting_move + 1
-        generate_move(game, starting_move)
+        generate_naive_move(game, starting_move)
+      true ->
+        move
+    end
+  end
+
+  def generate_random_move(%Game{turns: %{x: p1moves, o: p2moves}} = game) do
+    random_input = :rand.uniform(9)
+    move = match_input(random_input)
+    cond do
+      MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
+        generate_random_move(game)
       true ->
         move
     end

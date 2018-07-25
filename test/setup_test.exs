@@ -36,7 +36,7 @@ defmodule SetupTest do
   end
 
   test "Correct computer type is returned when user enters a valid input" do
-    assert Setup.choose_comp_type("1") == :naive_comp
-    assert Setup.choose_comp_type("2") == :random_comp
+    assert Setup.choose_computer_type("1") == :naive_computer
+    assert Setup.choose_computer_type("2") == :random_computer
   end
 end

@@ -15,8 +15,8 @@ defmodule Setup do
   def game_mode(choice) do
     cond do
       choice == "1" -> player_vs_player()
-      choice == "2" -> player_vs_comp()
-      choice == "3" -> comp_vs_comp()
+      choice == "2" -> player_vs_computer()
+      choice == "3" -> computer_vs_computer()
       true ->
         IO.puts "\nInvalid entry. Please try again.\n"
         game_menu()
@@ -39,42 +39,42 @@ defmodule Setup do
     {player1, player2}
   end
 
-  def player_vs_comp do
+  def player_vs_computer do
     player1_name = set_player_name(1)
     player2_name = set_player_name(2)
-    comp_type = comp_type_menu()
+    computer = computer_type_menu()
     player1 = Player.setup(player1_name, :x, :human)
-    player2 = Player.setup(player2_name, :o, comp_type)
+    player2 = Player.setup(player2_name, :o, computer)
     {player1, player2}
   end
 
-  def comp_vs_comp do
+  def computer_vs_computer do
     player1_name = set_player_name(1)
-    comp1_type = comp_type_menu()
+    computer1 = computer_type_menu()
     player2_name = set_player_name(2)
-    comp2_type = comp_type_menu()
-    player1 = Player.setup(player1_name, :x, comp1_type)
-    player2 = Player.setup(player2_name, :o, comp2_type)
+    computer2 = computer_type_menu()
+    player1 = Player.setup(player1_name, :x, computer1)
+    player2 = Player.setup(player2_name, :o, computer2)
     {player1, player2}
   end
 
-  def comp_type_menu do
+  def computer_type_menu do
       IO.puts "Please choose the type of the computer player:\n"
-      IO.puts "1. Navie - (Computer will take the first available spot)"
+      IO.puts "1. Naive - (Computer will take the first available spot)"
       IO.puts "2. Random - (Computer will take an available spot randomly)\n"
       input = IO.gets "Your choice is (Enter 1 or 2): "
       input
       |> String.trim()
-      |> choose_comp_type()
+      |> choose_computer_type()
   end
 
-  def choose_comp_type(choice) do
+  def choose_computer_type(choice) do
     cond do
-      choice == "1" -> :naive_comp
-      choice == "2" -> :random_comp
+      choice == "1" -> :naive_computer
+      choice == "2" -> :random_computer
       true ->
         IO.puts "\nInvalid entry. Please try again\n"
-        comp_type_menu()
+        computer_type_menu()
     end
   end
 

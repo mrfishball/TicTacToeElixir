@@ -7,7 +7,8 @@ defmodule Setup do
 
   def game_menu do
     input = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
-    String.trim(input)
+    input
+    |> String.trim()
     |> game_mode()
   end
 
@@ -25,7 +26,6 @@ defmodule Setup do
   def start({player1, player2} = _players) do
     board = Board.setup
     game = Game.setup(player1, player2)
-    IO.inspect(game.players.p2)
     status = Game.status(game)
     Board.show(board)
     TTT.play(board, game, status, player1)

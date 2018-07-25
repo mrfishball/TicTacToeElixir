@@ -12,7 +12,7 @@ defmodule TTT do
         |> get_move()
         |> match_input()
         |> make_a_move(board, game, turn)
-      type == :naive_comp ->
+      type == :naive_computer ->
         game
         |> generate_naive_move(1)
         |> make_a_move(board, game, turn)

@@ -113,13 +113,13 @@ defmodule TTTTest do
   end
 
   test "Random computer will generate random moves" do
-    :rand.seed(:exsplus, 123)
+    _ = :rand.seed(:exs1024, {123, 123534, 345345})
     p1 = Player.setup("Steven", :x, :human)
     p2 = Player.setup("Comp", :o, :random_computer)
     game = Game.setup(p1, p2)
 
     {:ok, game} = Game.play_turn(game, :x, {2, 0})
 
-    assert TTT.generate_random_move(game) == " "
+    assert TTT.generate_random_move(game) == {2, 2}
   end
 end

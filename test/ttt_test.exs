@@ -113,7 +113,7 @@ defmodule TTTTest do
   end
 
   test "Random computer will generate random moves" do
-    _ = :rand.seed(:exs1024, {123, 123534, 345345})
+    :rand.seed(:exs1024, {123, 123534, 345345})
     p1 = Player.setup("Steven", :x, :human)
     p2 = Player.setup("Comp", :o, :random_computer)
     game = Game.setup(p1, p2)

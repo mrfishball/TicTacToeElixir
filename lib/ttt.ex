@@ -4,23 +4,31 @@ defmodule TTT do
     Setup.new_game()
   end
 
-  def play(board, game, status, %Player{name: _name, token: _token, type: type} = turn)
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: type} = turn)
+    when type == :human do
+      turn
+      |> get_move_input()
+      |> match_input()
+      |> make_a_move(board, game, turn)
+  end
+
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: type} = turn)
+    when type == :naive_computer do
+      game
+      |> generate_naive_move(1)
+      |> make_a_move(board, game, turn)
+  end
+
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: type} = turn)
+    when type == :random_computer do
+      game
+      |> generate_random_move()
+      |> make_a_move(board, game, turn)
+  end
+
+  def play(board, game, status, %Player{name: _name, token: _token, type: _type} = turn)
     when status == :underway do
-    cond do
-      type == :human ->
-        turn
-        |> get_move()
-        |> match_input()
-        |> make_a_move(board, game, turn)
-      type == :naive_computer ->
-        game
-        |> generate_naive_move(1)
-        |> make_a_move(board, game, turn)
-      true ->
-        game
-        |> generate_random_move()
-        |> make_a_move(board, game, turn)
-    end
+      make_a_play(board, game, status, turn)
   end
 
   def play(_board, _game, {_progress, {outcome, person}} = status, _turn) when status != :underway do
@@ -78,13 +86,13 @@ defmodule TTT do
     Regex.match?(~r/^[1-9]{1}$/, String.trim(input))
   end
 
-  def get_move(%Player{name: name, token: token} = turn) do
+  def get_move_input(%Player{name: name, token: token} = turn) do
     move = IO.gets "#{name} - '#{token}', please enter a number from 1 to 9 only: "
     case valid_input?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
         IO.puts "\nInvalid move. Please try again.\n"
-        get_move(turn)
+        get_move_input(turn)
     end
   end
 

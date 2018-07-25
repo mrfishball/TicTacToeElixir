@@ -61,7 +61,7 @@ defmodule Setup do
     |> computer_type_menu(token)
   end
 
-  defp computer_type_menu(computer_name, token) do
+  def computer_type_menu(computer_name, token) do
       IO.puts "Please choose the type of the computer player:\n"
       IO.puts "1. Naive - (Computer will take the first available spot)"
       IO.puts "2. Random - (Computer will take an available spot randomly)\n"
@@ -71,7 +71,7 @@ defmodule Setup do
       |> choose_computer_type(computer_name, token)
   end
 
-  defp choose_computer_type(choice, computer_name, token) do
+  def choose_computer_type(choice, computer_name, token) do
     cond do
       choice == "1" -> Player.naive_computer(computer_name, token)
       choice == "2" -> Player.random_computer(computer_name, token)
@@ -81,7 +81,7 @@ defmodule Setup do
     end
   end
 
-  defp set_player_name(player_number) do
+  def set_player_name(player_number) do
     input = IO.gets "\nPlease enter your name (Player #{player_number}): "
     name = String.trim(input)
     case valid_name?(name) do
@@ -92,7 +92,7 @@ defmodule Setup do
     end
   end
 
-  defp valid_name?(name) do
+  def valid_name?(name) do
     name != ""
   end
 end

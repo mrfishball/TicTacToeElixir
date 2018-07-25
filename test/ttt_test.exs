@@ -111,4 +111,15 @@ defmodule TTTTest do
 
     assert TTT.generate_naive_move(game, 1) == {0, 0}
   end
+
+  test "Random computer will generate random moves" do
+    :rand.seed(:exsplus, 123)
+    p1 = Player.setup("Steven", :x, :human)
+    p2 = Player.setup("Comp", :o, :random_computer)
+    game = Game.setup(p1, p2)
+
+    {:ok, game} = Game.play_turn(game, :x, {2, 0})
+
+    assert TTT.generate_random_move(game) == " "
+  end
 end

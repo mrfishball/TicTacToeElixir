@@ -1,16 +1,17 @@
 defmodule Game do
 
-  @enforce_keys [:turns, :last_player]
+  @enforce_keys [:players, :turns, :last_player]
   defstruct @enforce_keys
 
   @board_bound 0..2
   @valid_tokens [:x, :o]
 
-  def new do
-    %Game{turns: %{x: MapSet.new, o: MapSet.new}, last_player: :player}
+  def setup(%Player{token: p1token} = player1, %Player{token: p2token} = player2) do
+    %Game{players: %{p1: player1, p2: player2},
+    turns: %{p1token => MapSet.new, p2token => MapSet.new},
+    last_player: :player}
   end
 
-  # Check if the potential play is valid before making the actual move
   def play_turn(%Game{turns: turns, last_player: last_player} = state, token, cell) do
     cond do
       token == last_player ->
@@ -72,11 +73,12 @@ defmodule Game do
       [(for i <- bound, do: {i, max - i - 1})]
   end
 
-  # Provide game status updates
-  def status(%Game{turns: turns}) do
+  def status(%Game{players: players, turns: turns}) do
     cond do
-      player_won?(turns[:x]) -> {:ended, {:winner, :x}}
-      player_won?(turns[:o]) -> {:ended, {:winner, :o}}
+      player_won?(turns[players.p1.token]) ->
+        {:ended, {:winner, players.p1.name}}
+      player_won?(turns[players.p2.token]) ->
+        {:ended, {:winner, players.p2.name}}
       draw?(turns) -> {:ended, :draw}
       true ->
         :underway

@@ -1,14 +1,19 @@
 defmodule TTTTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
-  doctest TTT
 
   test "Game will automatically switch turn to 'o' after 'x' has played and vice versa" do
+    p1 = Player.setup("Steven", :x, :human)
+    p2 = Player.setup("Connie", :o, :human)
+    game = Game.setup(p1, p2)
+
     first_player = :x
-    assert TTT.switch_turn(first_player) == :o
+    assert TTT.switch_turn(game, first_player) ==
+      %Player{name: "Connie", token: :o, type: :human}
 
     first_player = :o
-    assert TTT.switch_turn(first_player) == :x
+    assert TTT.switch_turn(game, first_player) ==
+      %Player{name: "Steven", token: :x, type: :human}
   end
 
   test "A number '1' through '9' will be a valid input" do
@@ -67,14 +72,16 @@ defmodule TTTTest do
   end
 
   test "Valid user input will be map to the correct coordinate on the board" do
-    assert TTT.match_input("1") == {0, 0}
-    assert TTT.match_input("9") == {2, 2}
-    assert TTT.match_input("5") == {1, 1}
+    assert TTT.match_input(1) == {0, 0}
+    assert TTT.match_input(9) == {2, 2}
+    assert TTT.match_input(5) == {1, 1}
   end
 
   test "Player tokens are updated and rendered on the board when user provides valid input" do
-    board = Board.new
-    game = Game.new
+    board = Board.setup
+    p1 = Player.setup("Steven", :x, :human)
+    p2 = Player.setup("Connie", :o, :human)
+    game = Game.setup(p1, p2)
     {:ok, game} = Game.play_turn(game, :o, {0, 0})
     {:ok, game} = Game.play_turn(game, :x, {2, 1})
     {:ok, game} = Game.play_turn(game, :o, {1, 0})

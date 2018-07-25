@@ -1,7 +1,7 @@
 defmodule Board do
 
   @board_bounds 0..2
-  def new do
+  def setup do
     for col <- @board_bounds, row <- @board_bounds,
       into: %{}, do: {{col, row}, "#{(col + row + 1) + (row * 2)}"}
   end

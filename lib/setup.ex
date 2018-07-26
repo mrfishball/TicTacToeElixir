@@ -50,18 +50,18 @@ defmodule Setup do
   end
 
   def set_human_player(player_number, token) do
-    human_name = set_player_name(player_number)
-    human_name
+    player_number
+    |> set_player_name()
     |> Player.human(token)
   end
 
   def set_computer_player(player_number, token) do
-    computer_name = set_player_name(player_number)
-    computer_name
+    player_number
+    |> set_player_name()
     |> computer_type_menu(token)
   end
 
-  def computer_type_menu(computer_name, token) do
+  defp computer_type_menu(computer_name, token) do
       IO.puts "Please choose the type of the computer player:\n"
       IO.puts "1. Naive - (Computer will take the first available spot)"
       IO.puts "2. Random - (Computer will take an available spot randomly)\n"
@@ -71,7 +71,7 @@ defmodule Setup do
       |> choose_computer_type(computer_name, token)
   end
 
-  def choose_computer_type(choice, computer_name, token) do
+  defp choose_computer_type(choice, computer_name, token) do
     cond do
       choice == "1" -> Player.naive_computer(computer_name, token)
       choice == "2" -> Player.random_computer(computer_name, token)

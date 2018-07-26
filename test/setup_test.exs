@@ -34,15 +34,4 @@ defmodule SetupTest do
     assert Setup.valid_name?(String.trim(name2)) == true
     assert Setup.valid_name?(String.trim(name3)) == true
   end
-
-  test "Correct computer type is returned when user enters a valid input" do
-    computer1_name = "Naive computer"
-    computer1_token = :x
-    computer2_name = "Random computer"
-    computer2_token = :o
-    assert Setup.choose_computer_type("1", computer1_name, computer1_token) ==
-      %Player{name: "Naive computer", token: :x, type: :naive_computer}
-    assert Setup.choose_computer_type("2", computer2_name, computer2_token) ==
-      %Player{name: "Random computer", token: :o, type: :random_computer}
-  end
 end

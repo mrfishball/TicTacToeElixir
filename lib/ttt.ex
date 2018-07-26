@@ -4,23 +4,20 @@ defmodule TTT do
     Setup.new_game()
   end
 
-  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: type} = turn)
-    when type == :human do
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :human} = turn) do
       turn
       |> get_move_input()
       |> match_input()
       |> make_a_move(board, game, turn)
   end
 
-  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: type} = turn)
-    when type == :naive_computer do
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :naive_computer} = turn) do
       game
       |> generate_naive_move(1)
       |> make_a_move(board, game, turn)
   end
 
-  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: type} = turn)
-    when type == :random_computer do
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :random_computer} = turn) do
       game
       |> generate_random_move()
       |> make_a_move(board, game, turn)

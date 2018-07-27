@@ -5,7 +5,7 @@ defmodule TTTTest do
   test "Game will automatically switch turn to 'o' after 'x' has played and vice versa" do
     p1 = Player.human({"Steven", :x})
     p2 = Player.human({"Connie", :o})
-    game = Game.setup(p1, p2)
+    game = Game.setup(p1, p2, 1)
 
     first_player = :x
     assert TTT.switch_turn(game, first_player) ==
@@ -78,10 +78,10 @@ defmodule TTTTest do
   end
 
   test "Player tokens are updated and rendered on the board when user provides valid input" do
-    board = Board.setup
+    board = Board.setup(1)
     p1 = Player.human({"Steven", "x"})
     p2 = Player.human({"Connie", "o"})
-    game = Game.setup(p1, p2)
+    game = Game.setup(p1, p2, 1)
     {:ok, game} = Game.play_turn(game, p2, {0, 0})
     {:ok, game} = Game.play_turn(game, p1, {2, 1})
     {:ok, game} = Game.play_turn(game, p2, {1, 0})
@@ -89,13 +89,13 @@ defmodule TTTTest do
     {:ok, game} = Game.play_turn(game, p2, {2, 0})
 
     assert capture_io(fn -> TTT.update_visual(board, game) end) ==
-      "\n\n o | o | o\n---+---+---\n 4 | x | x\n---+---+---\n 7 | 8 | 9\n\n\n"
+      "\n\n o | o | o\n-----------\n 4 | x | x\n-----------\n 7 | 8 | 9\n\n\n"
   end
 
   test "Naive computer player will always take the next open spot following opponent's move if there are no preceding spots" do
     p1 = Player.human({"Steven", :x})
     p2 = Player.naive_computer({"Comp", :o})
-    game = Game.setup(p1, p2)
+    game = Game.setup(p1, p2, 1)
 
     {:ok, game} = Game.play_turn(game, p1, {0, 0})
 
@@ -105,7 +105,7 @@ defmodule TTTTest do
   test "Naive computer player will always take the first available spot preceding the opponent's move" do
     p1 = Player.human({"Steven", :x})
     p2 = Player.naive_computer({"Comp", :o})
-    game = Game.setup(p1, p2)
+    game = Game.setup(p1, p2, 1)
 
     {:ok, game} = Game.play_turn(game, p1, {2, 0})
 
@@ -116,7 +116,7 @@ defmodule TTTTest do
     :rand.seed(:exs1024, {123, 123_534, 345_345})
     p1 = Player.human({"Steven", :x})
     p2 = Player.random_computer({"Comp", :o})
-    game = Game.setup(p1, p2)
+    game = Game.setup(p1, p2, 1)
 
     {:ok, game} = Game.play_turn(game, p1, {2, 0})
 

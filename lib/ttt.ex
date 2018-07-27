@@ -4,19 +4,28 @@ defmodule TTT do
     Setup.new_game()
   end
 
-  def play(board, game, status, %Player{name: _name, token: _token, type: type} = turn)
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :human} = turn) do
+      turn
+      |> get_move_input()
+      |> match_input()
+      |> make_a_move(board, game, turn)
+  end
+
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :naive_computer} = turn) do
+      game
+      |> generate_naive_move(1)
+      |> make_a_move(board, game, turn)
+  end
+
+  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :random_computer} = turn) do
+      game
+      |> generate_random_move()
+      |> make_a_move(board, game, turn)
+  end
+
+  def play(board, game, status, %Player{name: _name, token: _token, type: _type} = turn)
     when status == :underway do
-    cond do
-      type == :human ->
-        turn
-        |> get_move()
-        |> match_input()
-        |> make_a_move(board, game, turn)
-      type == :computer ->
-        game
-        |> generate_move(1)
-        |> make_a_move(board, game, turn)
-    end
+      make_a_play(board, game, status, turn)
   end
 
   def play(_board, _game, {_progress, {outcome, person}} = status, _turn) when status != :underway do
@@ -40,12 +49,23 @@ defmodule TTT do
     end
   end
 
-  def generate_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
+  def generate_naive_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
     move = match_input(starting_move)
     cond do
       MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
         starting_move = starting_move + 1
-        generate_move(game, starting_move)
+        generate_naive_move(game, starting_move)
+      true ->
+        move
+    end
+  end
+
+  def generate_random_move(%Game{turns: %{x: p1moves, o: p2moves}} = game) do
+    random_input = :rand.uniform(9)
+    move = match_input(random_input)
+    cond do
+      MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
+        generate_random_move(game)
       true ->
         move
     end
@@ -63,13 +83,13 @@ defmodule TTT do
     Regex.match?(~r/^[1-9]{1}$/, String.trim(input))
   end
 
-  def get_move(%Player{name: name, token: token} = turn) do
+  def get_move_input(%Player{name: name, token: token} = turn) do
     move = IO.gets "#{name} - '#{token}', please enter a number from 1 to 9 only: "
     case valid_input?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
         IO.puts "\nInvalid move. Please try again.\n"
-        get_move(turn)
+        get_move_input(turn)
     end
   end
 

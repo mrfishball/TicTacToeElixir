@@ -37,6 +37,6 @@ defmodule SetupTest do
 
   test "A string of numbers will not be a valid symbol" do
     symbol = "  1234  "
-    assert Setup.valid_symbol?(symbol) == true
+    assert Setup.valid_symbol?(symbol) == false
   end
 end

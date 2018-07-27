@@ -12,19 +12,17 @@ defmodule Game do
     last_player: :player}
   end
 
-  def play_turn(%Game{turns: turns, last_player: last_player} = state, token, cell) do
+  def play_turn(%Game{turns: turns, last_player: last_player} = state, player, cell) do
     cond do
-      token == last_player ->
+      player.token == last_player ->
         {:error, :not_your_turn}
-      # token not in @valid_tokens ->
-      #   {:error, :invalid_token}
       cell_taken?(turns, cell) ->
         {:error, :cell_taken}
       not in_bounds?(cell) ->
         {:error, :out_of_bounds}
       true ->
-        state = update_in(state.turns[token], &MapSet.put(&1, cell))
-        {:ok, %{state | last_player: token}}
+        state = update_in(state.turns[player.token], &MapSet.put(&1, cell))
+        {:ok, %{state | last_player: player.token}}
     end
   end
 

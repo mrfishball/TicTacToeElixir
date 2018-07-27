@@ -23,11 +23,12 @@ defmodule Setup do
     end
   end
 
-  def start({player1, player2} = _players) do
-    board = Board.setup
-    game = Game.setup(player1, player2)
+  def start({player1, player2} = players) do
+    token_length = get_longest_token(players)
+    board = Board.setup(token_length)
+    game = Game.setup(player1, player2, token_length)
     status = Game.status(game)
-    Board.show(board)
+    Board.show(board, token_length)
     TTT.play(board, game, status, player1)
   end
 
@@ -102,6 +103,16 @@ defmodule Setup do
       false ->
         IO.puts "This is not a valid name. Please try again.\n"
         set_player_name(player_number)
+    end
+  end
+
+  def get_longest_token({player1, player2} = _players) do
+    token1_length = String.length(player1.token)
+    token2_length = String.length(player2.token)
+    if token1_length >= token2_length do
+      token1_length
+    else
+      token2_length
     end
   end
 

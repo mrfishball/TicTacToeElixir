@@ -1,15 +1,14 @@
 defmodule Game do
 
-  @enforce_keys [:players, :turns, :last_player]
+  @enforce_keys [:players, :turns, :last_player, :token_length]
   defstruct @enforce_keys
 
   @board_bound 0..2
-  # @valid_tokens [:x, :o]
 
-  def setup(%Player{token: p1token} = player1, %Player{token: p2token} = player2) do
+  def setup(%Player{token: p1token} = player1, %Player{token: p2token} = player2, token_length) do
     %Game{players: %{p1: player1, p2: player2},
     turns: %{p1token => MapSet.new, p2token => MapSet.new},
-    last_player: :player}
+    last_player: :player, token_length: token_length}
   end
 
   def play_turn(%Game{turns: turns, last_player: last_player} = state, player, cell) do

@@ -5,7 +5,7 @@ defmodule GameTest do
     p1 = Player.human({"Steven", :x})
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
-    assert {:ok, _game} = Game.play_turn(game, :x, {0, 0})
+    assert {:ok, _game} = Game.play_turn(game, p1, {0, 0})
   end
 
   test "player can't make a move if the spot is already taken" do
@@ -13,11 +13,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :x, {0, 0})
-    assert Game.play_turn(game, :o, {0, 0}) == {:error, :cell_taken}
+    {:ok, game} = Game.play_turn(game, p1, {0, 0})
+    assert Game.play_turn(game, p2, {0, 0}) == {:error, :cell_taken}
 
-    {:ok, game} = Game.play_turn(game, :o, {0, 1})
-    assert Game.play_turn(game, :x, {0, 1}) == {:error, :cell_taken}
+    {:ok, game} = Game.play_turn(game, p2, {0, 1})
+    assert Game.play_turn(game, p1, {0, 1}) == {:error, :cell_taken}
   end
 
   test "player can't make an out-of-bound move" do
@@ -25,18 +25,18 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    assert Game.play_turn(game, :x, {4, 10}) == {:error, :out_of_bounds}
-    assert Game.play_turn(game, :o, {0, 6}) == {:error, :out_of_bounds}
-    assert Game.play_turn(game, :x, {-2, 8}) == {:error, :out_of_bounds}
+    assert Game.play_turn(game, p1, {4, 10}) == {:error, :out_of_bounds}
+    assert Game.play_turn(game, p2, {0, 6}) == {:error, :out_of_bounds}
+    assert Game.play_turn(game, p1, {-2, 8}) == {:error, :out_of_bounds}
   end
 
   test "player can't play turn twice in a row" do
     p1 = Player.human({"Steven", :x})
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
-    {:ok, game} = Game.play_turn(game, :x, {0, 0})
+    {:ok, game} = Game.play_turn(game, p1, {0, 0})
 
-    assert Game.play_turn(game, :x, {2, 2}) == {:error, :not_your_turn}
+    assert Game.play_turn(game, p1, {2, 2}) == {:error, :not_your_turn}
   end
 
   test "player wins horizontally (top line)" do
@@ -44,11 +44,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :o, {0, 0})
-    {:ok, game} = Game.play_turn(game, :x, {2, 1})
-    {:ok, game} = Game.play_turn(game, :o, {1, 0})
-    {:ok, game} = Game.play_turn(game, :x, {1, 1})
-    {:ok, game} = Game.play_turn(game, :o, {2, 0})
+    {:ok, game} = Game.play_turn(game, p2, {0, 0})
+    {:ok, game} = Game.play_turn(game, p1, {2, 1})
+    {:ok, game} = Game.play_turn(game, p2, {1, 0})
+    {:ok, game} = Game.play_turn(game, p1, {1, 1})
+    {:ok, game} = Game.play_turn(game, p2, {2, 0})
 
     assert Game.status(game) == {:ended, {:winner, "Connie"}}
   end
@@ -58,11 +58,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :o, {0, 1})
-    {:ok, game} = Game.play_turn(game, :x, {2, 2})
-    {:ok, game} = Game.play_turn(game, :o, {1, 1})
-    {:ok, game} = Game.play_turn(game, :x, {1, 0})
-    {:ok, game} = Game.play_turn(game, :o, {2, 1})
+    {:ok, game} = Game.play_turn(game, p2, {0, 1})
+    {:ok, game} = Game.play_turn(game, p1, {2, 2})
+    {:ok, game} = Game.play_turn(game, p2, {1, 1})
+    {:ok, game} = Game.play_turn(game, p1, {1, 0})
+    {:ok, game} = Game.play_turn(game, p2, {2, 1})
 
     assert Game.status(game) == {:ended, {:winner, "Connie"}}
   end
@@ -72,11 +72,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :o, {0, 2})
-    {:ok, game} = Game.play_turn(game, :x, {2, 0})
-    {:ok, game} = Game.play_turn(game, :o, {1, 2})
-    {:ok, game} = Game.play_turn(game, :x, {1, 0})
-    {:ok, game} = Game.play_turn(game, :o, {2, 2})
+    {:ok, game} = Game.play_turn(game, p2, {0, 2})
+    {:ok, game} = Game.play_turn(game, p1, {2, 0})
+    {:ok, game} = Game.play_turn(game, p2, {1, 2})
+    {:ok, game} = Game.play_turn(game, p1, {1, 0})
+    {:ok, game} = Game.play_turn(game, p2, {2, 2})
 
     assert Game.status(game) == {:ended, {:winner, "Connie"}}
   end
@@ -86,11 +86,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :o, {0, 0})
-    {:ok, game} = Game.play_turn(game, :x, {2, 1})
-    {:ok, game} = Game.play_turn(game, :o, {0, 1})
-    {:ok, game} = Game.play_turn(game, :x, {1, 1})
-    {:ok, game} = Game.play_turn(game, :o, {0, 2})
+    {:ok, game} = Game.play_turn(game, p2, {0, 0})
+    {:ok, game} = Game.play_turn(game, p1, {2, 1})
+    {:ok, game} = Game.play_turn(game, p2, {0, 1})
+    {:ok, game} = Game.play_turn(game, p1, {1, 1})
+    {:ok, game} = Game.play_turn(game, p2, {0, 2})
 
     assert Game.status(game) == {:ended, {:winner, "Connie"}}
   end
@@ -100,11 +100,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :o, {1, 0})
-    {:ok, game} = Game.play_turn(game, :x, {2, 2})
-    {:ok, game} = Game.play_turn(game, :o, {1, 1})
-    {:ok, game} = Game.play_turn(game, :x, {2, 0})
-    {:ok, game} = Game.play_turn(game, :o, {1, 2})
+    {:ok, game} = Game.play_turn(game, p2, {1, 0})
+    {:ok, game} = Game.play_turn(game, p1, {2, 2})
+    {:ok, game} = Game.play_turn(game, p2, {1, 1})
+    {:ok, game} = Game.play_turn(game, p1, {2, 0})
+    {:ok, game} = Game.play_turn(game, p2, {1, 2})
 
     assert Game.status(game) == {:ended, {:winner, "Connie"}}
   end
@@ -114,11 +114,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :o, {2, 0})
-    {:ok, game} = Game.play_turn(game, :x, {1, 1})
-    {:ok, game} = Game.play_turn(game, :o, {2, 1})
-    {:ok, game} = Game.play_turn(game, :x, {1, 0})
-    {:ok, game} = Game.play_turn(game, :o, {2, 2})
+    {:ok, game} = Game.play_turn(game, p2, {2, 0})
+    {:ok, game} = Game.play_turn(game, p1, {1, 1})
+    {:ok, game} = Game.play_turn(game, p2, {2, 1})
+    {:ok, game} = Game.play_turn(game, p1, {1, 0})
+    {:ok, game} = Game.play_turn(game, p2, {2, 2})
 
     assert Game.status(game) == {:ended, {:winner, "Connie"}}
   end
@@ -128,11 +128,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :o, {2, 0})
-    {:ok, game} = Game.play_turn(game, :x, {2, 1})
-    {:ok, game} = Game.play_turn(game, :o, {1, 1})
-    {:ok, game} = Game.play_turn(game, :x, {0, 1})
-    {:ok, game} = Game.play_turn(game, :o, {0, 2})
+    {:ok, game} = Game.play_turn(game, p2, {2, 0})
+    {:ok, game} = Game.play_turn(game, p1, {2, 1})
+    {:ok, game} = Game.play_turn(game, p2, {1, 1})
+    {:ok, game} = Game.play_turn(game, p1, {0, 1})
+    {:ok, game} = Game.play_turn(game, p2, {0, 2})
 
     assert Game.status(game) == {:ended, {:winner, "Connie"}}
   end
@@ -142,11 +142,11 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :x, {0, 0})
-    {:ok, game} = Game.play_turn(game, :o, {2, 1})
-    {:ok, game} = Game.play_turn(game, :x, {1, 1})
-    {:ok, game} = Game.play_turn(game, :o, {0, 1})
-    {:ok, game} = Game.play_turn(game, :x, {2, 2})
+    {:ok, game} = Game.play_turn(game, p1, {0, 0})
+    {:ok, game} = Game.play_turn(game, p2, {2, 1})
+    {:ok, game} = Game.play_turn(game, p1, {1, 1})
+    {:ok, game} = Game.play_turn(game, p2, {0, 1})
+    {:ok, game} = Game.play_turn(game, p1, {2, 2})
 
     assert Game.status(game) == {:ended, {:winner, "Steven"}}
   end
@@ -156,18 +156,18 @@ defmodule GameTest do
     p2 = Player.human({"Connie", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :o, {0, 0})
-    {:ok, game} = Game.play_turn(game, :x, {2, 1})
-    {:ok, game} = Game.play_turn(game, :o, {2, 2})
-    {:ok, game} = Game.play_turn(game, :x, {1, 1})
-    {:ok, game} = Game.play_turn(game, :o, {0, 1})
-    {:ok, game} = Game.play_turn(game, :x, {0, 2})
-    {:ok, game} = Game.play_turn(game, :o, {2, 0})
-    {:ok, game} = Game.play_turn(game, :x, {1, 0})
+    {:ok, game} = Game.play_turn(game, p2, {0, 0})
+    {:ok, game} = Game.play_turn(game, p1, {2, 1})
+    {:ok, game} = Game.play_turn(game, p2, {2, 2})
+    {:ok, game} = Game.play_turn(game, p1, {1, 1})
+    {:ok, game} = Game.play_turn(game, p2, {0, 1})
+    {:ok, game} = Game.play_turn(game, p1, {0, 2})
+    {:ok, game} = Game.play_turn(game, p2, {2, 0})
+    {:ok, game} = Game.play_turn(game, p1, {1, 0})
 
     assert Game.status(game) != {:ended, :draw}
 
-    {:ok, game} = Game.play_turn(game, :o, {1, 2})
+    {:ok, game} = Game.play_turn(game, p2, {1, 2})
 
     assert Game.status(game) == {:ended, :draw}
   end
@@ -178,8 +178,8 @@ defmodule GameTest do
     game = Game.setup(p1, p2)
     assert Game.status(game) == :underway
 
-    {:ok, game} = Game.play_turn(game, :x, {0, 1})
-    {:ok, game} = Game.play_turn(game, :o, {1, 2})
+    {:ok, game} = Game.play_turn(game, p1, {0, 1})
+    {:ok, game} = Game.play_turn(game, p2, {1, 2})
 
     assert Game.status(game) == :underway
   end

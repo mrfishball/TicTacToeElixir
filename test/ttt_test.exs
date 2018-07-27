@@ -79,14 +79,14 @@ defmodule TTTTest do
 
   test "Player tokens are updated and rendered on the board when user provides valid input" do
     board = Board.setup
-    p1 = Player.human({"Steven", :x})
-    p2 = Player.human({"Connie", :o})
+    p1 = Player.human({"Steven", "x"})
+    p2 = Player.human({"Connie", "o"})
     game = Game.setup(p1, p2)
-    {:ok, game} = Game.play_turn(game, :o, {0, 0})
-    {:ok, game} = Game.play_turn(game, :x, {2, 1})
-    {:ok, game} = Game.play_turn(game, :o, {1, 0})
-    {:ok, game} = Game.play_turn(game, :x, {1, 1})
-    {:ok, game} = Game.play_turn(game, :o, {2, 0})
+    {:ok, game} = Game.play_turn(game, p2, {0, 0})
+    {:ok, game} = Game.play_turn(game, p1, {2, 1})
+    {:ok, game} = Game.play_turn(game, p2, {1, 0})
+    {:ok, game} = Game.play_turn(game, p1, {1, 1})
+    {:ok, game} = Game.play_turn(game, p2, {2, 0})
 
     assert capture_io(fn -> TTT.update_visual(board, game) end) ==
       "\n\n o | o | o\n---+---+---\n 4 | x | x\n---+---+---\n 7 | 8 | 9\n\n\n"
@@ -97,7 +97,7 @@ defmodule TTTTest do
     p2 = Player.naive_computer({"Comp", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :x, {0, 0})
+    {:ok, game} = Game.play_turn(game, p1, {0, 0})
 
     assert TTT.generate_naive_move(game, 1) == {1, 0}
   end
@@ -107,7 +107,7 @@ defmodule TTTTest do
     p2 = Player.naive_computer({"Comp", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :x, {2, 0})
+    {:ok, game} = Game.play_turn(game, p1, {2, 0})
 
     assert TTT.generate_naive_move(game, 1) == {0, 0}
   end
@@ -118,7 +118,7 @@ defmodule TTTTest do
     p2 = Player.random_computer({"Comp", :o})
     game = Game.setup(p1, p2)
 
-    {:ok, game} = Game.play_turn(game, :x, {2, 0})
+    {:ok, game} = Game.play_turn(game, p1, {2, 0})
 
     assert TTT.generate_random_move(game) == {2, 2}
   end

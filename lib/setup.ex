@@ -32,52 +32,65 @@ defmodule Setup do
   end
 
   def player_vs_player do
-    player1 = set_human_player(1, :x)
-    player2 = set_human_player(2, :o)
+    player1 = set_human_player(1)
+    player2 = set_human_player(2)
     {player1, player2}
   end
 
   def player_vs_computer do
-    player1 = set_human_player(1, :x)
-    player2 = set_computer_player(2, :o)
+    player1 = set_human_player(1)
+    player2 = set_computer_player(2)
     {player1, player2}
   end
 
   def computer_vs_computer do
-    player1 = set_computer_player(1, :x)
-    player2 = set_computer_player(2, :o)
+    player1 = set_computer_player(1)
+    player2 = set_computer_player(2)
     {player1, player2}
   end
 
-  def set_human_player(player_number, token) do
+  def set_human_player(player_number) do
     player_number
     |> set_player_name()
-    |> Player.human(token)
+    |> set_player_symbol()
+    |> Player.human()
   end
 
-  def set_computer_player(player_number, token) do
+  def set_computer_player(player_number) do
     player_number
     |> set_player_name()
-    |> computer_type_menu(token)
+    |> set_player_symbol()
+    |> computer_type_menu()
   end
 
-  defp computer_type_menu(computer_name, token) do
-      IO.puts "Please choose the type of the computer player:\n"
-      IO.puts "1. Naive - (Computer will take the first available spot)"
-      IO.puts "2. Random - (Computer will take an available spot randomly)\n"
+  defp computer_type_menu({computer_name, _token} = payload) do
+      IO.puts "Please choose the type of the computer player - '#{computer_name}':\n"
+      IO.puts "1. Naive - ('#{computer_name}' will take the first available spot)"
+      IO.puts "2. Random - ('#{computer_name}' will take an available spot randomly)\n"
       input = IO.gets "Your choice is (Enter 1 or 2): "
       input
       |> String.trim()
-      |> choose_computer_type(computer_name, token)
+      |> choose_computer_type(payload)
   end
 
-  defp choose_computer_type(choice, computer_name, token) do
+  defp choose_computer_type(choice, payload) do
     cond do
-      choice == "1" -> Player.naive_computer(computer_name, token)
-      choice == "2" -> Player.random_computer(computer_name, token)
+      choice == "1" -> Player.naive_computer(payload)
+      choice == "2" -> Player.random_computer(payload)
       true ->
         IO.puts "\nInvalid entry. Please try again\n"
-        computer_type_menu(computer_name, token)
+        computer_type_menu(payload)
+    end
+  end
+
+  def set_player_symbol(player_name) do
+    input = IO.gets "Enter a symbol for player '#{player_name}: "
+    symbol = String.trim(input)
+    case valid_symbol?(symbol) do
+      true -> {player_name, symbol}
+      false ->
+        IO.puts "This is not a valid symbol. Please try again.\n"
+        set_player_symbol(player_name)
     end
   end
 
@@ -90,6 +103,10 @@ defmodule Setup do
         IO.puts "This is not a valid name. Please try again.\n"
         set_player_name(player_number)
     end
+  end
+
+  def valid_symbol?(symbol) do
+    Regex.match?(~r/^[a-zA-Z&.\-]*$/, symbol)
   end
 
   def valid_name?(name) do

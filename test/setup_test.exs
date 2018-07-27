@@ -34,4 +34,9 @@ defmodule SetupTest do
     assert Setup.valid_name?(String.trim(name2)) == true
     assert Setup.valid_name?(String.trim(name3)) == true
   end
+
+  test "A string of numbers will not be a valid symbol" do
+    symbol = "  1234  "
+    assert Setup.valid_symbol?(symbol) == true
+  end
 end

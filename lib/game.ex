@@ -4,7 +4,7 @@ defmodule Game do
   defstruct @enforce_keys
 
   @board_bound 0..2
-  @valid_tokens [:x, :o]
+  # @valid_tokens [:x, :o]
 
   def setup(%Player{token: p1token} = player1, %Player{token: p2token} = player2) do
     %Game{players: %{p1: player1, p2: player2},
@@ -16,8 +16,8 @@ defmodule Game do
     cond do
       token == last_player ->
         {:error, :not_your_turn}
-      token not in @valid_tokens ->
-        {:error, :invalid_token}
+      # token not in @valid_tokens ->
+      #   {:error, :invalid_token}
       cell_taken?(turns, cell) ->
         {:error, :cell_taken}
       not in_bounds?(cell) ->

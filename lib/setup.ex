@@ -1,4 +1,6 @@
 defmodule Setup do
+  require Integer
+
   def new_game do
     IO.puts "Let's play Tic Tac Toe!\n"
     game_menu()
@@ -23,12 +25,16 @@ defmodule Setup do
     end
   end
 
-  def start({player1, player2} = players) do
-    token_length = get_longest_token(players)
-    board = Board.setup(token_length)
-    game = Game.setup(player1, player2, token_length)
+  def start(players) do
+    player = longest_token_player(players)
+    {player1, player2} = add_paddings(player, players)
+    {left_pad, right_pad} = symbol_paddings(player.token, " ")
+
+    game = Game.setup(player1, player2, String.length(player.token))
+    board = Board.setup(left_pad, right_pad)
     status = Game.status(game)
-    Board.show(board, token_length)
+    Board.show(board, String.length(player.token))
+    
     TTT.play(board, game, status, player1)
   end
 
@@ -95,6 +101,28 @@ defmodule Setup do
     end
   end
 
+  def add_paddings(player, {player1, player2} = _players) do
+    cond do
+      player != player1 ->
+        {left_side, right_side} = symbol_paddings(player.token, player1.token)
+        player1 = %Player{player1 | token: "#{left_side <> player1.token <> right_side}"}
+        {player1, player2}
+      player != player2 ->
+        {left_side, right_side} = symbol_paddings(player.token, player2.token)
+        player2 = %Player{player2 | token: "#{left_side <> player2.token <> right_side}"}
+        {player1, player2}
+    end
+  end
+
+  def symbol_paddings(longer_token, shorter_token) do
+    difference = String.length(longer_token) - String.length(shorter_token)
+    side = div(difference, 2)
+    extra_padding = rem(difference, 2)
+    left_side = String.duplicate(" ", side + extra_padding)
+    right_side = String.duplicate(" ", side)
+    {left_side, right_side}
+  end
+
   def set_player_name(player_number) do
     input = IO.gets "\nPlease enter your name (Player #{player_number}): "
     name = String.trim(input)
@@ -106,13 +134,11 @@ defmodule Setup do
     end
   end
 
-  def get_longest_token({player1, player2} = _players) do
-    token1_length = String.length(player1.token)
-    token2_length = String.length(player2.token)
-    if token1_length >= token2_length do
-      token1_length
+  def longest_token_player({player1, player2} = _players) do
+    if String.length(player1.token) >= String.length(player2.token) do
+      player1
     else
-      token2_length
+      player2
     end
   end
 

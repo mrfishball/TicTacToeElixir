@@ -5,10 +5,14 @@ defmodule Game do
 
   @board_bound 0..2
 
-  def setup(%Player{token: p1token} = player1, %Player{token: p2token} = player2, token_length) do
+  def setup(%Player{token: p1token} = player1,
+            %Player{token: p2token} = player2,
+            token_length) do
+              
     %Game{players: %{p1: player1, p2: player2},
-    turns: %{p1token => MapSet.new, p2token => MapSet.new},
-    last_player: :player, token_length: token_length}
+          turns: %{p1token => MapSet.new, p2token => MapSet.new},
+          last_player: :player,
+          token_length: token_length}
   end
 
   def play_turn(%Game{turns: turns, last_player: last_player} = state, player, cell) do

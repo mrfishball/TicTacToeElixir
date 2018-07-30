@@ -1,22 +1,10 @@
 defmodule Board do
   require Integer
+  
   @board_bounds 0..2
-  def setup(token_length) do
-    {left_side, right_side} = paddings(token_length)
+  def setup(left_pad, right_pad) do
     for col <- @board_bounds, row <- @board_bounds,
-      into: %{}, do: {{col, row}, "#{String.duplicate(" ", left_side)}#{(col + row + 1) + (row * 2)}#{String.duplicate(" ", right_side)}"}
-  end
-
-  def paddings(token_length) do
-    cond do
-      Integer.is_odd(token_length) ->
-        side = div(token_length, 2)
-        {side, side}
-      true ->
-        left_side = div(token_length, 2)
-        right_side = div(token_length - 1, 2)
-        {left_side, right_side}
-    end
+      into: %{}, do: {{col, row}, "#{left_pad}#{(col + row + 1) + (row * 2)}#{right_pad}"}
   end
 
   def register_move(board, list, token) do

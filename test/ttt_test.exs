@@ -82,11 +82,8 @@ defmodule TTTTest do
     player_one = Player.human({"Steven", "x"})
     player_two = Player.human({"Connie", "o"})
     game = Game.new_game(player_one, player_two, 1)
-    {:ok, game} = Game.play_turn(game, player_two, {0, 0})
-    {:ok, game} = Game.play_turn(game, player_one, {2, 1})
-    {:ok, game} = Game.play_turn(game, player_two, {1, 0})
-    {:ok, game} = Game.play_turn(game, player_one, {1, 1})
-    {:ok, game} = Game.play_turn(game, player_two, {2, 0})
+    moves = [{0, 0}, {2, 1}, {1, 0}, {1, 1}, {2, 0}]
+    game = TestHelpers.simulate_moves(game, player_two, moves, 0)
 
     assert capture_io(fn -> TTT.update_visual(board, game) end) ==
       "\n\n o | o | o\n-----------\n 4 | x | x\n-----------\n 7 | 8 | 9\n\n\n"

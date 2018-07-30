@@ -30,7 +30,7 @@ defmodule Setup do
     {player1, player2} = add_paddings(player, players)
     {left_pad, right_pad} = symbol_paddings(player.token, " ")
 
-    game = Game.setup(player1, player2, String.length(player.token))
+    game = Game.new_game(player1, player2, String.length(player.token))
     board = Board.setup(left_pad, right_pad)
     status = Game.status(game)
     Board.show(board, String.length(player.token))

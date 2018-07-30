@@ -1,8 +1,8 @@
 defmodule Board do
   require Integer
-  
+
   @board_bounds 0..2
-  def setup(left_pad, right_pad) do
+  def new_board(left_pad, right_pad) do
     for col <- @board_bounds, row <- @board_bounds,
       into: %{}, do: {{col, row}, "#{left_pad}#{(col + row + 1) + (row * 2)}#{right_pad}"}
   end

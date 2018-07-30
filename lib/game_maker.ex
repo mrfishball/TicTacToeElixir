@@ -143,7 +143,11 @@ defmodule GameMaker do
   end
 
   def valid_symbol?(symbol) do
-    Regex.match?(~r/^[a-zA-Z&.\-]*$/, symbol)
+    if String.length(symbol) < 1 do
+      false
+    else
+      Regex.match?(~r/^[a-zA-Z&.\-]*$/, symbol)
+    end
   end
 
   def valid_name?(name) do

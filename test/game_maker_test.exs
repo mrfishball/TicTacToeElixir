@@ -35,8 +35,34 @@ defmodule GameMakerTest do
     assert GameMaker.valid_name?(String.trim(name3)) == true
   end
 
+  test "A string of letters is a valid symbol" do
+    symbol = "asddfer"
+    symbol2 = "aa"
+    symbol3 = "AsdGdK"
+    assert GameMaker.valid_symbol?(symbol) == true
+    assert GameMaker.valid_symbol?(symbol2) == true
+    assert GameMaker.valid_symbol?(symbol3) == true
+  end
+
+  test "Spaces around a valid symbol is not allowed" do
+    symbol = "   asdfegr "
+    assert GameMaker.valid_symbol?(symbol) == false
+  end
+
+  test "Empty spaces and string are not valid symbols" do
+    symbol = ""
+    symbol2 = "   "
+    assert GameMaker.valid_symbol?(symbol) == false
+    assert GameMaker.valid_symbol?(symbol2) == false
+  end
+
   test "A string of numbers will not be a valid symbol" do
     symbol = "  1234  "
+    assert GameMaker.valid_symbol?(symbol) == false
+  end
+
+  test "A string of special characters is not a valid symbol" do
+    symbol = "*&^())"
     assert GameMaker.valid_symbol?(symbol) == false
   end
 

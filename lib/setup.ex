@@ -34,7 +34,7 @@ defmodule Setup do
     board = Board.setup(left_pad, right_pad)
     status = Game.status(game)
     Board.show(board, String.length(player.token))
-    
+
     TTT.play(board, game, status, player1)
   end
 
@@ -114,8 +114,8 @@ defmodule Setup do
     end
   end
 
-  def symbol_paddings(longer_token, shorter_token) do
-    difference = String.length(longer_token) - String.length(shorter_token)
+  def symbol_paddings(long_token, short_token) do
+    difference = String.length(long_token) - String.length(short_token)
     side = div(difference, 2)
     extra_padding = rem(difference, 2)
     left_side = String.duplicate(" ", side + extra_padding)

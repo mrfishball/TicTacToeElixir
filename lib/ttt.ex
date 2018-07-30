@@ -1,7 +1,7 @@
 defmodule TTT do
 
   def main(_args \\ []) do
-    Setup.new_game()
+    GameMaker.new_game()
   end
 
   def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :human} = turn) do
@@ -37,7 +37,7 @@ defmodule TTT do
   end
 
   def make_a_move(move, board, game, %Player{name: _name, token: token, type: _type} = turn) do
-    with {:ok, game} <- Game.play_turn(game, token, move) do
+    with {:ok, game} <- Game.play_turn(game, turn, move) do
       update_visual(board, game)
       status = Game.status(game)
       turn = switch_turn(game, token)
@@ -49,23 +49,25 @@ defmodule TTT do
     end
   end
 
-  def generate_naive_move(%Game{turns: %{x: p1moves, o: p2moves}} = game, starting_move) do
+  def generate_naive_move(%Game{players: %{p1: player1, p2: player2}} = game, starting_move) do
     move = match_input(starting_move)
     cond do
-      MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
-        starting_move = starting_move + 1
-        generate_naive_move(game, starting_move)
+      MapSet.member?(game.turns[player1.token], move) or
+        MapSet.member?(game.turns[player2.token], move) ->
+          starting_move = starting_move + 1
+          generate_naive_move(game, starting_move)
       true ->
         move
     end
   end
 
-  def generate_random_move(%Game{turns: %{x: p1moves, o: p2moves}} = game) do
+  def generate_random_move(%Game{players: %{p1: player1, p2: player2}} = game) do
     random_input = :rand.uniform(9)
     move = match_input(random_input)
     cond do
-      MapSet.member?(p1moves, move) or MapSet.member?(p2moves, move) ->
-        generate_random_move(game)
+      MapSet.member?(game.turns[player1.token], move) or
+        MapSet.member?(game.turns[player2.token], move) ->
+          generate_random_move(game)
       true ->
         move
     end
@@ -111,8 +113,10 @@ defmodule TTT do
     {(move - 1 - (3 * row)), row}
   end
 
-  def update_visual(board, %Game{turns: %{x: p1moves, o: p2moves}} = _game) do
-    moves = %{x: MapSet.to_list(p1moves), o: MapSet.to_list(p2moves)}
-    Board.render(board, moves)
+  def update_visual(board, %Game{players: %{p1: player1, p2: player2}, token_length: token_length} = game) do
+    player1_moves = MapSet.to_list(game.turns[player1.token])
+    player2_moves = MapSet.to_list(game.turns[player2.token])
+    moves = %{p1: {player1.token, player1_moves}, p2: {player2.token, player2_moves}}
+    Board.render(board, moves, token_length)
   end
 end

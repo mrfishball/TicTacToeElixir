@@ -1,30 +1,31 @@
 defmodule Game do
 
-  @enforce_keys [:players, :turns, :last_player]
+  @enforce_keys [:players, :turns, :last_player, :token_length]
   defstruct @enforce_keys
 
   @board_bound 0..2
-  @valid_tokens [:x, :o]
 
-  def setup(%Player{token: p1token} = player1, %Player{token: p2token} = player2) do
+  def new_game(%Player{token: p1token} = player1,
+            %Player{token: p2token} = player2,
+            token_length) do
+
     %Game{players: %{p1: player1, p2: player2},
-    turns: %{p1token => MapSet.new, p2token => MapSet.new},
-    last_player: :player}
+          turns: %{p1token => MapSet.new, p2token => MapSet.new},
+          last_player: :player,
+          token_length: token_length}
   end
 
-  def play_turn(%Game{turns: turns, last_player: last_player} = state, token, cell) do
+  def play_turn(%Game{turns: turns, last_player: last_player} = state, player, cell) do
     cond do
-      token == last_player ->
+      player.token == last_player ->
         {:error, :not_your_turn}
-      token not in @valid_tokens ->
-        {:error, :invalid_token}
       cell_taken?(turns, cell) ->
         {:error, :cell_taken}
       not in_bounds?(cell) ->
         {:error, :out_of_bounds}
       true ->
-        state = update_in(state.turns[token], &MapSet.put(&1, cell))
-        {:ok, %{state | last_player: token}}
+        state = update_in(state.turns[player.token], &MapSet.put(&1, cell))
+        {:ok, %{state | last_player: player.token}}
     end
   end
 

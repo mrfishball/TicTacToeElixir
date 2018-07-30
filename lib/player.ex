@@ -7,15 +7,15 @@ defmodule Player do
     %Player{name: name, token: token, type: type}
   end
 
-  def human(name, token) do
+  def human({name, token} = _payload) do
     setup(name, token, :human)
   end
 
-  def naive_computer(name, token) do
+  def naive_computer({name, token} = _payload) do
     setup(name, token, :naive_computer)
   end
 
-  def random_computer(name, token) do
+  def random_computer({name, token} = _payload) do
     setup(name, token, :random_computer)
   end
 end

@@ -1,4 +1,4 @@
-defmodule Setup do
+defmodule GameMaker do
   require Integer
 
   def new_game do
@@ -31,7 +31,7 @@ defmodule Setup do
     {left_pad, right_pad} = symbol_paddings(player.token, " ")
 
     game = Game.new_game(player1, player2, String.length(player.token))
-    board = Board.setup(left_pad, right_pad)
+    board = Board.new_board(left_pad, right_pad)
     status = Game.status(game)
     Board.show(board, String.length(player.token))
 

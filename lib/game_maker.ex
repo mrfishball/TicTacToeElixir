@@ -8,7 +8,9 @@ defmodule GameMaker do
   end
 
   def game_menu do
-    input = IO.gets "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: "
+    color_menu = Colorizer.yellow(
+      "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: ")
+    input = IO.gets color_menu
     input
     |> String.trim()
     |> game_mode()
@@ -20,7 +22,7 @@ defmodule GameMaker do
       choice == "2" -> player_vs_computer()
       choice == "3" -> computer_vs_computer()
       true ->
-        IO.puts "\nInvalid entry. Please try again.\n"
+        IO.puts Colorizer.red("\nInvalid entry. Please try again.\n")
         game_menu()
     end
   end
@@ -71,10 +73,10 @@ defmodule GameMaker do
   end
 
   defp computer_type_menu({computer_name, _token} = payload) do
-      IO.puts "Please choose the type of the computer player - '#{computer_name}':\n"
-      IO.puts "1. Naive - ('#{computer_name}' will take the first available spot)"
-      IO.puts "2. Random - ('#{computer_name}' will take an available spot randomly)\n"
-      input = IO.gets "Your choice is (Enter 1 or 2): "
+      IO.puts Colorizer.yellow("Please choose the type of the computer player - '#{computer_name}':\n")
+      IO.puts Colorizer.yellow("1. Naive - ('#{computer_name}' will take the first available spot)")
+      IO.puts Colorizer.yellow("2. Random - ('#{computer_name}' will take an available spot randomly)\n")
+      input = IO.gets Colorizer.yellow("Your choice is (Enter 1 or 2): ")
       input
       |> String.trim()
       |> choose_computer_type(payload)
@@ -85,18 +87,18 @@ defmodule GameMaker do
       choice == "1" -> Player.naive_computer(payload)
       choice == "2" -> Player.random_computer(payload)
       true ->
-        IO.puts "\nInvalid entry. Please try again\n"
+        IO.puts Colorizer.red("\nInvalid entry. Please try again\n")
         computer_type_menu(payload)
     end
   end
 
   def set_player_symbol(player_name) do
-    input = IO.gets "Enter a symbol for player '#{player_name}: "
+    input = IO.gets Colorizer.yellow("Enter a symbol for player '#{player_name}: ")
     symbol = String.trim(input)
     case valid_symbol?(symbol) do
       true -> {player_name, symbol}
       false ->
-        IO.puts "This is not a valid symbol. Please try again.\n"
+        IO.puts Colorizer.red("This is not a valid symbol. Please try again.\n")
         set_player_symbol(player_name)
     end
   end
@@ -124,12 +126,12 @@ defmodule GameMaker do
   end
 
   def set_player_name(player_number) do
-    input = IO.gets "\nPlease enter your name (Player #{player_number}): "
+    input = IO.gets Colorizer.yellow("\nPlease enter your name (Player #{player_number}): ")
     name = String.trim(input)
     case valid_name?(name) do
       true -> name
       false ->
-        IO.puts "This is not a valid name. Please try again.\n"
+        IO.puts Colorizer.red("This is not a valid name. Please try again.\n")
         set_player_name(player_number)
     end
   end

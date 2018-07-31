@@ -43,7 +43,7 @@ defmodule TTT do
       turn = switch_turn(game, token)
       play(board, game, status, turn)
     else
-      {:error, error} -> IO.puts "\nInvalid move: #{error}. Please try again. \n"
+      {:error, error} -> IO.puts Colorizer.red("\nInvalid move: #{error}. Please try again. \n")
       status = Game.status(game)
       play(board, game, status, turn)
     end
@@ -90,7 +90,7 @@ defmodule TTT do
     case valid_input?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
-        IO.puts "\nInvalid move. Please try again.\n"
+        IO.puts Colorizer.red("\nInvalid move. Please try again.\n")
         get_move_input(turn)
     end
   end

@@ -42,7 +42,7 @@ defmodule BoardTest do
 
   test "Update the board's visual on a valid moves in CLI" do
     board = Board.new_board("", "")
-    moves = %{p1: {"x", [{0, 0}, {2, 1}, {1, 2}]}, p2: {"o", [{1, 0}, {1, 1}, {2, 2}]}}
+    moves = %{player_one: {"x", [{0, 0}, {2, 1}, {1, 2}]}, player_two: {"o", [{1, 0}, {1, 1}, {2, 2}]}}
     assert capture_io(fn ->
       Board.render(board, moves, 1) end) ==
         "\n\n x | o | 3\n-----------\n 4 | o | x\n-----------\n 7 | x | o\n\n\n"

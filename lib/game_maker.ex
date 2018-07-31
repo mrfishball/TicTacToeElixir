@@ -27,33 +27,33 @@ defmodule GameMaker do
 
   def start(players) do
     player = longest_token_player(players)
-    {player1, player2} = add_paddings(player, players)
+    {player_one, player_two} = add_paddings(player, players)
     {left_pad, right_pad} = symbol_paddings(player.token, " ")
 
-    game = Game.new_game(player1, player2, String.length(player.token))
+    game = Game.new_game(player_one, player_two, String.length(player.token))
     board = Board.new_board(left_pad, right_pad)
     status = Game.status(game)
     Board.show(board, String.length(player.token))
 
-    TTT.play(board, game, status, player1)
+    TTT.play(board, game, status, player_one)
   end
 
   def player_vs_player do
-    player1 = set_human_player(1)
-    player2 = set_human_player(2)
-    {player1, player2}
+    player_one = set_human_player(1)
+    player_two = set_human_player(2)
+    {player_one, player_two}
   end
 
   def player_vs_computer do
-    player1 = set_human_player(1)
-    player2 = set_computer_player(2)
-    {player1, player2}
+    player_one = set_human_player(1)
+    player_two = set_computer_player(2)
+    {player_one, player_two}
   end
 
   def computer_vs_computer do
-    player1 = set_computer_player(1)
-    player2 = set_computer_player(2)
-    {player1, player2}
+    player_one = set_computer_player(1)
+    player_two = set_computer_player(2)
+    {player_one, player_two}
   end
 
   def set_human_player(player_number) do
@@ -101,16 +101,16 @@ defmodule GameMaker do
     end
   end
 
-  def add_paddings(player, {player1, player2} = _players) do
+  def add_paddings(player, {player_one, player_two} = _players) do
     cond do
-      player != player1 ->
-        {left_side, right_side} = symbol_paddings(player.token, player1.token)
-        player1 = %Player{player1 | token: "#{left_side <> player1.token <> right_side}"}
-        {player1, player2}
-      player != player2 ->
-        {left_side, right_side} = symbol_paddings(player.token, player2.token)
-        player2 = %Player{player2 | token: "#{left_side <> player2.token <> right_side}"}
-        {player1, player2}
+      player != player_one ->
+        {left_side, right_side} = symbol_paddings(player.token, player_one.token)
+        player_one = %Player{player_one | token: "#{left_side <> player_one.token <> right_side}"}
+        {player_one, player_two}
+      player != player_two ->
+        {left_side, right_side} = symbol_paddings(player.token, player_two.token)
+        player_two = %Player{player_two | token: "#{left_side <> player_two.token <> right_side}"}
+        {player_one, player_two}
     end
   end
 
@@ -134,11 +134,11 @@ defmodule GameMaker do
     end
   end
 
-  def longest_token_player({player1, player2} = _players) do
-    if String.length(player1.token) >= String.length(player2.token) do
-      player1
+  def longest_token_player({player_one, player_two} = _players) do
+    if String.length(player_one.token) >= String.length(player_two.token) do
+      player_one
     else
-      player2
+      player_two
     end
   end
 

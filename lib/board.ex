@@ -30,10 +30,11 @@ defmodule Board do
     "\n" <> str <> "\n"
   end
 
-  def render(board, %{p1: {p1token, p1moves}, p2: {p2token, p2moves}} = _moves, token_length) do
+  def render(board, %{player_one: {player_one_token, player_one_moves},
+                      player_two: {player_two_token, player_two_moves}} = _moves, token_length) do
     board
-    |> register_move(p1moves, p1token)
-    |> register_move(p2moves, p2token)
+    |> register_move(player_one_moves, Colorizer.cyan(player_one_token))
+    |> register_move(player_two_moves, Colorizer.green(player_two_token))
     |> show(token_length)
   end
 end

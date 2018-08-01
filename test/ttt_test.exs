@@ -86,7 +86,7 @@ defmodule TTTTest do
     game = TestHelpers.simulate_moves(game, player_two, moves, 0)
 
     assert capture_io(fn -> TTT.update_visual(board, game) end) ==
-      "\n\n o | o | o\n-----------\n 4 | x | x\n-----------\n 7 | 8 | 9\n\n\n"
+      "\n\n \e[32mo\e[0m | \e[32mo\e[0m | \e[32mo\e[0m\n-----------\n 4 | \e[36mx\e[0m | \e[36mx\e[0m\n-----------\n 7 | 8 | 9\n\n\n"
   end
 
   test "Naive computer player will always take the next open spot following opponent's move if there are no preceding spots" do

@@ -5,12 +5,12 @@ defmodule Game do
 
   @board_bound 0..2
 
-  def new_game(%Player{token: p1token} = player1,
-            %Player{token: p2token} = player2,
+  def new_game(%Player{token: player_one_token} = player_one,
+            %Player{token: player_two_token} = player_two,
             token_length) do
 
-    %Game{players: %{p1: player1, p2: player2},
-          turns: %{p1token => MapSet.new, p2token => MapSet.new},
+    %Game{players: %{player_one: player_one, player_two: player_two},
+          turns: %{player_one_token => MapSet.new, player_two_token => MapSet.new},
           last_player: :player,
           token_length: token_length}
   end
@@ -76,10 +76,10 @@ defmodule Game do
 
   def status(%Game{players: players, turns: turns}) do
     cond do
-      player_won?(turns[players.p1.token]) ->
-        {:ended, {:winner, players.p1.name}}
-      player_won?(turns[players.p2.token]) ->
-        {:ended, {:winner, players.p2.name}}
+      player_won?(turns[players.player_one.token]) ->
+        {:ended, {:winner, players.player_one.name}}
+      player_won?(turns[players.player_two.token]) ->
+        {:ended, {:winner, players.player_two.name}}
       draw?(turns) -> {:ended, :draw}
       true ->
         :underway

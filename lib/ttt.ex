@@ -86,7 +86,7 @@ defmodule TTT do
   end
 
   def get_move_input(%Player{name: name, token: token} = turn) do
-    move = IO.gets "#{name} - '#{token}', please enter a number from 1 to 9 only: "
+    move = IO.gets "#{name} - '#{String.trim(token)}', please enter a number from 1 to 9 only: "
     case valid_input?(move) do
       true -> String.to_integer(String.trim(move))
       false ->

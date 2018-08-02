@@ -119,4 +119,10 @@ defmodule TTTTest do
 
     assert TTT.generate_random_move(game) == {2, 2}
   end
+
+  test "player token is displayed without any whitespaces" do
+    player = Player.human({"Steven", "  wewe  "})
+    assert capture_io("1", fn -> TTT.get_move_input(player) end) ==
+      "Steven - 'wewe', please enter a number from 1 to 9 only: "
+  end
 end

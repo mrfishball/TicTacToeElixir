@@ -94,9 +94,8 @@ defmodule GameMaker do
 
   def set_player_symbol(player_name) do
     input = IO.gets Colorizer.yellow("Enter a symbol for player '#{player_name}: ")
-    symbol = String.trim(input)
-    case valid_symbol?(symbol) do
-      true -> {player_name, symbol}
+    case valid_symbol?(input) do
+      true -> {player_name, String.trim(input)}
       false ->
         IO.puts Colorizer.red("This is not a valid symbol. Please try again.\n")
         set_player_symbol(player_name)
@@ -145,10 +144,10 @@ defmodule GameMaker do
   end
 
   def valid_symbol?(symbol) do
-    if String.length(symbol) < 1 do
+    if String.length(String.trim(symbol)) < 1 do
       false
     else
-      Regex.match?(~r/^[a-zA-Z&.\-]*$/, symbol)
+      true
     end
   end
 

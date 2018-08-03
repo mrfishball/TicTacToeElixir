@@ -2,7 +2,7 @@ defmodule GameMakerTest do
   use ExUnit.Case
 
   test "A string with only whitespaces is not a valid name" do
-    assert GameMaker.valid_name?(String.trim("  ")) == false
+    assert GameMaker.valid_name?("  ") == false
   end
 
   test "An empty string is not a valid name" do

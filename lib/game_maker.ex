@@ -144,14 +144,10 @@ defmodule GameMaker do
   end
 
   def valid_symbol?(symbol) do
-    if String.length(String.trim(symbol)) < 1 do
-      false
-    else
-      true
-    end
+    String.length(String.trim(symbol)) >= 1
   end
 
   def valid_name?(name) do
-    name != ""
+    String.trim(name) != ""
   end
 end

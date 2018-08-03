@@ -56,14 +56,14 @@ defmodule GameMakerTest do
     assert GameMaker.valid_symbol?(symbol2) == false
   end
 
-  test "A string of numbers will not be a valid symbol" do
+  test "A string of numbers will be a valid symbol" do
     symbol = "  1234  "
-    assert GameMaker.valid_symbol?(symbol) == false
+    assert GameMaker.valid_symbol?(symbol) == true
   end
 
-  test "A string of special characters is not a valid symbol" do
+  test "A string of special characters is a valid symbol" do
     symbol = "*&^())"
-    assert GameMaker.valid_symbol?(symbol) == false
+    assert GameMaker.valid_symbol?(symbol) == true
   end
 
   test "The player with the longest token will be returned" do

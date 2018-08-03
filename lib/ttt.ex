@@ -85,14 +85,18 @@ defmodule TTT do
     Regex.match?(~r/^[1-9]{1}$/, String.trim(input))
   end
 
-  def get_move_input(%Player{name: name, token: token} = turn) do
-    move = IO.gets "#{name} - '#{token}', please enter a number from 1 to 9 only: "
+  def get_move_input(turn) do
+    move = IO.gets display_output(turn)
     case valid_input?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
         IO.puts Colorizer.red("\nInvalid move. Please try again.\n")
         get_move_input(turn)
     end
+  end
+
+  def display_output(%Player{name: name, token: token} = _payload) do
+    "#{name} - '#{String.trim(token)}', please enter a number from 1 to 9 only: "
   end
 
   def match_input(move) do

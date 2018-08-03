@@ -44,11 +44,6 @@ defmodule GameMakerTest do
     assert GameMaker.valid_symbol?(symbol3) == true
   end
 
-  test "Spaces around a valid symbol is not allowed" do
-    symbol = "   asdfegr "
-    assert GameMaker.valid_symbol?(symbol) == false
-  end
-
   test "Empty spaces and string are not valid symbols" do
     symbol = ""
     symbol2 = "   "
@@ -57,13 +52,22 @@ defmodule GameMakerTest do
   end
 
   test "A string of numbers will be a valid symbol" do
-    symbol = "  1234  "
+    symbol = "1234"
     assert GameMaker.valid_symbol?(symbol) == true
   end
 
   test "A string of special characters is a valid symbol" do
     symbol = "*&^())"
     assert GameMaker.valid_symbol?(symbol) == true
+  end
+
+  test "Spaces around a valid symbol is allowed" do
+    symbol = "   asdfegr "
+    symbol2 = "  1234  "
+    symbol3 = "  *&^())"
+    assert GameMaker.valid_symbol?(symbol) == true
+    assert GameMaker.valid_symbol?(symbol2) == true
+    assert GameMaker.valid_symbol?(symbol3) == true
   end
 
   test "The player with the longest token will be returned" do

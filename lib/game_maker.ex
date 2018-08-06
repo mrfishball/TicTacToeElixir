@@ -1,17 +1,14 @@
 defmodule GameMaker do
   require Integer
 
-  def new_game do
-    IO.puts "Let's play Tic Tac Toe!\n"
+  def new_game() do
     game_menu()
     |> start()
   end
 
-  def game_menu do
-    color_menu = Colorizer.yellow(
-      "Please select a game mode: \n\n1. Player vs. Player\n2. Player vs. Computer\n3. Spectate a game\n\nYour choice is: ")
-    input = IO.gets color_menu
-    input
+  def game_menu() do
+    Adapter.output(Messages.game_menu())
+    Adapter.input(Messages.choice())
     |> String.trim()
     |> game_mode()
   end
@@ -19,10 +16,10 @@ defmodule GameMaker do
   def game_mode(choice) do
     cond do
       choice == "1" -> player_vs_player()
-      choice == "2" -> player_vs_computer()
-      choice == "3" -> computer_vs_computer()
+      # choice == "2" -> player_vs_computer()
+      # choice == "3" -> computer_vs_computer()
       true ->
-        IO.puts Colorizer.red("\nInvalid entry. Please try again.\n")
+        Adapter.output(Messages.error())
         game_menu()
     end
   end
@@ -73,11 +70,8 @@ defmodule GameMaker do
   end
 
   defp computer_type_menu({computer_name, _token} = payload) do
-      IO.puts Colorizer.yellow("Please choose the type of the computer player - '#{computer_name}':\n")
-      IO.puts Colorizer.yellow("1. Naive - ('#{computer_name}' will take the first available spot)")
-      IO.puts Colorizer.yellow("2. Random - ('#{computer_name}' will take an available spot randomly)\n")
-      input = IO.gets Colorizer.yellow("Your choice is (Enter 1 or 2): ")
-      input
+      Adapter.out(Messages.computer_choice_menu(computer_name))
+      Adapter.input(Messages.choice())
       |> String.trim()
       |> choose_computer_type(payload)
   end
@@ -87,17 +81,28 @@ defmodule GameMaker do
       choice == "1" -> Player.naive_computer(payload)
       choice == "2" -> Player.random_computer(payload)
       true ->
-        IO.puts Colorizer.red("\nInvalid entry. Please try again\n")
+        Adapter.output(Messages.error())
         computer_type_menu(payload)
     end
   end
 
+  def set_player_name(player_number) do
+    input = Adapter.input(Messages.player_name(player_number))
+    name = String.trim(input)
+    case valid_name?(name) do
+      true -> name
+      false ->
+        Adapter.output(Messages.error())
+        set_player_name(player_number)
+    end
+  end
+
   def set_player_symbol(player_name) do
-    input = IO.gets Colorizer.yellow("Enter a symbol for player '#{player_name}: ")
+    input = Adapter.input(Messages.player_symbol(player_name))
     case valid_symbol?(input) do
       true -> {player_name, String.trim(input)}
       false ->
-        IO.puts Colorizer.red("This is not a valid symbol. Please try again.\n")
+        Adapter.output(Messages.error())
         set_player_symbol(player_name)
     end
   end
@@ -122,17 +127,6 @@ defmodule GameMaker do
     left_side = String.duplicate(" ", side + extra_padding)
     right_side = String.duplicate(" ", side)
     {left_side, right_side}
-  end
-
-  def set_player_name(player_number) do
-    input = IO.gets Colorizer.yellow("\nPlease enter your name (Player #{player_number}): ")
-    name = String.trim(input)
-    case valid_name?(name) do
-      true -> name
-      false ->
-        IO.puts Colorizer.red("This is not a valid name. Please try again.\n")
-        set_player_name(player_number)
-    end
   end
 
   def longest_token_player({player_one, player_two} = _players) do

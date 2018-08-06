@@ -1,29 +1,36 @@
 defmodule Messages do
 
-  @enforce_keys [:title, :choice, :error, :game_menu, :computer_choice_menu]
-  defstruct @enforce_keys
-
-  def new_messages do
-    game_menu = game_menu()
-    computer_choice_menu = computer_choice_menu()
-    %Messages{title: "Let's play Tic Tac Toe!\n\n",
-             choice: "Your choice is ",
-              error: "\nInvalid entry. Please try again.\n",
-          game_menu: game_menu,
-          computer_choice_menu: computer_choice_menu}
+  def title do
+    "Let's play Tic Tac Toe!\n\n"
   end
 
-  defp game_menu do
+  def error do
+    "\nInvalid entry. Please try again.\n"
+  end
+
+  def choice do
+    "Your choice is "
+  end
+
+  def player_name(player_number) do
+    "What is your name? (Player #{player_number}): "
+  end
+
+  def player_symbol(player_name) do
+    "What do you want your token to be, #{player_name}?: "
+  end
+
+  def game_menu do
     "Let's play Tic Tac Toe!\n\n" <>
-    "Please select a game mode (Enter a number from 1 to 3)\n\n" <>
+    "Select a game mode (Enter a number from 1 to 3)\n\n" <>
     "1. Player vs. Player\n" <>
     "2. Player vs. Computer\n" <>
     "3. Spectate a game\n\n"
   end
 
-  defp computer_choice_menu do
-    "Please choose the type of the computer player (Enter a number from 1 to 2)\n" <>
-    "1. Naive - (Computer player will take the first available spot)\n" <>
-    "2. Random - (will take an available spot randomly)\n\n"
+  def computer_choice_menu(computer_name) do
+    "Choose the type of the computer player for #{computer_name} (Enter a number from 1 to 2)\n" <>
+    "1. Naive - (#{computer_name} will take the first available spot)\n" <>
+    "2. Random - (#{computer_name} will take an available spot randomly)\n\n"
   end
 end

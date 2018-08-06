@@ -16,8 +16,8 @@ defmodule GameMaker do
   def game_mode(choice) do
     cond do
       choice == "1" -> player_vs_player()
-      # choice == "2" -> player_vs_computer()
-      # choice == "3" -> computer_vs_computer()
+      choice == "2" -> player_vs_computer()
+      choice == "3" -> computer_vs_computer()
       true ->
         Adapter.output(Messages.error())
         game_menu()
@@ -70,7 +70,7 @@ defmodule GameMaker do
   end
 
   defp computer_type_menu({computer_name, _token} = payload) do
-      Adapter.out(Messages.computer_choice_menu(computer_name))
+      Adapter.output(Messages.computer_choice_menu(computer_name))
       Adapter.input(Messages.choice())
       |> String.trim()
       |> choose_computer_type(payload)

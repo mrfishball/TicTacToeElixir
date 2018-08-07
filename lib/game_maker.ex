@@ -19,7 +19,7 @@ defmodule GameMaker do
       choice == "2" -> player_vs_computer()
       choice == "3" -> computer_vs_computer()
       true ->
-        Adapter.output(Messages.error())
+        Adapter.output(Messages.invalid_entry())
         game_menu()
     end
   end
@@ -81,7 +81,7 @@ defmodule GameMaker do
       choice == "1" -> Player.naive_computer(payload)
       choice == "2" -> Player.random_computer(payload)
       true ->
-        Adapter.output(Messages.error())
+        Adapter.output(Messages.invalid_entry())
         computer_type_menu(payload)
     end
   end
@@ -92,7 +92,7 @@ defmodule GameMaker do
     case valid_name?(name) do
       true -> name
       false ->
-        Adapter.output(Messages.error())
+        Adapter.output(Messages.invalid_entry())
         set_player_name(player_number)
     end
   end
@@ -102,7 +102,7 @@ defmodule GameMaker do
     case valid_symbol?(input) do
       true -> {player_name, String.trim(input)}
       false ->
-        Adapter.output(Messages.error())
+        Adapter.output(Messages.invalid_entry())
         set_player_symbol(player_name)
     end
   end

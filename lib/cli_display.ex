@@ -2,10 +2,9 @@ defmodule CLIdisplay do
 
   def output({type, message} = _payload) do
     case type do
-      :menu -> IO.puts Colorizer.yellow(message)
-      :error -> IO.puts Colorizer.red(message)
-      :status -> IO.puts message
-      :request -> IO.puts message
+      :menu -> output(Colorizer.yellow(message))
+      :error -> output(Colorizer.red(message))
+      :status -> output(Colorizer.yellow(message))
     end
   end
 
@@ -13,8 +12,14 @@ defmodule CLIdisplay do
     IO.puts "#{payload}"
   end
 
-  def input({_type, message} = _payload) do
-    input = IO.gets message
+  def input({type, message} = _payload) do
+    case type do
+      :request -> input(Colorizer.yellow(message))
+    end
+  end
+
+  def input(payload) do
+    input = IO.gets payload
     input
   end
 end

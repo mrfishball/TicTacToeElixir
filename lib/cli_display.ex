@@ -3,8 +3,8 @@ defmodule CLIdisplay do
   def output({type, message} = _payload) do
     case type do
       :menu -> output(Colorizer.yellow(message))
-      :error -> output(Colorizer.red(message))
       :status -> output(Colorizer.yellow(message))
+      :error -> output(Colorizer.red(message))
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule Adapter do
+defmodule InfoRelayAdapter do
 
   def input(payload, source \\ &CLIdisplay.input/1) do
     source.(payload)

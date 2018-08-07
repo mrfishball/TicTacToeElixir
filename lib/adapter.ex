@@ -1,10 +1,10 @@
 defmodule Adapter do
 
-  def input(payload, medium \\ &CLIdisplay.input/1) do
-    medium.(payload)
+  def input(payload, source \\ &CLIdisplay.input/1) do
+    source.(payload)
   end
 
-  def output(payload, medium \\ &CLIdisplay.output/1) do
-    medium.(payload)
+  def output(payload, source \\ &CLIdisplay.output/1) do
+    source.(payload)
   end
 end

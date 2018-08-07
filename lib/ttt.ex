@@ -28,12 +28,12 @@ defmodule TTT do
       make_a_play(board, game, status, turn)
   end
 
-  def play(_board, _game, {_progress, {outcome, person}} = status, _turn) when status != :underway do
-    IO.puts "Game over!\nThe #{outcome} is #{person}!"
+  def play(_board, _game, {_progress, {outcome, winner}} = status, _turn) when status != :underway do
+    Adapter.output(Messages.game_status(outcome, winner))
   end
 
   def play(_board, _game, {_progress, outcome} = status, _turn) when status != :underway do
-    IO.puts "Game over!\nIt's a #{outcome}!"
+    Adapter.output(Messages.game_status(outcome))
   end
 
   def make_a_move(move, board, game, %Player{name: _name, token: token, type: _type} = turn) do
@@ -43,13 +43,14 @@ defmodule TTT do
       turn = switch_turn(game, token)
       play(board, game, status, turn)
     else
-      {:error, error} -> IO.puts Colorizer.red("\nInvalid move: #{error}. Please try again. \n")
+      {:error, error} -> Adapter.output(Messages.invalid_move(error))
       status = Game.status(game)
       play(board, game, status, turn)
     end
   end
 
-  def generate_naive_move(%Game{players: %{player_one: player_one, player_two: player_two}} = game, starting_move) do
+  def generate_naive_move(%Game{players: %{player_one: player_one,
+                                           player_two: player_two}} = game, starting_move) do
     move = match_input(starting_move)
     cond do
       MapSet.member?(game.turns[player_one.token], move) or
@@ -61,7 +62,8 @@ defmodule TTT do
     end
   end
 
-  def generate_random_move(%Game{players: %{player_one: player_one, player_two: player_two}} = game) do
+  def generate_random_move(%Game{players: %{player_one: player_one,
+                                            player_two: player_two}} = game) do
     random_input = :rand.uniform(9)
     move = match_input(random_input)
     cond do
@@ -73,7 +75,8 @@ defmodule TTT do
     end
   end
 
-  def switch_turn(%Game{players: %{player_one: player_one, player_two: player_two}} = _game, last_player) do
+  def switch_turn(%Game{players: %{player_one: player_one,
+                                   player_two: player_two}} = _game, last_player) do
     if last_player == player_one.token do
       player_two
     else
@@ -85,18 +88,14 @@ defmodule TTT do
     Regex.match?(~r/^[1-9]{1}$/, String.trim(input))
   end
 
-  def get_move_input(turn) do
-    move = IO.gets display_output(turn)
+  def get_move_input(%Player{name: name, token: token} = payload) do
+    move = Adapter.input(Messages.make_a_move(name, token))
     case valid_input?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
-        IO.puts Colorizer.red("\nInvalid move. Please try again.\n")
-        get_move_input(turn)
+        Adapter.output(Messages.invalid_move())
+        get_move_input(payload)
     end
-  end
-
-  def display_output(%Player{name: name, token: token} = _payload) do
-    "#{name} - '#{String.trim(token)}', please enter a number from 1 to 9 only: "
   end
 
   def match_input(move) do

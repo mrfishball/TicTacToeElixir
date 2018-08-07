@@ -8,7 +8,8 @@ defmodule GameMaker do
 
   def game_menu() do
     Adapter.output(Messages.game_menu())
-    Adapter.input(Messages.choice())
+    Messages.choice()
+    |> Adapter.input()
     |> String.trim()
     |> game_mode()
   end
@@ -71,7 +72,8 @@ defmodule GameMaker do
 
   defp computer_type_menu({computer_name, _token} = payload) do
       Adapter.output(Messages.computer_choice_menu(computer_name))
-      Adapter.input(Messages.choice())
+      Messages.choice()
+      |> Adapter.input()
       |> String.trim()
       |> choose_computer_type(payload)
   end

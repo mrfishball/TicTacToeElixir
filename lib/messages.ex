@@ -9,7 +9,7 @@ defmodule Messages do
     {@menu, "Let's play Tic Tac Toe!\n\n"}
   end
 
-  def choice do
+  def select do
     {@request, "Your choice is "}
   end
 

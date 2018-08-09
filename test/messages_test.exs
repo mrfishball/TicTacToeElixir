@@ -17,7 +17,7 @@ defmodule MessagesTest do
   end
 
   test "menu selection output will have a type of request" do
-    {type, _message} = Messages.choice
+    {type, _message} = Messages.select
     assert type == :request
   end
 

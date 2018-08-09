@@ -42,6 +42,19 @@ then, simply double click on the new executable file named "ttt" or run:
 ./ttt
 ```
 
+If you are getting warnings during the build process, follow these steps to update the dependencies in order to remove the warnings.
+
+```sh
+rm -rf _build
+```
+follow by
+
+```sh
+mix deps.update --all
+```
+
+then the script in compile step above
+
 ## Tests
 
 Simply run:

@@ -138,6 +138,7 @@ defmodule GameMaker do
   end
 
   def valid_symbol_or_name?(input) do
+    input = String.trim(input)
     String.length(input) >= 1
   end
 end

@@ -45,6 +45,10 @@ defmodule Messages do
     {@error, "\nInvalid entry. Please try again.\n"}
   end
 
+  def symbol_taken_error(token) do
+    {@error, "\n The token '#{token}' is taken. Please enter a different token: "}
+  end
+
   def game_menu do
     {@menu, "Let's play Tic Tac Toe!\n\n" <>
     "Select a game mode (Enter a number from 1 to 3)\n\n" <>

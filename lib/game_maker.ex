@@ -7,9 +7,9 @@ defmodule GameMaker do
   end
 
   def game_menu() do
-    InputOutput.output(Messages.game_menu())
+    IO.output(Messages.game_menu, MessageFlags.menu)
     Messages.select()
-    |> InputOutput.input()
+    |> IO.input(MessageFlags.request)
     |> game_mode()
   end
 
@@ -19,7 +19,7 @@ defmodule GameMaker do
       choice == "2" -> player_vs_computer()
       choice == "3" -> computer_vs_computer()
       true ->
-        InputOutput.output(Messages.invalid_entry())
+        IO.output(Messages.invalid_entry, MessageFlags.error)
         game_menu()
     end
   end
@@ -70,9 +70,9 @@ defmodule GameMaker do
   end
 
   defp computer_type_menu({computer_name, _token} = payload) do
-      InputOutput.output(Messages.computer_choice_menu(computer_name))
+      IO.output(Messages.computer_choice_menu(computer_name), MessageFlags.menu)
       Messages.select()
-      |> InputOutput.input()
+      |> IO.input(MessageFlags.request)
       |> choose_computer_type(payload)
   end
 
@@ -81,27 +81,27 @@ defmodule GameMaker do
       choice == "1" -> Player.naive_computer(payload)
       choice == "2" -> Player.random_computer(payload)
       true ->
-        InputOutput.output(Messages.invalid_entry())
+        IO.output(Messages.invalid_entry, MessageFlags.error)
         computer_type_menu(payload)
     end
   end
 
   def set_player_name(player_number) do
-    input = InputOutput.input(Messages.player_name(player_number))
+    input = IO.input(Messages.player_name(player_number), MessageFlags.request)
     case !empty_input?(input) do
       true -> input
       false ->
-        InputOutput.output(Messages.invalid_entry())
+        IO.output(Messages.invalid_entry, MessageFlags.error)
         set_player_name(player_number)
     end
   end
 
   def set_player_symbol(player_name) do
-    input = InputOutput.input(Messages.player_symbol(player_name))
+    input = IO.input(Messages.player_symbol(player_name), MessageFlags.request)
     case !empty_input?(input) do
       true -> {player_name, input}
       false ->
-        InputOutput.output(Messages.invalid_entry())
+        IO.output(Messages.invalid_entry, MessageFlags.error)
         set_player_symbol(player_name)
     end
   end

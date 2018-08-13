@@ -1,6 +1,6 @@
 defmodule Cli do
 
-  def output({type, message} = _payload) do
+  def output(message, type) do
     case type do
       :menu -> output(Colorizer.yellow(message))
       :status -> output(Colorizer.yellow(message))
@@ -8,18 +8,18 @@ defmodule Cli do
     end
   end
 
-  def output(payload) do
-    IO.puts "#{payload}"
+  def output(message) do
+    IO.puts message
   end
 
-  def input({type, message} = _payload) do
+  def input(message, type) do
     case type do
       :request -> input(Colorizer.yellow(message))
     end
   end
 
-  def input(payload) do
-    input = IO.gets payload
+  def input(message) do
+    input = IO.gets message
     String.trim(input)
   end
 end

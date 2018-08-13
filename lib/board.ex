@@ -12,7 +12,8 @@ defmodule Board do
   end
 
   def show(board, token_length) do
-    InputOutput.output("\n")
+    # InputOutput.output("\n")
+    IO.puts "\n"
     line = draw_line(token_length)
     for row <- @board_bounds do
       for col <- @board_bounds do
@@ -21,8 +22,10 @@ defmodule Board do
       |> Enum.join(" |")
     end
     |> Enum.join(line)
-    |> InputOutput.output()
-    InputOutput.output("\n")
+    # |> InputOutput.output()
+    |> IO.puts()
+    # InputOutput.output("\n")
+    IO.puts "\n"
   end
 
   def draw_line(length) do

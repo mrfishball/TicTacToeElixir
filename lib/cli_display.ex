@@ -1,4 +1,4 @@
-defmodule CLIdisplay do
+defmodule Cli do
 
   def output({type, message} = _payload) do
     case type do

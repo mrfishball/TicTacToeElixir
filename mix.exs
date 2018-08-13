@@ -29,7 +29,6 @@ defmodule TTT.MixProject do
 
   defp package do
     [
-    files: ["lib", "mix.exs", "README*", "LICENSE*"],
     maintainers: ["Steven Kwok"],
     licenses: ["MIT"],
     links: %{"GitHub" => "https://github.com/mrfishball/TicTacToeElixir"}

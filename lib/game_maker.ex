@@ -10,7 +10,6 @@ defmodule GameMaker do
     InputOutput.output(Messages.game_menu())
     Messages.select()
     |> InputOutput.input()
-    |> String.trim()
     |> game_mode()
   end
 
@@ -74,7 +73,6 @@ defmodule GameMaker do
       InputOutput.output(Messages.computer_choice_menu(computer_name))
       Messages.select()
       |> InputOutput.input()
-      |> String.trim()
       |> choose_computer_type(payload)
   end
 
@@ -90,9 +88,8 @@ defmodule GameMaker do
 
   def set_player_name(player_number) do
     input = InputOutput.input(Messages.player_name(player_number))
-    name = String.trim(input)
-    case valid_name?(name) do
-      true -> name
+    case empty_input?(input) do
+      true -> input
       false ->
         InputOutput.output(Messages.invalid_entry())
         set_player_name(player_number)
@@ -101,8 +98,8 @@ defmodule GameMaker do
 
   def set_player_symbol(player_name) do
     input = InputOutput.input(Messages.player_symbol(player_name))
-    case valid_symbol?(input) do
-      true -> {player_name, String.trim(input)}
+    case empty_input?(input) do
+      true -> {player_name, input}
       false ->
         InputOutput.output(Messages.invalid_entry())
         set_player_symbol(player_name)
@@ -139,11 +136,8 @@ defmodule GameMaker do
     end
   end
 
-  def valid_symbol?(symbol) do
-    String.length(String.trim(symbol)) >= 1
-  end
-
-  def valid_name?(name) do
-    String.trim(name) != ""
+  def empty_input?(input) do
+    input = String.trim(input)
+    String.length(input) < 1
   end
 end

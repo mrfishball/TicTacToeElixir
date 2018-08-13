@@ -19,7 +19,7 @@ defmodule CliTest do
 
   test "request message will be yellow" do
     {type, message} = {:request, "this is a request"}
-    assert capture_io(fn -> Cli.input({type, message}) end) == "\e[33mthis is a request\e[0m"
+    assert capture_io(" ", fn -> Cli.input({type, message}) end) == "\e[33mthis is a request\e[0m"
   end
 
   test "message with no type field will be of default color" do
@@ -29,6 +29,6 @@ defmodule CliTest do
 
   test "reuest with no type field will be of default color" do
     payload = "this is just a request"
-    assert capture_io(fn -> Cli.input(payload) end) == "this is just a request"
+    assert capture_io(" ", fn -> Cli.input(payload) end) == "this is just a request"
   end
 end

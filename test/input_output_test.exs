@@ -9,6 +9,6 @@ defmodule InputOutputTest do
 
   test "adapter relays requests to input source" do
     request = "How are you?"
-    assert capture_io("", fn -> InputOutput.input(request) end) == "How are you?"
+    assert capture_io(" ", fn -> InputOutput.input(request) end) == "How are you?"
   end
 end

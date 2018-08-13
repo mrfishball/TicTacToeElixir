@@ -19,7 +19,7 @@ defmodule CLIdisplay do
   end
 
   def input(payload) do
-    IO.gets payload
-    |> String.trim()
+    input = IO.gets payload
+    input
   end
 end

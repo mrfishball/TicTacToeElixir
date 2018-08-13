@@ -7,6 +7,8 @@ defmodule TTT.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      description: description(),
+      package: package(),
       deps: deps(),
       escript: [main_module: TTT],
     ]
@@ -17,6 +19,21 @@ defmodule TTT.MixProject do
     [
       extra_applications: [:logger]
     ]
+  end
+
+  defp description do
+    """
+    Library for build/playing a Tic Tac Toe game.
+    """
+  end
+
+  defp package do
+    [
+    files: ["lib", "mix.exs", "README*", "LICENSE*"],
+    maintainers: ["Steven Kwok"],
+    licenses: ["MIT"],
+    links: %{"GitHub" => "https://github.com/mrfishball/TicTacToeElixir"}
+  ]
   end
 
   # Run "mix help deps" to learn about dependencies.

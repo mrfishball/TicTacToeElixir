@@ -88,7 +88,7 @@ defmodule GameMaker do
 
   def set_player_name(player_number) do
     input = InputOutput.input(Messages.player_name(player_number))
-    case empty_input?(input) do
+    case !empty_input?(input) do
       true -> input
       false ->
         InputOutput.output(Messages.invalid_entry())
@@ -98,7 +98,7 @@ defmodule GameMaker do
 
   def set_player_symbol(player_name) do
     input = InputOutput.input(Messages.player_symbol(player_name))
-    case empty_input?(input) do
+    case !empty_input?(input) do
       true -> {player_name, input}
       false ->
         InputOutput.output(Messages.invalid_entry())

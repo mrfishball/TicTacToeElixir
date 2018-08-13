@@ -20,6 +20,6 @@ defmodule Cli do
 
   def input(payload) do
     input = IO.gets payload
-    input
+    String.trim(input)
   end
 end

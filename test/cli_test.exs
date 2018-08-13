@@ -27,7 +27,7 @@ defmodule CliTest do
     assert capture_io(fn -> Cli.output(payload) end) == "this is just a message\n"
   end
 
-  test "reuest with no type field will be of default color" do
+  test "request with no type field will be of default color" do
     payload = "this is just a request"
     assert capture_io(fn -> Cli.input(payload) end) == "this is just a request"
   end

@@ -1,25 +1,22 @@
 defmodule Cli do
 
-  def output(message, type) do
+  def output(message, type \\ None) do
     case type do
-      :menu -> output(Colorizer.yellow(message))
-      :status -> output(Colorizer.yellow(message))
-      :error -> output(Colorizer.red(message))
+      :menu -> IO.puts(Colorizer.yellow(message))
+      :status -> IO.puts(Colorizer.yellow(message))
+      :error -> IO.puts(Colorizer.red(message))
+      None -> IO.puts(message)
     end
   end
 
-  def output(message) do
-    IO.puts message
-  end
-
-  def input(message, type) do
+  def input(message, type \\ None) do
     case type do
-      :request -> input(Colorizer.yellow(message))
+      :request ->
+        input = IO.gets(Colorizer.yellow(message))
+        String.trim(input)
+      None ->
+        input = IO.gets(message)
+        String.trim(input)
     end
-  end
-
-  def input(message) do
-    input = IO.gets message
-    String.trim(input)
   end
 end

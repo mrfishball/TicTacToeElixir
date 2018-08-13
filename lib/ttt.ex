@@ -29,11 +29,11 @@ defmodule TTT do
   end
 
   def play(_board, _game, {_progress, {outcome, winner}} = status, _turn) when status != :underway do
-    MessageAdapter.output(Messages.game_status(outcome, winner))
+    InputOutput.output(Messages.game_status(outcome, winner))
   end
 
   def play(_board, _game, {_progress, outcome} = status, _turn) when status != :underway do
-    MessageAdapter.output(Messages.game_status(outcome))
+    InputOutput.output(Messages.game_status(outcome))
   end
 
   def make_a_move(move, board, game, %Player{name: _name, token: token, type: _type} = turn) do
@@ -43,7 +43,7 @@ defmodule TTT do
       turn = switch_turn(game, token)
       play(board, game, status, turn)
     else
-      {:error, error} -> MessageAdapter.output(Messages.invalid_move(error))
+      {:error, error} -> InputOutput.output(Messages.invalid_move(error))
       status = Game.status(game)
       play(board, game, status, turn)
     end
@@ -89,11 +89,11 @@ defmodule TTT do
   end
 
   def get_move_input(%Player{name: name, token: token} = payload) do
-    move = MessageAdapter.input(Messages.make_a_move(name, token))
+    move = InputOutput.input(Messages.make_a_move(name, token))
     case valid_input?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
-        MessageAdapter.output(Messages.invalid_move())
+        InputOutput.output(Messages.invalid_move())
         get_move_input(payload)
     end
   end

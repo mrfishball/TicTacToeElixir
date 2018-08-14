@@ -2,26 +2,26 @@ defmodule TTT do
   alias TTT.Console.IO, as: ConsoleIO
   alias TTT.Console.Board, as: Board
 
-  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :human} = turn) do
+  def make_a_play(board, game, _status, %Player{type: :human} = turn) do
       turn
       |> get_move_input()
       |> match_input()
       |> make_a_move(board, game, turn)
   end
 
-  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :naive_computer} = turn) do
+  def make_a_play(board, game, _status, %Player{type: :naive_computer} = turn) do
       game
       |> generate_naive_move(1)
       |> make_a_move(board, game, turn)
   end
 
-  def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :random_computer} = turn) do
+  def make_a_play(board, game, _status, %Player{type: :random_computer} = turn) do
       game
       |> generate_random_move()
       |> make_a_move(board, game, turn)
   end
 
-  def play(board, game, status, %Player{name: _name, token: _token, type: _type} = turn)
+  def play(board, game, status, turn)
     when status == :underway do
       make_a_play(board, game, status, turn)
   end
@@ -34,7 +34,7 @@ defmodule TTT do
     ConsoleIO.output(Messages.game_status(outcome), MessageFlags.status)
   end
 
-  def make_a_move(move, board, game, %Player{name: _name, token: token, type: _type} = turn) do
+  def make_a_move(move, board, game, %Player{token: token} = turn) do
     with {:ok, game} <- Game.play_turn(game, turn, move) do
       update_visual(board, game)
       status = Game.status(game)
@@ -74,7 +74,7 @@ defmodule TTT do
   end
 
   def switch_turn(%Game{players: %{player_one: player_one,
-                                   player_two: player_two}} = _game, last_player) do
+                                   player_two: player_two}}, last_player) do
     if last_player == player_one.token do
       player_two
     else

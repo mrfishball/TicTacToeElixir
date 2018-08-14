@@ -1,4 +1,5 @@
 defmodule TTTTest do
+  alias TTT.Console.Board, as: Board
   use ExUnit.Case
   import ExUnit.CaptureIO
 

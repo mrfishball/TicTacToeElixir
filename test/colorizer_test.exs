@@ -1,4 +1,5 @@
 defmodule ColorizerTest do
+  alias TTT.Console.Colorizer, as: Colorizer
   use ExUnit.Case
 
   test "item has been encoding to be yellow in CLI" do

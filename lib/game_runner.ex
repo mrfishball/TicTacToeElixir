@@ -1,4 +1,5 @@
 defmodule GameRunner do
+  alias TTT.Console.Board, as: Board
 
   def main(_args \\ []) do
     new_game()

@@ -1,10 +1,11 @@
 defmodule GameMaker do
+  alias TTT.Console.IO, as: ConsoleIO
   require Integer
 
   def game_menu do
-    TTT.Console.IO.output(Messages.game_menu, MessageFlags.menu)
+    ConsoleIO.output(Messages.game_menu, MessageFlags.menu)
     Messages.select()
-    |> TTT.Console.IO.input(MessageFlags.request)
+    |> ConsoleIO.input(MessageFlags.request)
     |> game_mode()
   end
 
@@ -14,7 +15,7 @@ defmodule GameMaker do
       choice == "2" -> player_vs_computer()
       choice == "3" -> computer_vs_computer()
       true ->
-        TTT.Console.IO.output(Messages.invalid_entry, MessageFlags.error)
+        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
         game_menu()
     end
   end
@@ -52,9 +53,9 @@ defmodule GameMaker do
   end
 
   defp computer_type_menu({computer_name, _token} = payload) do
-      TTT.Console.IO.output(Messages.computer_choice_menu(computer_name), MessageFlags.menu)
+      ConsoleIO.output(Messages.computer_choice_menu(computer_name), MessageFlags.menu)
       Messages.select()
-      |> TTT.Console.IO.input(MessageFlags.request)
+      |> ConsoleIO.input(MessageFlags.request)
       |> choose_computer_type(payload)
   end
 
@@ -63,27 +64,27 @@ defmodule GameMaker do
       choice == "1" -> Player.naive_computer(payload)
       choice == "2" -> Player.random_computer(payload)
       true ->
-        TTT.Console.IO.output(Messages.invalid_entry, MessageFlags.error)
+        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
         computer_type_menu(payload)
     end
   end
 
   defp set_player_name(player_number) do
-    input = TTT.Console.IO.input(Messages.player_name(player_number), MessageFlags.request)
+    input = ConsoleIO.input(Messages.player_name(player_number), MessageFlags.request)
     case !empty_input?(input) do
       true -> input
       false ->
-        TTT.Console.IO.output(Messages.invalid_entry, MessageFlags.error)
+        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
         set_player_name(player_number)
     end
   end
 
   defp set_player_symbol(player_name) do
-    input = TTT.Console.IO.input(Messages.player_symbol(player_name), MessageFlags.request)
+    input = ConsoleIO.input(Messages.player_symbol(player_name), MessageFlags.request)
     case !empty_input?(input) do
       true -> {player_name, input}
       false ->
-        TTT.Console.IO.output(Messages.invalid_entry, MessageFlags.error)
+        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
         set_player_symbol(player_name)
     end
   end

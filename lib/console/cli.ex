@@ -1,5 +1,5 @@
 defmodule TTT.Console.Cli do
-  alias __MODULE__, as: Cli
+  alias TTT.Console.Colorizer, as: Colorizer
 
   def output(message, type \\ None) do
     case type do

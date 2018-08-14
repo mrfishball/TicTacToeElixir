@@ -1,23 +1,18 @@
 defmodule MessageFlags do
 
-  @menu :menu
-  @error :error
-  @status :status
-  @request :request
-
   def menu do
-    @menu
+    "menu"
   end
 
   def error do
-    @error
+    "error"
   end
 
   def status do
-    @status
+    "status"
   end
 
   def request do
-    @request
+    "request"
   end
 end

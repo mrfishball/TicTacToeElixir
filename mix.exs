@@ -10,7 +10,7 @@ defmodule TTT.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      escript: [main_module: TTT],
+      escript: [main_module: GameRunner],
     ]
   end
 

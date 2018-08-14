@@ -40,6 +40,10 @@ defmodule Messages do
     "\nInvalid entry. Please try again.\n"
   end
 
+  def token_take(token) do
+    "\nToken '#{token}' is taken. Please choose a different token.\n"
+  end
+
   def game_menu do
     "Let's play Tic Tac Toe!\n\n" <>
     "Select a game mode (Enter a number from 1 to 3)\n\n" <>

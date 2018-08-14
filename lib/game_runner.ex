@@ -10,15 +10,18 @@ defmodule GameRunner do
     |> start()
   end
 
-  def start(players) do
-    player = GameMaker.longest_token_player(players)
-    {player_one, player_two} = GameMaker.add_paddings(player, players)
-    {left_pad, right_pad} = GameMaker.symbol_paddings(player.token, " ")
+  def start({player_one, _player_two} = players) do
+    player_two = GameMaker.reset_symbol_if_identical(players)
+    players = {player_one, player_two}
 
-    game = Game.new_game(player_one, player_two, String.length(player.token))
+    longest_token_player = GameMaker.longest_token_player(players)
+    {player_one, player_two} = GameMaker.add_paddings(longest_token_player, players)
+    {left_pad, right_pad} = GameMaker.symbol_paddings(longest_token_player.token, " ")
+
+    game = Game.new_game(player_one, player_two, String.length(longest_token_player.token))
     board = Board.new_board(left_pad, right_pad)
     status = Game.status(game)
-    Board.show(board, String.length(player.token))
+    Board.show(board, game.token_length)
 
     TTT.play(board, game, status, player_one)
   end

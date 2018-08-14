@@ -89,6 +89,18 @@ defmodule GameMaker do
     end
   end
 
+  def reset_symbol_if_identical({player_one, player_two}) do
+    cond do
+      player_one.token == player_two.token ->
+        ConsoleIO.output(Messages.token_take(player_two.token), MessageFlags.error)
+        {_player_two_name, new_token} = set_player_symbol(player_two.name)
+        player_two = %Player{player_two | token: new_token}
+        reset_symbol_if_identical({player_one, player_two})
+      true ->
+        player_two
+    end
+  end
+
   def add_paddings(player, {player_one, player_two}) do
     cond do
       player != player_one ->

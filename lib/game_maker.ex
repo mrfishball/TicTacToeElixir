@@ -1,8 +1,6 @@
 defmodule GameMaker do
   require Integer
 
-
-
   def game_menu do
     IO.output(Messages.game_menu, MessageFlags.menu)
     Messages.select()
@@ -19,19 +17,6 @@ defmodule GameMaker do
         IO.output(Messages.invalid_entry, MessageFlags.error)
         game_menu()
     end
-  end
-
-  def start(players) do
-    player = longest_token_player(players)
-    {player_one, player_two} = add_paddings(player, players)
-    {left_pad, right_pad} = symbol_paddings(player.token, " ")
-
-    game = Game.new_game(player_one, player_two, String.length(player.token))
-    board = Board.new_board(left_pad, right_pad)
-    status = Game.status(game)
-    Board.show(board, String.length(player.token))
-
-    TTT.play(board, game, status, player_one)
   end
 
   def player_vs_player do
@@ -52,14 +37,14 @@ defmodule GameMaker do
     {player_one, player_two}
   end
 
-  def set_human_player(player_number) do
+  defp set_human_player(player_number) do
     player_number
     |> set_player_name()
     |> set_player_symbol()
     |> Player.human()
   end
 
-  def set_computer_player(player_number) do
+  defp set_computer_player(player_number) do
     player_number
     |> set_player_name()
     |> set_player_symbol()
@@ -83,7 +68,7 @@ defmodule GameMaker do
     end
   end
 
-  def set_player_name(player_number) do
+  defp set_player_name(player_number) do
     input = IO.input(Messages.player_name(player_number), MessageFlags.request)
     case !empty_input?(input) do
       true -> input
@@ -93,7 +78,7 @@ defmodule GameMaker do
     end
   end
 
-  def set_player_symbol(player_name) do
+  defp set_player_symbol(player_name) do
     input = IO.input(Messages.player_symbol(player_name), MessageFlags.request)
     case !empty_input?(input) do
       true -> {player_name, input}

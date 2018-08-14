@@ -13,7 +13,7 @@ defmodule TTT.Console.Board do
   end
 
   def show(board, token_length) do
-    IO.output("\n")
+    TTT.Console.IO.output("\n")
     line = draw_line(token_length)
     for row <- @board_bounds do
       for col <- @board_bounds do
@@ -22,8 +22,8 @@ defmodule TTT.Console.Board do
       |> Enum.join(" |")
     end
     |> Enum.join(line)
-    |> IO.output()
-    IO.output("\n")
+    |> TTT.Console.IO.output()
+    TTT.Console.IO.output("\n")
   end
 
   def draw_line(length) do

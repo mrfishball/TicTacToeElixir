@@ -89,7 +89,7 @@ defmodule GameMaker do
     end
   end
 
-  def add_paddings(player, {player_one, player_two} = _players) do
+  def add_paddings(player, {player_one, player_two}) do
     cond do
       player != player_one ->
         {left_side, right_side} = symbol_paddings(player.token, player_one.token)
@@ -111,7 +111,7 @@ defmodule GameMaker do
     {left_side, right_side}
   end
 
-  def longest_token_player({player_one, player_two} = _players) do
+  def longest_token_player({player_one, player_two}) do
     if String.length(player_one.token) >= String.length(player_two.token) do
       player_one
     else

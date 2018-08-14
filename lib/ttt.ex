@@ -114,7 +114,9 @@ defmodule TTT do
     {(move - 1 - (3 * row)), row}
   end
 
-  def update_visual(board, %Game{players: %{player_one: player_one, player_two: player_two}, token_length: token_length} = game) do
+  def update_visual(board, %Game{players: %{player_one: player_one,
+                                            player_two: player_two},
+                                            token_length: token_length} = game) do
     player_one_moves = MapSet.to_list(game.turns[player_one.token])
     player_two_moves = MapSet.to_list(game.turns[player_two.token])
     moves = %{player_one: {player_one.token, player_one_moves}, player_two: {player_two.token, player_two_moves}}

@@ -22,7 +22,7 @@ defmodule GameMaker do
     board = Board.new_board(left_pad, right_pad)
     status = Game.status(game)
     first_player = player_one
-
+    Board.show(board, game.token_length)
     {board, game, status, first_player}
   end
 
@@ -53,6 +53,53 @@ defmodule GameMaker do
     player_one = set_computer_player(1)
     player_two = set_computer_player(2)
     {player_one, player_two}
+  end
+
+  def reset_symbol_if_identical({player_one, player_two}) do
+    cond do
+      player_one.token == player_two.token ->
+        ConsoleIO.output(Messages.token_take(player_two.token), MessageFlags.error)
+        {_player_two_name, new_token} = set_player_symbol(player_two.name)
+        player_two = %Player{player_two | token: new_token}
+        reset_symbol_if_identical({player_one, player_two})
+      true ->
+        player_two
+    end
+  end
+
+  def add_paddings(player, {player_one, player_two}) do
+    cond do
+      player != player_one ->
+        {left_side, right_side} = symbol_paddings(player.token, player_one.token)
+        player_one = %Player{player_one | token: "#{left_side <> player_one.token <> right_side}"}
+        {player_one, player_two}
+      player != player_two ->
+        {left_side, right_side} = symbol_paddings(player.token, player_two.token)
+        player_two = %Player{player_two | token: "#{left_side <> player_two.token <> right_side}"}
+        {player_one, player_two}
+    end
+  end
+
+  def symbol_paddings(long_token, short_token) do
+    difference = String.length(long_token) - String.length(short_token)
+    side = div(difference, 2)
+    extra_padding = rem(difference, 2)
+    left_side = String.duplicate(" ", side + extra_padding)
+    right_side = String.duplicate(" ", side)
+    {left_side, right_side}
+  end
+
+  def longest_token_player({player_one, player_two}) do
+    if String.length(player_one.token) >= String.length(player_two.token) do
+      player_one
+    else
+      player_two
+    end
+  end
+
+  def empty_input?(input) do
+    input = String.trim(input)
+    String.length(input) < 1
   end
 
   defp set_human_player(player_number) do
@@ -104,52 +151,5 @@ defmodule GameMaker do
         ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
         set_player_symbol(player_name)
     end
-  end
-
-  def reset_symbol_if_identical({player_one, player_two}) do
-    cond do
-      player_one.token == player_two.token ->
-        ConsoleIO.output(Messages.token_take(player_two.token), MessageFlags.error)
-        {_player_two_name, new_token} = set_player_symbol(player_two.name)
-        player_two = %Player{player_two | token: new_token}
-        reset_symbol_if_identical({player_one, player_two})
-      true ->
-        player_two
-    end
-  end
-
-  def add_paddings(player, {player_one, player_two}) do
-    cond do
-      player != player_one ->
-        {left_side, right_side} = symbol_paddings(player.token, player_one.token)
-        player_one = %Player{player_one | token: "#{left_side <> player_one.token <> right_side}"}
-        {player_one, player_two}
-      player != player_two ->
-        {left_side, right_side} = symbol_paddings(player.token, player_two.token)
-        player_two = %Player{player_two | token: "#{left_side <> player_two.token <> right_side}"}
-        {player_one, player_two}
-    end
-  end
-
-  def symbol_paddings(long_token, short_token) do
-    difference = String.length(long_token) - String.length(short_token)
-    side = div(difference, 2)
-    extra_padding = rem(difference, 2)
-    left_side = String.duplicate(" ", side + extra_padding)
-    right_side = String.duplicate(" ", side)
-    {left_side, right_side}
-  end
-
-  def longest_token_player({player_one, player_two}) do
-    if String.length(player_one.token) >= String.length(player_two.token) do
-      player_one
-    else
-      player_two
-    end
-  end
-
-  def empty_input?(input) do
-    input = String.trim(input)
-    String.length(input) < 1
   end
 end

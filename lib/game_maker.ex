@@ -1,12 +1,29 @@
 defmodule GameMaker do
   alias TTT.Console.IO, as: ConsoleIO
+  alias TTT.Console.Board, as: Board
   require Integer
 
-  def game_menu do
+  def show_game_menu do
     ConsoleIO.output(Messages.game_menu, MessageFlags.menu)
     Messages.select()
     |> ConsoleIO.input(MessageFlags.request)
     |> game_mode()
+  end
+
+  def assemble_game({player_one, _player_two} = players) do
+    player_two = reset_symbol_if_identical(players)
+    players = {player_one, player_two}
+
+    longest_token_player = longest_token_player(players)
+    {player_one, player_two} = add_paddings(longest_token_player, players)
+    {left_pad, right_pad} = symbol_paddings(longest_token_player.token, " ")
+
+    game = Game.new_game(player_one, player_two, String.length(longest_token_player.token))
+    board = Board.new_board(left_pad, right_pad)
+    status = Game.status(game)
+    first_player = player_one
+
+    {board, game, status, first_player}
   end
 
   def game_mode(choice) do
@@ -16,7 +33,7 @@ defmodule GameMaker do
       choice == "3" -> computer_vs_computer()
       true ->
         ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
-        game_menu()
+        show_game_menu()
     end
   end
 

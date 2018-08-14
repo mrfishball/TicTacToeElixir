@@ -21,16 +21,16 @@ defmodule TTT do
       |> make_a_move(board, game, turn)
   end
 
-  def play(board, game, status, turn)
+  def play({board, game, status, turn})
     when status == :underway do
       make_a_play(board, game, status, turn)
   end
 
-  def play(_board, _game, {_progress, {outcome, winner}} = status, _turn) when status != :underway do
+  def play({_board, _game, {_progress, {outcome, winner}} = status, _turn}) when status != :underway do
     ConsoleIO.output(Messages.game_status(outcome, winner), MessageFlags.status)
   end
 
-  def play(_board, _game, {_progress, outcome} = status, _turn) when status != :underway do
+  def play({_board, _game, {_progress, outcome} = status, _turn}) when status != :underway do
     ConsoleIO.output(Messages.game_status(outcome), MessageFlags.status)
   end
 
@@ -39,11 +39,11 @@ defmodule TTT do
       update_visual(board, game)
       status = Game.status(game)
       turn = switch_turn(game, token)
-      play(board, game, status, turn)
+      play({board, game, status, turn})
     else
       {:error, error} -> ConsoleIO.output(Messages.invalid_move(error), MessageFlags.error)
       status = Game.status(game)
-      play(board, game, status, turn)
+      play({board, game, status, turn})
     end
   end
 

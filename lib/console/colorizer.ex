@@ -1,4 +1,5 @@
-defmodule Colorizer do
+defmodule TTT.Console.Colorizer do
+  alias __MODULE__, as: Colorizer
 
   def yellow(item) do
     IO.ANSI.yellow <> item <> IO.ANSI.reset

@@ -1,4 +1,5 @@
-defmodule Cli do
+defmodule TTT.Console.Cli do
+  alias __MODULE__, as: Cli
 
   def output(message, type \\ None) do
     case type do

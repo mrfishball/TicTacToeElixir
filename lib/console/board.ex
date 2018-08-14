@@ -1,4 +1,5 @@
-defmodule Board do
+defmodule TTT.Console.Board do
+  alias __MODULE__, as: Board
   require Integer
 
   @board_bounds 0..2
@@ -12,7 +13,7 @@ defmodule Board do
   end
 
   def show(board, token_length) do
-    IOcontroller.output("\n")
+    IO.output("\n")
     line = draw_line(token_length)
     for row <- @board_bounds do
       for col <- @board_bounds do
@@ -21,8 +22,8 @@ defmodule Board do
       |> Enum.join(" |")
     end
     |> Enum.join(line)
-    |> IOcontroller.output()
-    IOcontroller.output("\n")
+    |> IO.output()
+    IO.output("\n")
   end
 
   def draw_line(length) do

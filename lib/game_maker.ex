@@ -1,12 +1,7 @@
 defmodule GameMaker do
   require Integer
 
-  def new_game() do
-    game_menu()
-    |> start()
-  end
-
-  def game_menu() do
+  def game_menu do
     InputOutput.output(Messages.game_menu())
     Messages.select()
     |> InputOutput.input()
@@ -22,19 +17,6 @@ defmodule GameMaker do
         InputOutput.output(Messages.invalid_entry())
         game_menu()
     end
-  end
-
-  def start(players) do
-    player = longest_token_player(players)
-    {player_one, player_two} = add_paddings(player, players)
-    {left_pad, right_pad} = symbol_paddings(player.token, " ")
-
-    game = Game.new_game(player_one, player_two, String.length(player.token))
-    board = Board.new_board(left_pad, right_pad)
-    status = Game.status(game)
-    Board.show(board, String.length(player.token))
-
-    TTT.play(board, game, status, player_one)
   end
 
   def player_vs_player do
@@ -53,58 +35,6 @@ defmodule GameMaker do
     player_one = set_computer_player(1)
     player_two = set_computer_player(2)
     {player_one, player_two}
-  end
-
-  def set_human_player(player_number) do
-    player_number
-    |> set_player_name()
-    |> set_player_symbol()
-    |> Player.human()
-  end
-
-  def set_computer_player(player_number) do
-    player_number
-    |> set_player_name()
-    |> set_player_symbol()
-    |> computer_type_menu()
-  end
-
-  defp computer_type_menu({computer_name, _token} = payload) do
-      InputOutput.output(Messages.computer_choice_menu(computer_name))
-      Messages.select()
-      |> InputOutput.input()
-      |> choose_computer_type(payload)
-  end
-
-  defp choose_computer_type(choice, payload) do
-    cond do
-      choice == "1" -> Player.naive_computer(payload)
-      choice == "2" -> Player.random_computer(payload)
-      true ->
-        InputOutput.output(Messages.invalid_entry())
-        computer_type_menu(payload)
-    end
-  end
-
-  def set_player_name(player_number) do
-    input = InputOutput.input(Messages.player_name(player_number))
-    case valid_symbol_or_name?(input) do
-      true -> input
-      false ->
-        InputOutput.output(Messages.invalid_entry())
-        set_player_name(player_number)
-    end
-  end
-
-  def set_player_symbol(player_name) do
-    input = InputOutput.input(Messages.player_symbol(player_name))
-    case valid_symbol_or_name?(input) do
-      true ->
-        {player_name, input}
-      false ->
-        InputOutput.output(Messages.invalid_entry())
-        set_player_symbol(player_name)
-    end
   end
 
   def add_paddings(player, {player_one, player_two} = _players) do
@@ -140,5 +70,57 @@ defmodule GameMaker do
   def valid_symbol_or_name?(input) do
     input = String.trim(input)
     String.length(input) >= 1
+  end
+
+  defp set_human_player(player_number) do
+    player_number
+    |> set_player_name()
+    |> set_player_symbol()
+    |> Player.human()
+  end
+
+  defp set_computer_player(player_number) do
+    player_number
+    |> set_player_name()
+    |> set_player_symbol()
+    |> computer_type_menu()
+  end
+
+  defp computer_type_menu({computer_name, _token} = payload) do
+      InputOutput.output(Messages.computer_choice_menu(computer_name))
+      Messages.select()
+      |> InputOutput.input()
+      |> choose_computer_type(payload)
+  end
+
+  defp choose_computer_type(choice, payload) do
+    cond do
+      choice == "1" -> Player.naive_computer(payload)
+      choice == "2" -> Player.random_computer(payload)
+      true ->
+        InputOutput.output(Messages.invalid_entry())
+        computer_type_menu(payload)
+    end
+  end
+
+  defp set_player_name(player_number) do
+    input = InputOutput.input(Messages.player_name(player_number))
+    case valid_symbol_or_name?(input) do
+      true -> input
+      false ->
+        InputOutput.output(Messages.invalid_entry())
+        set_player_name(player_number)
+    end
+  end
+
+  defp set_player_symbol(player_name) do
+    input = InputOutput.input(Messages.player_symbol(player_name))
+    case valid_symbol_or_name?(input) do
+      true ->
+        {player_name, input}
+      false ->
+        InputOutput.output(Messages.invalid_entry())
+        set_player_symbol(player_name)
+    end
   end
 end

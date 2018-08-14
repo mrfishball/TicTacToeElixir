@@ -1,9 +1,5 @@
 defmodule TTT do
 
-  def main(_args \\ []) do
-    GameMaker.new_game()
-  end
-
   def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :human} = turn) do
       turn
       |> get_move_input()

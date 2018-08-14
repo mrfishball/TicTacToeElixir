@@ -33,7 +33,8 @@ defmodule TTT.Console.Board do
   end
 
   def render(board, %{player_one: {player_one_token, player_one_moves},
-                      player_two: {player_two_token, player_two_moves}} = _moves, token_length) do
+                      player_two: {player_two_token, player_two_moves}},
+                      token_length) do
     board
     |> register_move(player_one_moves, Colorizer.cyan(player_one_token))
     |> register_move(player_two_moves, Colorizer.green(player_two_token))

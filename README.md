@@ -103,8 +103,6 @@ $ mix credo list
 
 Steven Kwok (@mrfishball)
 
-
-
 ## License
 
 TTT is released under the MIT License. See the LICENSE file for further

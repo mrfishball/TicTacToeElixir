@@ -1,4 +1,5 @@
 defmodule TTT.MixProject do
+  alias TTT.Console.GameRunner, as: GameRunner
   use Mix.Project
 
   def project do

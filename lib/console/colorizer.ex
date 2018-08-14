@@ -1,4 +1,4 @@
-defmodule Colorizer do
+defmodule TTT.Console.Colorizer do
 
   def yellow(item) do
     IO.ANSI.yellow <> item <> IO.ANSI.reset

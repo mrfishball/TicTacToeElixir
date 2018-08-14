@@ -1,4 +1,6 @@
-defmodule Board do
+defmodule TTT.Console.Board do
+  alias TTT.Console.IO, as: ConsoleIO
+  alias TTT.Console.Colorizer, as: Colorizer
   require Integer
 
   @board_bounds 0..2
@@ -12,7 +14,7 @@ defmodule Board do
   end
 
   def show(board, token_length) do
-    InputOutput.output("\n")
+    ConsoleIO.output("\n")
     line = draw_line(token_length)
     for row <- @board_bounds do
       for col <- @board_bounds do
@@ -21,8 +23,8 @@ defmodule Board do
       |> Enum.join(" |")
     end
     |> Enum.join(line)
-    |> InputOutput.output()
-    InputOutput.output("\n")
+    |> ConsoleIO.output()
+    ConsoleIO.output("\n")
   end
 
   def draw_line(length) do
@@ -31,7 +33,8 @@ defmodule Board do
   end
 
   def render(board, %{player_one: {player_one_token, player_one_moves},
-                      player_two: {player_two_token, player_two_moves}} = _moves, token_length) do
+                      player_two: {player_two_token, player_two_moves}},
+                      token_length) do
     board
     |> register_move(player_one_moves, Colorizer.cyan(player_one_token))
     |> register_move(player_two_moves, Colorizer.green(player_two_token))

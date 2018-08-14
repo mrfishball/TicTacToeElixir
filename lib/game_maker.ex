@@ -1,11 +1,29 @@
 defmodule GameMaker do
+  alias TTT.Console.IO, as: ConsoleIO
+  alias TTT.Console.Board, as: Board
   require Integer
 
-  def game_menu do
-    InputOutput.output(Messages.game_menu())
+  def show_game_menu do
+    ConsoleIO.output(Messages.game_menu, MessageFlags.menu)
     Messages.select()
-    |> InputOutput.input()
+    |> ConsoleIO.input(MessageFlags.request)
     |> game_mode()
+  end
+
+  def assemble_game({player_one, _player_two} = players) do
+    player_two = reset_symbol_if_identical(players)
+    players = {player_one, player_two}
+
+    longest_token_player = longest_token_player(players)
+    {player_one, player_two} = add_paddings(longest_token_player, players)
+    {left_pad, right_pad} = symbol_paddings(longest_token_player.token, " ")
+
+    game = Game.new_game(player_one, player_two, String.length(longest_token_player.token))
+    board = Board.new_board(left_pad, right_pad)
+    status = Game.status(game)
+    first_player = player_one
+
+    {board, game, status, first_player}
   end
 
   def game_mode(choice) do
@@ -14,8 +32,8 @@ defmodule GameMaker do
       choice == "2" -> player_vs_computer()
       choice == "3" -> computer_vs_computer()
       true ->
-        InputOutput.output(Messages.invalid_entry())
-        game_menu()
+        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
+        show_game_menu()
     end
   end
 
@@ -37,7 +55,70 @@ defmodule GameMaker do
     {player_one, player_two}
   end
 
-  def add_paddings(player, {player_one, player_two} = _players) do
+  defp set_human_player(player_number) do
+    player_number
+    |> set_player_name()
+    |> set_player_symbol()
+    |> Player.human()
+  end
+
+  defp set_computer_player(player_number) do
+    player_number
+    |> set_player_name()
+    |> set_player_symbol()
+    |> computer_type_menu()
+  end
+
+  defp computer_type_menu({computer_name, _token} = payload) do
+      ConsoleIO.output(Messages.computer_choice_menu(computer_name), MessageFlags.menu)
+      Messages.select()
+      |> ConsoleIO.input(MessageFlags.request)
+      |> choose_computer_type(payload)
+  end
+
+  defp choose_computer_type(choice, payload) do
+    cond do
+      choice == "1" -> Player.naive_computer(payload)
+      choice == "2" -> Player.random_computer(payload)
+      true ->
+        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
+        computer_type_menu(payload)
+    end
+  end
+
+  defp set_player_name(player_number) do
+    input = ConsoleIO.input(Messages.player_name(player_number), MessageFlags.request)
+    case !empty_input?(input) do
+      true -> input
+      false ->
+        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
+        set_player_name(player_number)
+    end
+  end
+
+  defp set_player_symbol(player_name) do
+    input = ConsoleIO.input(Messages.player_symbol(player_name), MessageFlags.request)
+    case !empty_input?(input) do
+      true -> {player_name, input}
+      false ->
+        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
+        set_player_symbol(player_name)
+    end
+  end
+
+  def reset_symbol_if_identical({player_one, player_two}) do
+    cond do
+      player_one.token == player_two.token ->
+        ConsoleIO.output(Messages.token_take(player_two.token), MessageFlags.error)
+        {_player_two_name, new_token} = set_player_symbol(player_two.name)
+        player_two = %Player{player_two | token: new_token}
+        reset_symbol_if_identical({player_one, player_two})
+      true ->
+        player_two
+    end
+  end
+
+  def add_paddings(player, {player_one, player_two}) do
     cond do
       player != player_one ->
         {left_side, right_side} = symbol_paddings(player.token, player_one.token)
@@ -59,7 +140,7 @@ defmodule GameMaker do
     {left_side, right_side}
   end
 
-  def longest_token_player({player_one, player_two} = _players) do
+  def longest_token_player({player_one, player_two}) do
     if String.length(player_one.token) >= String.length(player_two.token) do
       player_one
     else
@@ -67,60 +148,8 @@ defmodule GameMaker do
     end
   end
 
-  def valid_symbol_or_name?(input) do
+  def empty_input?(input) do
     input = String.trim(input)
-    String.length(input) >= 1
-  end
-
-  defp set_human_player(player_number) do
-    player_number
-    |> set_player_name()
-    |> set_player_symbol()
-    |> Player.human()
-  end
-
-  defp set_computer_player(player_number) do
-    player_number
-    |> set_player_name()
-    |> set_player_symbol()
-    |> computer_type_menu()
-  end
-
-  defp computer_type_menu({computer_name, _token} = payload) do
-      InputOutput.output(Messages.computer_choice_menu(computer_name))
-      Messages.select()
-      |> InputOutput.input()
-      |> choose_computer_type(payload)
-  end
-
-  defp choose_computer_type(choice, payload) do
-    cond do
-      choice == "1" -> Player.naive_computer(payload)
-      choice == "2" -> Player.random_computer(payload)
-      true ->
-        InputOutput.output(Messages.invalid_entry())
-        computer_type_menu(payload)
-    end
-  end
-
-  defp set_player_name(player_number) do
-    input = InputOutput.input(Messages.player_name(player_number))
-    case valid_symbol_or_name?(input) do
-      true -> input
-      false ->
-        InputOutput.output(Messages.invalid_entry())
-        set_player_name(player_number)
-    end
-  end
-
-  defp set_player_symbol(player_name) do
-    input = InputOutput.input(Messages.player_symbol(player_name))
-    case valid_symbol_or_name?(input) do
-      true ->
-        {player_name, input}
-      false ->
-        InputOutput.output(Messages.invalid_entry())
-        set_player_symbol(player_name)
-    end
+    String.length(input) < 1
   end
 end

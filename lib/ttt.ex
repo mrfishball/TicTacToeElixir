@@ -1,9 +1,5 @@
 defmodule TTT do
 
-  def main(_args \\ []) do
-    GameMaker.new_game()
-  end
-
   def make_a_play(board, game, _status, %Player{name: _name, token: _token, type: :human} = turn) do
       turn
       |> get_move_input()
@@ -29,11 +25,11 @@ defmodule TTT do
   end
 
   def play(_board, _game, {_progress, {outcome, winner}} = status, _turn) when status != :underway do
-    IOcontroller.output(Messages.game_status(outcome, winner), MessageFlags.status)
+    IO.output(Messages.game_status(outcome, winner), MessageFlags.status)
   end
 
   def play(_board, _game, {_progress, outcome} = status, _turn) when status != :underway do
-    IOcontroller.output(Messages.game_status(outcome), MessageFlags.status)
+    IO.output(Messages.game_status(outcome), MessageFlags.status)
   end
 
   def make_a_move(move, board, game, %Player{name: _name, token: token, type: _type} = turn) do
@@ -43,7 +39,7 @@ defmodule TTT do
       turn = switch_turn(game, token)
       play(board, game, status, turn)
     else
-      {:error, error} -> IOcontroller.output(Messages.invalid_move(error), MessageFlags.error)
+      {:error, error} -> IO.output(Messages.invalid_move(error), MessageFlags.error)
       status = Game.status(game)
       play(board, game, status, turn)
     end
@@ -89,11 +85,11 @@ defmodule TTT do
   end
 
   def get_move_input(%Player{name: name, token: token} = payload) do
-    move = IOcontroller.input(Messages.make_a_move(name, token), MessageFlags.request)
+    move = IO.input(Messages.make_a_move(name, token), MessageFlags.request)
     case valid_input?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
-        IOcontroller.output(Messages.invalid_move, MessageFlags.error)
+        IO.output(Messages.invalid_move, MessageFlags.error)
         get_move_input(payload)
     end
   end

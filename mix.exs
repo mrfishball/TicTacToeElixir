@@ -8,7 +8,7 @@ defmodule TTT.MixProject do
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      escript: [main_module: TTT],
+      escript: [main_module: GameRunner],
     ]
   end
 

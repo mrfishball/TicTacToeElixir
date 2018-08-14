@@ -1,4 +1,4 @@
-defmodule GameRunner do
+defmodule TTT.Console.GameRunner do
 
   def main(_args \\ []) do
     start()

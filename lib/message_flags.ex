@@ -4,6 +4,10 @@ defmodule MessageFlags do
     "menu"
   end
 
+  def title do
+    "title"
+  end
+
   def error do
     "error"
   end

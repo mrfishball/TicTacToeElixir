@@ -1,7 +1,7 @@
 defmodule Messages do
 
   def title do
-    "Let's play Tic Tac Toe!\n\n"
+    "\n\nLet's play Tic Tac Toe!\n"
   end
 
   def select do
@@ -49,7 +49,6 @@ defmodule Messages do
   end
 
   def game_menu do
-    "Let's play Tic Tac Toe!\n\n" <>
     "Select a game mode (Enter a number from 1 to 3)\n\n" <>
     "1. Player vs. Player\n" <>
     "2. Player vs. Computer\n" <>

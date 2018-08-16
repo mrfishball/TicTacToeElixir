@@ -1,4 +1,4 @@
-defmodule TTT.Console.IO do
+defmodule IOcontroller do
   alias TTT.Console.Cli, as: Cli
 
   def input(payload, type \\ None, source \\ &Cli.input/2) do

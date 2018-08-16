@@ -1,5 +1,4 @@
 defmodule GameMaker do
-  alias TTT.Console.IO, as: ConsoleIO
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators
   alias TTT.Utilities.TokenPaddingGenerator, as: TokenPaddingGenerator
@@ -46,7 +45,7 @@ defmodule GameMaker do
   def reset_symbol_if_identical({player_one, player_two}) do
     cond do
       player_one.token == player_two.token ->
-        ConsoleIO.output(Messages.token_take(player_two.token), MessageFlags.error)
+        IOcontroller.output(Messages.token_take(player_two.token), MessageFlags.error)
         {_player_two_name, new_token} = set_player_symbol(player_two.name)
         player_two = %Player{player_two | token: new_token}
         reset_symbol_if_identical({player_one, player_two})
@@ -70,9 +69,9 @@ defmodule GameMaker do
   end
 
   defp computer_type_selection({computer_name, _token} = payload) do
-      ConsoleIO.output(Messages.computer_choice_menu(computer_name), MessageFlags.menu)
+      IOcontroller.output(Messages.computer_choice_menu(computer_name), MessageFlags.menu)
       Messages.select()
-      |> ConsoleIO.input(MessageFlags.request)
+      |> IOcontroller.input(MessageFlags.request)
       |> make_computer_player(payload)
   end
 
@@ -81,27 +80,27 @@ defmodule GameMaker do
       choice == "1" -> Player.naive_computer(payload)
       choice == "2" -> Player.random_computer(payload)
       true ->
-        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
+        IOcontroller.output(Messages.invalid_entry, MessageFlags.error)
         computer_type_selection(payload)
     end
   end
 
   defp set_player_name(player_number) do
-    input = ConsoleIO.input(Messages.player_name(player_number), MessageFlags.request)
+    input = IOcontroller.input(Messages.player_name(player_number), MessageFlags.request)
     case !InputValidators.empty_input?(input) do
       true -> input
       false ->
-        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
+        IOcontroller.output(Messages.invalid_entry, MessageFlags.error)
         set_player_name(player_number)
     end
   end
 
   defp set_player_symbol(player_name) do
-    input = ConsoleIO.input(Messages.player_symbol(player_name), MessageFlags.request)
+    input = IOcontroller.input(Messages.player_symbol(player_name), MessageFlags.request)
     case !InputValidators.empty_input?(input) do
       true -> {player_name, input}
       false ->
-        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
+        IOcontroller.output(Messages.invalid_entry, MessageFlags.error)
         set_player_symbol(player_name)
     end
   end

@@ -1,5 +1,4 @@
 defmodule TTT do
-  alias TTT.Console.IO, as: ConsoleIO
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators
   alias TTT.Utilities.InputParser, as: InputParser
@@ -10,11 +9,11 @@ defmodule TTT do
   end
 
   def play({_board, _game, {_progress, {outcome, winner}} = status, _turn}) when status != :underway do
-    ConsoleIO.output(Messages.game_status(outcome, winner), MessageFlags.status)
+    IOcontroller.output(Messages.game_status(outcome, winner), MessageFlags.status)
   end
 
   def play({_board, _game, {_progress, outcome} = status, _turn}) when status != :underway do
-    ConsoleIO.output(Messages.game_status(outcome), MessageFlags.status)
+    IOcontroller.output(Messages.game_status(outcome), MessageFlags.status)
   end
 
   def generate_naive_move(%Game{players: %{player_one: player_one,
@@ -68,7 +67,7 @@ defmodule TTT do
       turn = switch_turn(game, token)
       play({board, game, status, turn})
     else
-      {:error, error} -> ConsoleIO.output(Messages.invalid_move(error), MessageFlags.error)
+      {:error, error} -> IOcontroller.output(Messages.invalid_move(error), MessageFlags.error)
       status = Game.status(game)
       play({board, game, status, turn})
     end
@@ -96,11 +95,11 @@ defmodule TTT do
   end
 
   defp get_move_input(%Player{name: name, token: token} = payload) do
-    move = ConsoleIO.input(Messages.make_a_move(name, token), MessageFlags.request)
+    move = IOcontroller.input(Messages.make_a_move(name, token), MessageFlags.request)
     case InputValidators.valid_move?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
-        ConsoleIO.output(Messages.invalid_move, MessageFlags.error)
+        IOcontroller.output(Messages.invalid_move, MessageFlags.error)
         get_move_input(payload)
     end
   end

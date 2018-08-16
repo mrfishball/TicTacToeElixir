@@ -5,13 +5,6 @@ defmodule GameMaker do
   alias TTT.Utilities.TokenPaddingGenerator, as: TokenPaddingGenerator
   require Integer
 
-  def show_game_menu do
-    ConsoleIO.output(Messages.game_menu, MessageFlags.menu)
-    Messages.select()
-    |> ConsoleIO.input(MessageFlags.request)
-    |> game_mode()
-  end
-
   def assemble_game({player_one, _player_two} = players) do
     player_two = reset_symbol_if_identical(players)
     players = {player_one, player_two}
@@ -30,17 +23,6 @@ defmodule GameMaker do
     first_player = player_one
 
     {board, game, status, first_player}
-  end
-
-  def game_mode(choice) do
-    cond do
-      choice == "1" -> player_vs_player()
-      choice == "2" -> player_vs_computer()
-      choice == "3" -> computer_vs_computer()
-      true ->
-        ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
-        show_game_menu()
-    end
   end
 
   def player_vs_player do

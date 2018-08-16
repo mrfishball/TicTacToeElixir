@@ -4,6 +4,7 @@ defmodule TTT.Console.Cli do
   def output(message, type \\ None) do
     case type do
       "menu" -> IO.puts(Colorizer.yellow(message))
+      "title" -> IO.puts(Colorizer.yellow(message))
       "status" -> IO.puts(Colorizer.yellow(message))
       "error" -> IO.puts(Colorizer.red(message))
       None -> IO.puts(message)

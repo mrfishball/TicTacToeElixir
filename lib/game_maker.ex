@@ -66,23 +66,23 @@ defmodule GameMaker do
     player_number
     |> set_player_name()
     |> set_player_symbol()
-    |> computer_type_menu()
+    |> computer_type_selection()
   end
 
-  defp computer_type_menu({computer_name, _token} = payload) do
+  defp computer_type_selection({computer_name, _token} = payload) do
       ConsoleIO.output(Messages.computer_choice_menu(computer_name), MessageFlags.menu)
       Messages.select()
       |> ConsoleIO.input(MessageFlags.request)
-      |> choose_computer_type(payload)
+      |> make_computer_player(payload)
   end
 
-  defp choose_computer_type(choice, payload) do
+  defp make_computer_player(choice, payload) do
     cond do
       choice == "1" -> Player.naive_computer(payload)
       choice == "2" -> Player.random_computer(payload)
       true ->
         ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
-        computer_type_menu(payload)
+        computer_type_selection(payload)
     end
   end
 

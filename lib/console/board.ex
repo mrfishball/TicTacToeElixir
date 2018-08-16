@@ -1,5 +1,4 @@
 defmodule TTT.Console.Board do
-  alias TTT.Console.IO, as: ConsoleIO
   alias TTT.Console.Colorizer, as: Colorizer
   require Integer
 

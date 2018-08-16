@@ -68,14 +68,15 @@ defmodule GameMaker do
     end
   end
 
-  def add_paddings(player, {player_one, player_two}) do
+  def add_paddings(player_with_longest_token, {player_one, player_two}) do
     cond do
-      player != player_one ->
-        {left_side, right_side} = symbol_paddings(player.token, player_one.token)
+      player_with_longest_token != player_one ->
+        {left_side, right_side} = symbol_paddings(player_with_longest_token.token, player_one.token)
         player_one = %Player{player_one | token: "#{left_side <> player_one.token <> right_side}"}
         {player_one, player_two}
-      player != player_two ->
-        {left_side, right_side} = symbol_paddings(player.token, player_two.token)
+
+      player_with_longest_token != player_two ->
+        {left_side, right_side} = symbol_paddings(player_with_longest_token.token, player_two.token)
         player_two = %Player{player_two | token: "#{left_side <> player_two.token <> right_side}"}
         {player_one, player_two}
     end

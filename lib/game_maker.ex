@@ -17,7 +17,7 @@ defmodule GameMaker do
     {left_pad, right_pad} = TokenPaddingGenerator.generate_paddings(longest_token, " ")
     board = Board.new_board(left_pad, right_pad)
 
-    Board.show(board, game.token_length)
+    Board.show_board(board, game.token_length)
 
     first_player = player_one
 

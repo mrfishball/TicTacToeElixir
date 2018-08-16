@@ -37,7 +37,7 @@ defmodule BoardTest do
 
   test "To print an empty board in CLI" do
     board = Board.new_board("", "")
-    assert capture_io(fn -> Board.show(board, 1) end) ==
+    assert capture_io(fn -> Board.show_board(board, 1) end) ==
       "\n\n 1 | 2 | 3\n-----------\n 4 | 5 | 6\n-----------\n 7 | 8 | 9\n\n\n"
   end
 
@@ -45,7 +45,7 @@ defmodule BoardTest do
     board = Board.new_board("", "")
     moves = %{player_one: {"x", [{0, 0}, {2, 1}, {1, 2}]}, player_two: {"o", [{1, 0}, {1, 1}, {2, 2}]}}
     assert capture_io(fn ->
-      Board.render(board, moves, 1) end) ==
+      Board.render_board(board, moves, 1) end) ==
         "\n\n \e[36mx\e[0m | \e[32mo\e[0m | 3\n-----------\n 4 | \e[32mo\e[0m | \e[36mx\e[0m\n-----------\n 7 | \e[36mx\e[0m | \e[32mo\e[0m\n\n\n"
   end
 end

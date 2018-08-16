@@ -57,7 +57,7 @@ defmodule TTT do
     player_one_moves = MapSet.to_list(game.turns[player_one.token])
     player_two_moves = MapSet.to_list(game.turns[player_two.token])
     moves = %{player_one: {player_one.token, player_one_moves}, player_two: {player_two.token, player_two_moves}}
-    Board.render(board, moves, token_length)
+    Board.render_board(board, moves, token_length)
   end
 
   defp make_a_move(move, board, game, %Player{token: token} = turn) do

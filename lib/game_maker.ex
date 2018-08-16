@@ -2,6 +2,7 @@ defmodule GameMaker do
   alias TTT.Console.IO, as: ConsoleIO
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators
+  alias TTT.Utilities.TokenPaddingGenerator, as: TokenPaddingGenerator
   require Integer
 
   def show_game_menu do
@@ -15,18 +16,19 @@ defmodule GameMaker do
     player_two = reset_symbol_if_identical(players)
     players = {player_one, player_two}
 
-    longest_token_player = longest_token_player(players)
-    {player_one, player_two} = add_paddings(longest_token_player, players)
+    longest_token = Player.longest_token(players)
+    {player_one, player_two} = TokenPaddingGenerator.add_paddings(longest_token, players)
 
-    game = Game.new_game(player_one, player_two, String.length(longest_token_player.token))
-    board = Board.new_board(left_pad, right_pad)
+    game = Game.new_game(player_one, player_two, String.length(longest_token))
     status = Game.status(game)
 
-    {left_pad, right_pad} = generate_paddings(longest_token_player.token, " ")
+    {left_pad, right_pad} = TokenPaddingGenerator.generate_paddings(longest_token, " ")
+    board = Board.new_board(left_pad, right_pad)
+
     Board.show(board, game.token_length)
 
     first_player = player_one
-    
+
     {board, game, status, first_player}
   end
 
@@ -68,37 +70,6 @@ defmodule GameMaker do
         reset_symbol_if_identical({player_one, player_two})
       true ->
         player_two
-    end
-  end
-
-  def add_paddings(player_with_longest_token, {player_one, player_two}) do
-    cond do
-      player_with_longest_token != player_one ->
-        {left_side, right_side} = generate_paddings(player_with_longest_token.token, player_one.token)
-        player_one = %Player{player_one | token: "#{left_side <> player_one.token <> right_side}"}
-        {player_one, player_two}
-
-      player_with_longest_token != player_two ->
-        {left_side, right_side} = generate_paddings(player_with_longest_token.token, player_two.token)
-        player_two = %Player{player_two | token: "#{left_side <> player_two.token <> right_side}"}
-        {player_one, player_two}
-    end
-  end
-
-  def generate_paddings(long_token, short_token) do
-    difference = String.length(long_token) - String.length(short_token)
-    side = div(difference, 2)
-    extra_padding = rem(difference, 2)
-    left_side = String.duplicate(" ", side + extra_padding)
-    right_side = String.duplicate(" ", side)
-    {left_side, right_side}
-  end
-
-  def longest_token_player({player_one, player_two}) do
-    if String.length(player_one.token) >= String.length(player_two.token) do
-      player_one
-    else
-      player_two
     end
   end
 

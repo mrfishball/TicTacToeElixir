@@ -18,4 +18,12 @@ defmodule Player do
   def random_computer({name, token} = _payload) do
     setup(name, token, :random_computer)
   end
+
+  def longest_token({player_one, player_two}) do
+    if String.length(player_one.token) >= String.length(player_two.token) do
+      player_one.token
+    else
+      player_two.token
+    end
+  end
 end

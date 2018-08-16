@@ -16,7 +16,7 @@ defmodule GameMaker do
     player_two = reset_symbol_if_identical(players)
     players = {player_one, player_two}
 
-    longest_token = Player.longest_token(players)
+    longest_token = Player.get_longest_token(players)
     {player_one, player_two} = TokenPaddingGenerator.add_paddings(longest_token, players)
 
     game = Game.new_game(player_one, player_two, String.length(longest_token))

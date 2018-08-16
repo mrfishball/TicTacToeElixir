@@ -19,7 +19,7 @@ defmodule Player do
     setup(name, token, :random_computer)
   end
 
-  def longest_token({player_one, player_two}) do
+  def get_longest_token({player_one, player_two}) do
     if String.length(player_one.token) >= String.length(player_two.token) do
       player_one.token
     else

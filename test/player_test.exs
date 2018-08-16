@@ -26,6 +26,6 @@ defmodule PlayerTest do
     player1 = %Player{name: "Steven", token: "  x  ", type: :human}
     player2 = %Player{name: "Connie", token: "o", type: :human}
     players = {player1, player2}
-    assert Player.longest_token(players) == "  x  "
+    assert Player.get_longest_token(players) == "  x  "
   end
 end

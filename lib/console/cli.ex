@@ -11,7 +11,7 @@ defmodule TTT.Console.Cli do
     ## Parameters
 
       - message: String of message.
-      _ type (optional): String represents the type of the message
+      - type (optional): String represents the type of the message
 
     Display a string with effects correspond on the type of the message.
     If type is not given or does not match, message will be displayed without any effects.

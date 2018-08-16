@@ -80,16 +80,7 @@ defmodule TTT.Console.Board do
     IOcontroller.output("\n")
   end
 
-  @doc """
-
-    ## Parameters
-
-      - length: Integer that represents the lenght of the longest token.
-      It is use to make sure the row dividers are the same length as the rows.
-
-    Returns a string representing a row divider on the board.
-  """
-  def draw_line(length) do
+  defp draw_line(length) do
     str = String.duplicate("-", ((length + 2) * 3) + 2)
     "\n" <> str <> "\n"
   end

@@ -6,13 +6,13 @@ defmodule Game do
   @board_bound 0..2
 
   def new_game(%Player{token: player_one_token} = player_one,
-            %Player{token: player_two_token} = player_two,
-            token_length) do
+               %Player{token: player_two_token} = player_two,
+               token_length) do
 
     %Game{players: %{player_one: player_one, player_two: player_two},
-          turns: %{player_one_token => MapSet.new, player_two_token => MapSet.new},
-          last_player: :player,
-          token_length: token_length}
+            turns: %{player_one_token => MapSet.new, player_two_token => MapSet.new},
+      last_player: :player,
+     token_length: token_length}
   end
 
   def play_turn(%Game{turns: turns, last_player: last_player} = state, player, cell) do

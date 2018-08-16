@@ -1,6 +1,7 @@
 defmodule TTT do
   alias TTT.Console.IO, as: ConsoleIO
   alias TTT.Console.Board, as: Board
+  alias TTT.Utilities.InputValidators, as: InputValidators
 
   def play({board, game, status, turn})
     when status == :underway do
@@ -48,10 +49,6 @@ defmodule TTT do
     else
       player_one
     end
-  end
-
-  def valid_input?(input) do
-    Regex.match?(~r/^[1-9]{1}$/, String.trim(input))
   end
 
   def match_input(move) do
@@ -105,7 +102,7 @@ defmodule TTT do
 
   defp get_move_input(%Player{name: name, token: token} = payload) do
     move = ConsoleIO.input(Messages.make_a_move(name, token), MessageFlags.request)
-    case valid_input?(move) do
+    case InputValidators.valid_move?(move) do
       true -> String.to_integer(String.trim(move))
       false ->
         ConsoleIO.output(Messages.invalid_move, MessageFlags.error)

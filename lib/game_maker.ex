@@ -1,7 +1,7 @@
 defmodule GameMaker do
   alias TTT.Console.IO, as: ConsoleIO
   alias TTT.Console.Board, as: Board
-  alias TTT.Utilities.Validators, as: Validators
+  alias TTT.Utilities.InputValidators, as: InputValidators
   require Integer
 
   def show_game_menu do
@@ -131,7 +131,7 @@ defmodule GameMaker do
 
   defp set_player_name(player_number) do
     input = ConsoleIO.input(Messages.player_name(player_number), MessageFlags.request)
-    case !Validators.empty_input?(input) do
+    case !InputValidators.empty_input?(input) do
       true -> input
       false ->
         ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)
@@ -141,7 +141,7 @@ defmodule GameMaker do
 
   defp set_player_symbol(player_name) do
     input = ConsoleIO.input(Messages.player_symbol(player_name), MessageFlags.request)
-    case !Validators.empty_input?(input) do
+    case !InputValidators.empty_input?(input) do
       true -> {player_name, input}
       false ->
         ConsoleIO.output(Messages.invalid_entry, MessageFlags.error)

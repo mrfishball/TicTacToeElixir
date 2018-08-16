@@ -2,6 +2,7 @@ defmodule TTT do
   alias TTT.Console.IO, as: ConsoleIO
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators
+  alias TTT.Utilities.InputParser, as: InputParser
 
   def play({board, game, status, turn})
     when status == :underway do
@@ -18,7 +19,7 @@ defmodule TTT do
 
   def generate_naive_move(%Game{players: %{player_one: player_one,
                                            player_two: player_two}} = game, starting_move) do
-    move = match_input(starting_move)
+    move = InputParser.parse_input(starting_move)
     cond do
       MapSet.member?(game.turns[player_one.token], move) or
         MapSet.member?(game.turns[player_two.token], move) ->
@@ -32,7 +33,7 @@ defmodule TTT do
   def generate_random_move(%Game{players: %{player_one: player_one,
                                             player_two: player_two}} = game) do
     random_input = :rand.uniform(9)
-    move = match_input(random_input)
+    move = InputParser.parse_input(random_input)
     cond do
       MapSet.member?(game.turns[player_one.token], move) or
         MapSet.member?(game.turns[player_two.token], move) ->
@@ -49,12 +50,6 @@ defmodule TTT do
     else
       player_one
     end
-  end
-
-  def match_input(move) do
-    move
-    |> get_row()
-    |> get_coord(move)
   end
 
   def update_visual(board, %Game{players: %{player_one: player_one,
@@ -84,7 +79,7 @@ defmodule TTT do
   defp make_a_play(board, game, _status, %Player{type: :human} = turn) do
       turn
       |> get_move_input()
-      |> match_input()
+      |> InputParser.parse_input()
       |> make_a_move(board, game, turn)
   end
 
@@ -108,17 +103,5 @@ defmodule TTT do
         ConsoleIO.output(Messages.invalid_move, MessageFlags.error)
         get_move_input(payload)
     end
-  end
-
-  defp get_row(move) do
-    cond do
-      move <= 3 -> 0
-      move <= 6 -> 1
-      move <= 9 -> 2
-    end
-  end
-
-  defp get_coord(row, move) do
-    {(move - 1 - (3 * row)), row}
   end
 end

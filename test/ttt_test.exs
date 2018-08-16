@@ -17,12 +17,6 @@ defmodule TTTTest do
       %Player{name: "Steven", token: :x, type: :human}
   end
 
-  test "Valid user input will be map to the correct coordinate on the board" do
-    assert TTT.match_input(1) == {0, 0}
-    assert TTT.match_input(9) == {2, 2}
-    assert TTT.match_input(5) == {1, 1}
-  end
-
   test "Player tokens are updated and rendered on the board when user provides valid input" do
     board = Board.new_board("", "")
     player_one = Player.human({"Steven", "x"})

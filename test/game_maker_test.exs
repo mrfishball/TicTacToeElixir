@@ -13,7 +13,7 @@ defmodule GameMakerTest do
     long_token = "  vvvvv  "
     short_token = "gg"
     difference = String.length(long_token) - String.length(short_token)
-    {left_pad, right_pad} = GameMaker.symbol_paddings(long_token, short_token)
+    {left_pad, right_pad} = GameMaker.generate_paddings(long_token, short_token)
     assert String.length(left_pad <> right_pad) == difference
   end
 

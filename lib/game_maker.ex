@@ -17,7 +17,7 @@ defmodule GameMaker do
 
     longest_token_player = longest_token_player(players)
     {player_one, player_two} = add_paddings(longest_token_player, players)
-    {left_pad, right_pad} = symbol_paddings(longest_token_player.token, " ")
+    {left_pad, right_pad} = generate_paddings(longest_token_player.token, " ")
 
     game = Game.new_game(player_one, player_two, String.length(longest_token_player.token))
     board = Board.new_board(left_pad, right_pad)
@@ -71,18 +71,18 @@ defmodule GameMaker do
   def add_paddings(player_with_longest_token, {player_one, player_two}) do
     cond do
       player_with_longest_token != player_one ->
-        {left_side, right_side} = symbol_paddings(player_with_longest_token.token, player_one.token)
+        {left_side, right_side} = generate_paddings(player_with_longest_token.token, player_one.token)
         player_one = %Player{player_one | token: "#{left_side <> player_one.token <> right_side}"}
         {player_one, player_two}
 
       player_with_longest_token != player_two ->
-        {left_side, right_side} = symbol_paddings(player_with_longest_token.token, player_two.token)
+        {left_side, right_side} = generate_paddings(player_with_longest_token.token, player_two.token)
         player_two = %Player{player_two | token: "#{left_side <> player_two.token <> right_side}"}
         {player_one, player_two}
     end
   end
 
-  def symbol_paddings(long_token, short_token) do
+  def generate_paddings(long_token, short_token) do
     difference = String.length(long_token) - String.length(short_token)
     side = div(difference, 2)
     extra_padding = rem(difference, 2)

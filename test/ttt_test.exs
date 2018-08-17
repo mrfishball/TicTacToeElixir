@@ -17,7 +17,7 @@ defmodule TTTTest do
   end
 
   test "Player tokens are updated and rendered on the board when user provides valid input" do
-    board = Board.new_board("", "")
+    board = Board.new_board({"", ""})
     players = {Player.human({"Steven", "x"}), Player.human({"Connie", "o"})}
     game = Game.new_game({_player_one, player_two} = players, 1)
     moves = [{0, 0}, {2, 1}, {1, 0}, {1, 1}, {2, 0}]

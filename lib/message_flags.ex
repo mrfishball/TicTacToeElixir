@@ -1,5 +1,9 @@
 defmodule MessageFlags do
 
+  @moduledoc """
+    Flags that can be used to indicate messages or requests being displayed of received.
+  """
+
   def menu do
     "menu"
   end

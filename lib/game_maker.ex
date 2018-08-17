@@ -4,17 +4,31 @@ defmodule GameMaker do
   alias TTT.Utilities.TokenPaddingGenerator, as: TokenPaddingGenerator
   require Integer
 
+  @moduledoc """
+    The module is responsible for setting up and putting together
+    all the essential pieces for the game to run.
+  """
+
+  @doc """
+
+    ## Parametrs
+
+      -players: Tuple of players.
+
+
+
+  """
   def assemble_game({player_one, _player_two} = players) do
     player_two = reset_symbol_if_identical(players)
     players = {player_one, player_two}
 
-    longest_token = Player.get_longest_token(players)
-    {player_one, player_two} = TokenPaddingGenerator.add_paddings(longest_token, players)
+    longer_token = Player.get_longer_token(players)
+    players = TokenPaddingGenerator.add_paddings(longer_token, players)
 
-    game = Game.new_game(player_one, player_two, String.length(longest_token))
+    game = Game.new_game(players, String.length(longer_token))
     status = Game.status(game)
 
-    {left_pad, right_pad} = TokenPaddingGenerator.generate_paddings(longest_token, " ")
+    {left_pad, right_pad} = TokenPaddingGenerator.generate_paddings(longer_token, " ")
     board = Board.new_board(left_pad, right_pad)
 
     Board.show_board(board, game.token_length)

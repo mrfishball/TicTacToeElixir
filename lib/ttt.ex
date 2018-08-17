@@ -7,26 +7,44 @@ defmodule TTT do
     This module represents the game play logic.
   """
 
-  
+  @doc """
+
+    ## Parameters
+
+      - {board, game, status, turn}: Tuple of game components.
+        - turn: the player in turn.
+
+    Checks the status of the game to make sure it's still ongoing before making a play.
+  """
   def play({board, game, status, turn})
     when status == :underway do
       make_a_play(board, game, status, turn)
   end
 
+  @doc """
+
+    If the game ends in a win, it'll display a message with the result and the winner.
+  """
   def play({_board, _game, {_progress, {outcome, winner}} = status, _turn}) when status != :underway do
     IOcontroller.output(Messages.game_status(outcome, winner), MessageTags.status)
   end
 
+  @doc """
+
+    If the game ends in a draw, it'll display a message with the result.
+  """
   def play({_board, _game, {_progress, outcome} = status, _turn}) when status != :underway do
     IOcontroller.output(Messages.game_status(outcome), MessageTags.status)
   end
 
-  def generate_naive_move(%Game{players: %{player_one: player_one,
-                                           player_two: player_two}} = game, starting_move) do
+  @doc """
+
+    If the game end in a win, it'll display a message with the result and the winner.
+  """
+  def generate_naive_move(%Game{turns: turns} = game, starting_move) do
     move = InputParser.parse_input(starting_move)
     cond do
-      MapSet.member?(game.turns[player_one.token], move) or
-        MapSet.member?(game.turns[player_two.token], move) ->
+      Game.cell_taken?(turns, move) ->
           starting_move = starting_move + 1
           generate_naive_move(game, starting_move)
       true ->
@@ -34,13 +52,11 @@ defmodule TTT do
     end
   end
 
-  def generate_random_move(%Game{players: %{player_one: player_one,
-                                            player_two: player_two}} = game) do
+  def generate_random_move(%Game{turns: turns} = game) do
     random_input = :rand.uniform(9)
     move = InputParser.parse_input(random_input)
     cond do
-      MapSet.member?(game.turns[player_one.token], move) or
-        MapSet.member?(game.turns[player_two.token], move) ->
+      Game.cell_taken?(turns, move) ->
           generate_random_move(game)
       true ->
         move

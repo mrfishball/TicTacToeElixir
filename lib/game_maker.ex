@@ -50,33 +50,18 @@ defmodule GameMaker do
     {players, paddings, longer_token}
   end
 
-  @doc """
-
-    This represents the human vs human game mode. It assembles the
-    players and returns them in a tuple.
-  """
   def player_vs_player do
     player_one = set_human_player(1)
     player_two = set_human_player(2)
     {player_one, player_two}
   end
 
-  @doc """
-
-    This represents the human vs computer game mode. It assembles the
-    players and returns them in a tuple.
-  """
   def player_vs_computer do
     player_one = set_human_player(1)
     player_two = set_computer_player(2)
     {player_one, player_two}
   end
 
-  @doc """
-
-    This represents the computer vs computer game mode. It assembles the
-    players and returns them in a tuple.
-  """
   def computer_vs_computer do
     player_one = set_computer_player(1)
     player_two = set_computer_player(2)

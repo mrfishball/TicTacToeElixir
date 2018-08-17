@@ -13,7 +13,7 @@ defmodule TTT.Console.GameRunner do
     Display a game title, menu and asking for game mode input to properly setup the game.
   """
   def new_game do
-    IOcontroller.output(Messages.title, MessageFlags.title)
+    IOcontroller.output(Messages.title, MessageTags.title)
     game_menu_selection()
     |> select_game_mode()
     |> GameMaker.polish_tokens_and_paddings()
@@ -22,9 +22,9 @@ defmodule TTT.Console.GameRunner do
   end
 
   defp game_menu_selection do
-    IOcontroller.output(Messages.game_menu, MessageFlags.menu)
+    IOcontroller.output(Messages.game_menu, MessageTags.menu)
     Messages.select()
-    |> IOcontroller.input(MessageFlags.request)
+    |> IOcontroller.input(MessageTags.request)
   end
 
   defp select_game_mode(choice) do
@@ -33,7 +33,7 @@ defmodule TTT.Console.GameRunner do
       choice == "2" -> GameMaker.player_vs_computer()
       choice == "3" -> GameMaker.computer_vs_computer()
       true ->
-        IOcontroller.output(Messages.invalid_entry, MessageFlags.error)
+        IOcontroller.output(Messages.invalid_entry, MessageTags.error)
         new_game()
     end
   end

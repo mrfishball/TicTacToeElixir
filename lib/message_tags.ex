@@ -1,7 +1,8 @@
-defmodule MessageFlags do
+defmodule MessageTags do
 
   @moduledoc """
-    Flags that can be used to indicate messages or requests being displayed of received.
+    Tags that can be used to indicate message or request types being displayed of received
+    for processing.
   """
 
   def menu do

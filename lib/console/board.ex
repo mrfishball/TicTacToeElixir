@@ -12,8 +12,7 @@ defmodule TTT.Console.Board do
 
     ## Parameters
 
-      - left_pad, right_pad: empty space(s) around the token for scaling the board according
-      to the size of the token.
+      - left_pad, right_pad: String of empty space(s).
 
     Returns a map which contains coordinates as keys and numbers (1 - 9) as values, representing
     available spots on the board.
@@ -29,7 +28,7 @@ defmodule TTT.Console.Board do
 
       - board: Map that represents the current state of the board.
       - list: List that contains coordinates that represent moves made by a player.
-      - token: String that represents a player's token.
+      - token: String of player's token.
 
       Returns a map with player's token as value for each coordinate that matches those in
       the list.
@@ -60,8 +59,8 @@ defmodule TTT.Console.Board do
     ## Parameters
 
       - board: Map that represents the current state of the board.
-      - token_length: Integer that represents the lenght of the longest token.
-      It is use to make sure the row dividers are the same length as the rows.
+      - token_length: Integer that represents the lenght of the longer token.
+      It is use to make sure the row dividers scales according to the size of the tokens.
 
     Draws a scaled board with it's contents in command line.
   """

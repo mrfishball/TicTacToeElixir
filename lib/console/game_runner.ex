@@ -16,6 +16,7 @@ defmodule TTT.Console.GameRunner do
     IOcontroller.output(Messages.title, MessageFlags.title)
     game_menu_selection()
     |> select_game_mode()
+    |> GameMaker.polish_tokens_and_paddings()
     |> GameMaker.assemble_game()
     |> TTT.play()
   end

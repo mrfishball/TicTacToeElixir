@@ -5,8 +5,8 @@ defmodule GameMaker do
   require Integer
 
   @moduledoc """
-    The module is responsible for setting up and putting together
-    all the essential pieces for the game to run.
+    The module is responsible for setting up plaers and putting together
+    the essential pieces for the game to run.
   """
 
   @doc """
@@ -18,24 +18,22 @@ defmodule GameMaker do
 
 
   """
-  def assemble_game({player_one, _player_two} = players) do
-    player_two = reset_symbol_if_identical(players)
-    players = {player_one, player_two}
-
-    longer_token = Player.get_longer_token(players)
-    players = TokenPaddingGenerator.add_paddings(longer_token, players)
+  def assemble_game({{player_one, _player_two} = players, paddings, longer_token}) do
 
     game = Game.new_game(players, String.length(longer_token))
     status = Game.status(game)
-
-    {left_pad, right_pad} = TokenPaddingGenerator.generate_paddings(longer_token, " ")
-    board = Board.new_board(left_pad, right_pad)
-
+    board = Board.new_board(paddings)
     Board.show_board(board, game.token_length)
 
-    first_player = player_one
+    {board, game, status, player_one}
+  end
 
-    {board, game, status, first_player}
+  def polish_tokens_and_paddings({player_one, _player_two} = players) do
+    player_two = reset_symbol_if_identical(players)
+    longer_token = Player.get_longer_token(players)
+    players = TokenPaddingGenerator.add_paddings(longer_token, {player_one, player_two})
+    paddings = TokenPaddingGenerator.generate_paddings(longer_token, " ")
+    {players, paddings, longer_token}
   end
 
   def player_vs_player do

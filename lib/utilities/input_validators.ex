@@ -8,7 +8,7 @@ defmodule TTT.Utilities.InputValidators do
 
     ## Parameters
 
-      -input: String of user input.
+      - input: String of user input.
 
     Returns true if, after removing any trailing whitespaces, the input is empty.
   """

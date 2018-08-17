@@ -13,10 +13,12 @@ defmodule GameMaker do
 
     ## Parametrs
 
-      -players: Tuple of players.
+      - players: Tuple of player structs which contains player's name, token and type.
+      - paddings: Tuple consists of left padding and right padding(whitespaces).
+      - longer_token: String of the longer token.
 
 
-
+    Assembles and returns a tuple of game components.
   """
   def assemble_game({{player_one, _player_two} = players, paddings, longer_token}) do
 
@@ -28,6 +30,18 @@ defmodule GameMaker do
     {board, game, status, player_one}
   end
 
+  @doc """
+
+    ## Parametrs
+
+      - players: Tuple of player structs which contains player's name, token and type.
+
+    Reset player 2's token if it's identical to player 1's.
+    Determined and apply paddings for the shorter token.
+    Generate paddings for the initial board when game starts.
+
+    Returns tuple of players with updated, unique tokens, paddings for both sides and the longer token.
+  """
   def polish_tokens_and_paddings({player_one, _player_two} = players) do
     player_two = reset_symbol_if_identical(players)
     longer_token = Player.get_longer_token(players)
@@ -36,24 +50,48 @@ defmodule GameMaker do
     {players, paddings, longer_token}
   end
 
+  @doc """
+
+    This represents the human vs human game mode. It assembles the
+    players and returns them in a tuple.
+  """
   def player_vs_player do
     player_one = set_human_player(1)
     player_two = set_human_player(2)
     {player_one, player_two}
   end
 
+  @doc """
+
+    This represents the human vs computer game mode. It assembles the
+    players and returns them in a tuple.
+  """
   def player_vs_computer do
     player_one = set_human_player(1)
     player_two = set_computer_player(2)
     {player_one, player_two}
   end
 
+  @doc """
+
+    This represents the computer vs computer game mode. It assembles the
+    players and returns them in a tuple.
+  """
   def computer_vs_computer do
     player_one = set_computer_player(1)
     player_two = set_computer_player(2)
     {player_one, player_two}
   end
 
+  @doc """
+
+    ## Parametrs
+
+      - players: Tuple of player structs which contains player's name, token and type.
+
+    Checks if two players have the same token, if true, it'll reset the second player's token.
+    Returns a struct of player two.
+  """
   def reset_symbol_if_identical({player_one, player_two}) do
     cond do
       player_one.token == player_two.token ->

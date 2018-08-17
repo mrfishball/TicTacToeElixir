@@ -9,8 +9,8 @@ defmodule TTT.Utilities.TokenPaddingGenerator do
 
     ## Parameters
 
-      -longest_token: String of the longer token.
-      -players: Tuple of players which contains player's name, token and type.
+      - longest_token: String of the longer token.
+      - players: Tuple of player structs which contains player's name, token and type.
 
     Returns a tupe of players with paddings added to the shorter token.
   """

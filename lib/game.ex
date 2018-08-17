@@ -5,8 +5,8 @@ defmodule Game do
 
   @board_bound 0..2
 
-  def new_game(%Player{token: player_one_token} = player_one,
-               %Player{token: player_two_token} = player_two,
+  def new_game({%Player{token: player_one_token} = player_one,
+               %Player{token: player_two_token} = player_two},
                token_length) do
 
     %Game{players: %{player_one: player_one, player_two: player_two},

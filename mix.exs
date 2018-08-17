@@ -18,7 +18,6 @@ defmodule TTT.MixProject do
       source_url: "https://github.com/mrfishball/TicTacToeElixir",
       homepage_url: "https://github.com/mrfishball/TicTacToeElixir",
       docs: [
-        main: "TicTacToe Elixir",
         logo: "./img/logo.jpg",
         extras: ["README.md", "CHANGELOG.md"]
       ]

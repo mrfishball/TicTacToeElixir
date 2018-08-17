@@ -1,5 +1,10 @@
 defmodule Player do
 
+  @moduledoc """
+
+    This module represents a player.
+  """
+
   @enforce_keys [:name, :token, :type]
   defstruct @enforce_keys
 

@@ -3,6 +3,11 @@ defmodule TTT do
   alias TTT.Utilities.InputValidators, as: InputValidators
   alias TTT.Utilities.InputParser, as: InputParser
 
+  @moduledoc """
+    This module represents the game play logic.
+  """
+
+  
   def play({board, game, status, turn})
     when status == :underway do
       make_a_play(board, game, status, turn)

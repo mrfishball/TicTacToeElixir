@@ -10,12 +10,22 @@ See the CHANGELOG.md file for further details.
 
 ## Building Your Own Game
 
-Add :ttt as a dependency to your project's mix.exs:
+Add :ttt as a dependency to your project's mix.exs with hex package manager(default):
 
 ```elixir
 def deps do
   [
     {:ttt, "~> 0.1.0"}
+  ]
+end
+```
+
+or through GitHub:
+
+```elixir
+def deps do
+  [
+    {:ttt, git: "https://github.com/mrfishball/TicTacToeElixir.git", tag: "0.1.0"}
   ]
 end
 ```

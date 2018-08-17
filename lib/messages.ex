@@ -24,13 +24,6 @@ defmodule Messages do
     "What is your name? (Player #{player_number}): "
   end
 
-  @doc """
-
-    ## Parameters
-
-      - player_name: String that represent the name of the player.
-
-  """
   def player_symbol(player_name) do
     "What do you want your token to be, #{player_name}?: "
   end
@@ -46,37 +39,14 @@ defmodule Messages do
     "Game over!\nIt's a #{outcome}!"
   end
 
-  @doc """
-
-    ## Parameters
-
-      - outcome: Atom that represent the outcome of the game.
-      - winner: String of the winner's name.
-
-  """
   def game_status(outcome, winner) do
     "Game over!\nThe #{outcome} is #{winner}!"
   end
 
-  @doc """
-
-    ## Parameters
-
-      - name: String of the player's name.
-      - token: String of the player's token.
-
-  """
   def make_a_move(name, token) do
     "#{name} - '#{String.trim(token)}', please enter a number from 1 to 9 only: "
   end
 
-  @doc """
-
-    ## Parameters
-
-      - name: String of the error message.
-
-  """
   def invalid_move(error) do
     "\nInvalid move: #{error}. Please try again. \n"
   end
@@ -89,24 +59,10 @@ defmodule Messages do
     "\nInvalid entry. Please try again.\n"
   end
 
-  @doc """
-
-    ## Parameters
-
-      - token: String of the player's token.
-
-  """
   def token_take(token) do
     "\nToken '#{token}' is taken. Please choose a different token.\n"
   end
 
-  @doc """
-
-    ## Parameters
-
-      - token: String of the player's token.
-
-  """
   def symbol_taken_error(token) do
     "\n The token '#{token}' is taken. Please enter a different token: "
   end
@@ -118,13 +74,6 @@ defmodule Messages do
     "3. Spectate a game\n"
   end
 
-  @doc """
-
-    ## Parameters
-
-      - computer_name: String of the computer player's name.
-
-  """
   def computer_choice_menu(computer_name) do
     "\nChoose the type of the computer player for #{computer_name} (Enter a number from 1 to 2)\n\n" <>
     "1. Naive - (#{computer_name} will take the first available spot)\n" <>

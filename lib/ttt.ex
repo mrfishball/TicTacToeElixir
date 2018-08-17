@@ -97,7 +97,7 @@ defmodule TTT do
   defp get_move_input(%Player{name: name, token: token} = payload) do
     move = IOcontroller.input(Messages.make_a_move(name, token), MessageFlags.request)
     case InputValidators.valid_move?(move) do
-      true -> String.to_integer(String.trim(move))
+      true -> move
       false ->
         IOcontroller.output(Messages.invalid_move, MessageFlags.error)
         get_move_input(payload)

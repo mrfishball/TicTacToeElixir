@@ -39,7 +39,14 @@ defmodule TTT do
 
   @doc """
 
-    If the game end in a win, it'll display a message with the result and the winner.
+    ## Parameters
+
+      - game: Struct of the game.
+      - starting_move: Interger that represents the first move the navie computer player will take.
+
+    ## Example: starting_move = 1 => {0, 0}
+    Recursive function calls with incremented starting_move if cell is taken.
+    Returns the move in coordinate if move is available.
   """
   def generate_naive_move(%Game{turns: turns} = game, starting_move) do
     move = InputParser.parse_input(starting_move)
@@ -52,6 +59,15 @@ defmodule TTT do
     end
   end
 
+  @doc """
+
+    ## Parameters
+
+      - game: Struct of the game.
+
+    Recursive function calls with randomly generated move if cell is taken.
+    Returns the move in coordinate if move is available.
+  """
   def generate_random_move(%Game{turns: turns} = game) do
     random_input = :rand.uniform(9)
     move = InputParser.parse_input(random_input)
@@ -63,6 +79,15 @@ defmodule TTT do
     end
   end
 
+  @doc """
+
+    ## Parameters
+
+      - game: Struct of the game.
+      - last_player: Struct of the last player played.
+
+    Returns the player who plays next.
+  """
   def switch_turn(%Game{players: %{player_one: player_one,
                                    player_two: player_two}}, last_player) do
     if last_player == player_one.token do
@@ -72,6 +97,17 @@ defmodule TTT do
     end
   end
 
+  @doc """
+
+    ## Parameters
+
+      - board: Map of the board.
+      - game: Struct of the game.
+
+    Convert each player's moves into a list and calls render_board, passing in
+    a map of the list with the players' tokens to generate new UI to reflect the new
+    board.
+  """
   def update_visual(board, %Game{players: %{player_one: player_one,
                                             player_two: player_two},
                                             token_length: token_length} = game) do

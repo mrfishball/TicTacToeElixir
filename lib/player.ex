@@ -2,7 +2,7 @@ defmodule Player do
 
   @moduledoc """
 
-    This module represents a player.
+    A player module.
   """
 
   @enforce_keys [:name, :token, :type]

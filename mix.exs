@@ -19,7 +19,7 @@ defmodule TTT.MixProject do
       homepage_url: "https://github.com/mrfishball/TicTacToeElixir",
       docs: [
         main: "TicTacToe Elixir",
-        logo: "/img/logo.jpg",
+        logo: "./img/logo.jpg",
         extras: ["README.md", "CHANGELOG.md"]
       ]
     ]
@@ -40,9 +40,9 @@ defmodule TTT.MixProject do
 
   defp package do
     [
-    maintainers: ["Steven Kwok"],
-    licenses: ["MIT"],
-    links: %{"GitHub" => "https://github.com/mrfishball/TicTacToeElixir"}
+      maintainers: ["Steven Kwok"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/mrfishball/TicTacToeElixir"}
   ]
   end
 

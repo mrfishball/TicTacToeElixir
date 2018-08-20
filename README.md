@@ -38,7 +38,7 @@ $ mix deps.get
 
 ## Usage
 
-...TBA
+Visit https://hexdocs.pm/ttt/api-reference.html for documentation on how to use the APIs.
 
 ## Compiling An Executable
 

@@ -1,4 +1,5 @@
 defmodule GameMaker do
+  alias TTT.Console.Cli, as: Cli
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators
   alias TTT.Utilities.TokenPaddingGenerator, as: TokenPaddingGenerator
@@ -52,36 +53,6 @@ defmodule GameMaker do
 
   @doc """
 
-    Setup two human players(names, token and types) and return the player structs as a tuple.
-  """
-  def player_vs_player do
-    player_one = set_human_player(1)
-    player_two = set_human_player(2)
-    {player_one, player_two}
-  end
-
-  @doc """
-
-    Setup one human player and one computer player(names, token and types) and return the player structs as a tuple.
-  """
-  def player_vs_computer do
-    player_one = set_human_player(1)
-    player_two = set_computer_player(2)
-    {player_one, player_two}
-  end
-
-  @doc """
-
-    Setup two computer players(names, token and types) and return the player structs as a tuple.
-  """
-  def computer_vs_computer do
-    player_one = set_computer_player(1)
-    player_two = set_computer_player(2)
-    {player_one, player_two}
-  end
-
-  @doc """
-
     ## Parametrs
 
       - players: Tuple of player structs which contains player's name, token and type.
@@ -92,7 +63,7 @@ defmodule GameMaker do
   def reset_symbol_if_identical({player_one, player_two}) do
     cond do
       player_one.token == player_two.token ->
-        IOcontroller.output(Messages.token_take(player_two.token), MessageTags.error)
+        Cli.output(Messages.token_take(player_two.token), MessageTags.error)
         {_player_two_name, new_token} = set_player_symbol(player_two.name)
         player_two = %Player{player_two | token: new_token}
         reset_symbol_if_identical({player_one, player_two})
@@ -101,54 +72,21 @@ defmodule GameMaker do
     end
   end
 
-  defp set_human_player(player_number) do
-    player_number
-    |> set_player_name()
-    |> set_player_symbol()
-    |> Player.human()
+  def setup_player(player_name, player_token, player_type) do
+    player_type.({player_name, player_token})
   end
 
-  defp set_computer_player(player_number) do
-    player_number
-    |> set_player_name()
-    |> set_player_symbol()
-    |> computer_type_selection()
-  end
-
-  defp computer_type_selection({computer_name, _token} = payload) do
-      IOcontroller.output(Messages.computer_choice_menu(computer_name), MessageTags.menu)
-      Messages.select()
-      |> IOcontroller.input(MessageTags.request)
-      |> make_computer_player(payload)
-  end
-
-  defp make_computer_player(choice, payload) do
-    cond do
-      choice == "1" -> Player.naive_computer(payload)
-      choice == "2" -> Player.random_computer(payload)
-      true ->
-        IOcontroller.output(Messages.invalid_entry, MessageTags.error)
-        computer_type_selection(payload)
+  def set_player_name(name) do
+    case !InputValidators.empty_input?(name) do
+      true -> {:ok, name}
+      false -> {:error, name}
     end
   end
 
-  defp set_player_name(player_number) do
-    input = IOcontroller.input(Messages.player_name(player_number), MessageTags.request)
-    case !InputValidators.empty_input?(input) do
-      true -> input
-      false ->
-        IOcontroller.output(Messages.invalid_entry, MessageTags.error)
-        set_player_name(player_number)
-    end
-  end
-
-  defp set_player_symbol(player_name) do
-    input = IOcontroller.input(Messages.player_symbol(player_name), MessageTags.request)
-    case !InputValidators.empty_input?(input) do
-      true -> {player_name, input}
-      false ->
-        IOcontroller.output(Messages.invalid_entry, MessageTags.error)
-        set_player_symbol(player_name)
+  def set_player_symbol(token) do
+    case !InputValidators.empty_input?(token) do
+      true -> {:ok, token}
+      false -> {:error, token}
     end
   end
 end

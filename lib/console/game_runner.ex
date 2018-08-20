@@ -80,7 +80,7 @@ defmodule TTT.Console.GameRunner do
 
   defp get_player_name(player_number) do
     name = Cli.input(Messages.player_name(player_number), MessageTags.request)
-    with {:ok, name} <- GameMaker.set_player_name(name) do
+    with {:ok, name} <- GameMaker.check_player_name(name) do
       name
     else
       {:error, name} -> Cli.output(Messages.invalid_name(name), MessageTags.error)
@@ -90,7 +90,7 @@ defmodule TTT.Console.GameRunner do
 
   defp get_player_symbol(player_number) do
     symbol = Cli.input(Messages.player_symbol(player_number), MessageTags.request)
-    with {:ok, token} <- GameMaker.set_player_symbol(symbol) do
+    with {:ok, token} <- GameMaker.check_player_symbol(symbol) do
       token
     else
       {:error, token} -> Cli.output(Messages.invalid_token(token), MessageTags.error)

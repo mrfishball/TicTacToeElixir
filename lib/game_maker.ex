@@ -1,5 +1,4 @@
 defmodule GameMaker do
-  alias TTT.Console.Cli, as: Cli
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators
   alias TTT.Utilities.TokenPaddingGenerator, as: TokenPaddingGenerator
@@ -43,33 +42,11 @@ defmodule GameMaker do
 
     Returns tuple of players with updated, unique tokens, paddings for both sides and the longer token.
   """
-  def polish_tokens_and_paddings({player_one, _player_two} = players) do
-    player_two = reset_symbol_if_identical(players)
+  def polish_tokens_and_paddings({player_one, player_two} = players) do
     longer_token = Player.get_longer_token(players)
     players = TokenPaddingGenerator.add_paddings(longer_token, {player_one, player_two})
     paddings = TokenPaddingGenerator.generate_paddings(longer_token, " ")
     {players, paddings, longer_token}
-  end
-
-  @doc """
-
-    ## Parametrs
-
-      - players: Tuple of player structs which contains player's name, token and type.
-
-    Checks if two players have the same token, if true, it'll reset the second player's token.
-    Returns a struct of player two.
-  """
-  def reset_symbol_if_identical({player_one, player_two}) do
-    cond do
-      player_one.token == player_two.token ->
-        Cli.output(Messages.token_take(player_two.token), MessageTags.error)
-        {_player_two_name, new_token} = set_player_symbol(player_two.name)
-        player_two = %Player{player_two | token: new_token}
-        reset_symbol_if_identical({player_one, player_two})
-      true ->
-        player_two
-    end
   end
 
   @doc """
@@ -94,7 +71,7 @@ defmodule GameMaker do
 
       Returns tuple of the result of the validation and the original payload.
   """
-  def set_player_name(name) do
+  def check_player_name(name) do
     case !InputValidators.empty_input?(name) do
       true -> {:ok, name}
       false -> {:error, name}
@@ -109,10 +86,19 @@ defmodule GameMaker do
 
       Returns tuple of the result of the validation and the original payload.
   """
-  def set_player_symbol(token) do
+  def check_player_symbol(token) do
     case !InputValidators.empty_input?(token) do
       true -> {:ok, token}
+
       false -> {:error, token}
     end
+  end
+
+  defp check_identical_symbol(token_one, token_two) when token_one == token_two do
+    {:error, token}
+  end
+
+  defp check_identical_symbol(token_one, token_two) when token_one != token_two do
+    {:ok, token}
   end
 end

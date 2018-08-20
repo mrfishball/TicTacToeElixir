@@ -13,8 +13,7 @@ defmodule TTT.Utilities.InputValidators do
     Returns true if, after removing any trailing whitespaces, the input is empty.
   """
   def empty_input?(input) do
-    input = String.trim(input)
-    String.length(input) < 1
+    String.length(String.trim(input)) == 0
   end
 
   @doc """

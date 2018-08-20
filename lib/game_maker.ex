@@ -50,18 +50,30 @@ defmodule GameMaker do
     {players, paddings, longer_token}
   end
 
+  @doc """
+
+    Setup two human players(names, token and types) and return the player structs as a tuple.
+  """
   def player_vs_player do
     player_one = set_human_player(1)
     player_two = set_human_player(2)
     {player_one, player_two}
   end
 
+  @doc """
+
+    Setup one human player and one computer player(names, token and types) and return the player structs as a tuple.
+  """
   def player_vs_computer do
     player_one = set_human_player(1)
     player_two = set_computer_player(2)
     {player_one, player_two}
   end
 
+  @doc """
+
+    Setup two computer players(names, token and types) and return the player structs as a tuple.
+  """
   def computer_vs_computer do
     player_one = set_computer_player(1)
     player_two = set_computer_player(2)

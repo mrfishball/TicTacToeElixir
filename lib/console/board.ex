@@ -1,4 +1,5 @@
 defmodule TTT.Console.Board do
+  alias TTT.Console.Cli, as: Cli
   alias TTT.Console.Colorizer, as: Colorizer
   require Integer
 
@@ -66,7 +67,7 @@ defmodule TTT.Console.Board do
   """
 
   def show_board(board, token_length) do
-    IOcontroller.output("\n")
+    Cli.output("\n")
     line = draw_line(token_length)
     for row <- @board_bounds do
       for col <- @board_bounds do
@@ -75,8 +76,8 @@ defmodule TTT.Console.Board do
       |> Enum.join(" |")
     end
     |> Enum.join(line)
-    |> IOcontroller.output()
-    IOcontroller.output("\n")
+    |> Cli.output()
+    Cli.output("\n")
   end
 
   defp draw_line(length) do

@@ -68,7 +68,7 @@ defmodule Messages do
   end
 
   def symbol_taken_error(token) do
-    "\nToken 'X' is taken. Please choose a different token.\n"
+    "\nToken '#{token}' is taken. Please choose a different token.\n"
   end
 
   def game_menu do

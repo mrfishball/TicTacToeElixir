@@ -1,8 +1,7 @@
 defmodule MessageTags do
 
   @moduledoc """
-    Tags that can be used to indicate message or request types being displayed of received
-    for processing.
+    Tags that can be used to indicate message or request types for additional processing if needed.
   """
 
   def menu do

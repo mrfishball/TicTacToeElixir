@@ -1,7 +1,7 @@
 defmodule TTT.Utilities.InputValidators do
 
   @moduledoc """
-    Perform user input validation.
+    Performs user input validation.
   """
 
   @doc """

@@ -2,7 +2,7 @@ defmodule TTT.Utilities.InputParser do
 
   @moduledoc """
 
-    For parsing player's move inputs into coordinates.
+    Parsing player's move inputs(integer or a string of digit) into coordinates.
   """
 
   @doc """

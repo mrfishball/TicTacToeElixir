@@ -4,7 +4,7 @@ defmodule TTT do
   alias TTT.Utilities.InputParser, as: InputParser
 
   @moduledoc """
-    This module represents the game play logic.
+    This module represents and controlls the flow of the game play.
   """
 
   @doc """
@@ -129,8 +129,6 @@ defmodule TTT do
       play({board, game, status, turn})
     end
   end
-
-  #### Private function section ####
 
   defp make_a_play(board, game, _status, %Player{type: :human} = turn) do
       turn

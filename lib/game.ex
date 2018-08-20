@@ -2,7 +2,7 @@ defmodule Game do
 
   @moduledoc """
 
-    This module represents the core rules and structure of the game.
+    This module represents the core rules of the game.
   """
 
   @enforce_keys [:players, :turns, :last_player, :token_length]

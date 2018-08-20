@@ -3,7 +3,7 @@ defmodule IOcontroller do
 
   @moduledoc """
     This is a controller module that relays input and output to corresponding handlers.
-    The handlers can be changed without having to change any code in the game logic.
+    The handlers are injected into the controller's main functions.
   """
 
   @doc """

@@ -5,7 +5,7 @@ defmodule GameMaker do
   require Integer
 
   @moduledoc """
-    The module is responsible for setting up plaers and putting together
+    The module is responsible for setting up players and putting together
     the essential pieces for the game to run.
   """
 
@@ -13,7 +13,7 @@ defmodule GameMaker do
 
     ## Parametrs
 
-      - players: Tuple of player structs which contains player's name, token and type.
+      - players: Tuple of player structs which contains players'names, tokens and types.
       - paddings: Tuple consists of left padding and right padding(whitespaces).
       - longer_token: String of the longer token.
 

@@ -32,7 +32,7 @@ defmodule GameMaker do
 
   @doc """
 
-    ## Parametrs
+    ##Parameters
 
       - players: Tuple of player structs which contains player's name, token and type.
 
@@ -51,7 +51,7 @@ defmodule GameMaker do
 
   @doc """
 
-    ## Parameters
+    ##Parameters
 
       - player_name: String of player's name
       - player_token: String of player's token
@@ -65,7 +65,7 @@ defmodule GameMaker do
 
   @doc """
 
-    ## Parameters
+    ##Parameters
 
       - name: String of player's name
 
@@ -80,7 +80,7 @@ defmodule GameMaker do
 
   @doc """
 
-    ## Parameters
+    ##Parameters
 
       - name: String of player's token
 
@@ -95,10 +95,10 @@ defmodule GameMaker do
   end
 
   defp check_identical_symbol(token_one, token_two) when token_one == token_two do
-    {:error, token}
+    {:error, token_two}
   end
 
   defp check_identical_symbol(token_one, token_two) when token_one != token_two do
-    {:ok, token}
+    {:ok, token_two}
   end
 end

@@ -24,8 +24,8 @@ defmodule Messages do
     "What is your name? (Player #{player_number}): "
   end
 
-  def player_symbol(player_name) do
-    "What do you want your token to be, #{player_name}?: "
+  def player_symbol(player_number) do
+    "What do you want your token to be? (Player #{player_number}): "
   end
 
   @doc """
@@ -59,12 +59,16 @@ defmodule Messages do
     "\nInvalid entry. Please try again.\n"
   end
 
-  def token_take(token) do
-    "\nToken '#{token}' is taken. Please choose a different token.\n"
+  def invalid_name(name) do
+    "\n'#{name}' is not a valid name. Please try again.\n"
+  end
+
+  def invalid_token(token) do
+    "\n'#{token}' is not a valid token. Please try again.\n"
   end
 
   def symbol_taken_error(token) do
-    "\n The token '#{token}' is taken. Please enter a different token: "
+    "\nToken 'X' is taken. Please choose a different token.\n"
   end
 
   def game_menu do

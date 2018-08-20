@@ -72,10 +72,28 @@ defmodule GameMaker do
     end
   end
 
+  @doc """
+
+    ## Parameters
+
+      - player_name: String of player's name
+      - player_token: String of player's token
+      - player_type: function to be called to create the player struct
+
+      Returns a player struct of the type passed in.
+  """
   def setup_player(player_name, player_token, player_type) do
     player_type.({player_name, player_token})
   end
 
+  @doc """
+
+    ## Parameters
+
+      - name: String of player's name
+
+      Returns tuple of the result of the validation and the original payload.
+  """
   def set_player_name(name) do
     case !InputValidators.empty_input?(name) do
       true -> {:ok, name}
@@ -83,6 +101,14 @@ defmodule GameMaker do
     end
   end
 
+  @doc """
+
+    ## Parameters
+
+      - name: String of player's token
+
+      Returns tuple of the result of the validation and the original payload.
+  """
   def set_player_symbol(token) do
     case !InputValidators.empty_input?(token) do
       true -> {:ok, token}

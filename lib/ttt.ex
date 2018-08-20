@@ -1,4 +1,5 @@
 defmodule TTT do
+  alias TTT.Console.Cli, as: Cli
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators
   alias TTT.Utilities.InputParser, as: InputParser
@@ -26,7 +27,7 @@ defmodule TTT do
     If the game ends in a win, it'll display a message with the result and the winner.
   """
   def play({_board, _game, {_progress, {outcome, winner}} = status, _turn}) when status != :underway do
-    IOcontroller.output(Messages.game_status(outcome, winner), MessageTags.status)
+    Cli.output(Messages.game_status(outcome, winner), MessageTags.status)
   end
 
   @doc """
@@ -34,7 +35,7 @@ defmodule TTT do
     If the game ends in a draw, it'll display a message with the result.
   """
   def play({_board, _game, {_progress, outcome} = status, _turn}) when status != :underway do
-    IOcontroller.output(Messages.game_status(outcome), MessageTags.status)
+    Cli.output(Messages.game_status(outcome), MessageTags.status)
   end
 
   @doc """
@@ -124,7 +125,7 @@ defmodule TTT do
       turn = switch_turn(game, token)
       play({board, game, status, turn})
     else
-      {:error, error} -> IOcontroller.output(Messages.invalid_move(error), MessageTags.error)
+      {:error, error} -> Cli.output(Messages.invalid_move(error), MessageTags.error)
       status = Game.status(game)
       play({board, game, status, turn})
     end
@@ -150,11 +151,11 @@ defmodule TTT do
   end
 
   defp get_move_input(%Player{name: name, token: token} = payload) do
-    move = IOcontroller.input(Messages.make_a_move(name, token), MessageTags.request)
+    move = Cli.input(Messages.make_a_move(name, token), MessageTags.request)
     case InputValidators.valid_move?(move) do
       true -> move
       false ->
-        IOcontroller.output(Messages.invalid_move, MessageTags.error)
+        Cli.output(Messages.invalid_move, MessageTags.error)
         get_move_input(payload)
     end
   end

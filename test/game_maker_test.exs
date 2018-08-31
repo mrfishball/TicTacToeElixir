@@ -1,4 +1,7 @@
 defmodule GameMakerTest do
+  # alias TTT.Core.Game, as: Game
+  alias TTT.Core.Player, as: Player
+  alias TTT.Core.GameMaker, as: GameMaker
   use ExUnit.Case
 
   test "player is setup with the correct type" do

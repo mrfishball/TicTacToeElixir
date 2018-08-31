@@ -1,4 +1,5 @@
-defmodule Player do
+defmodule TTT.Core.Player do
+  alias __MODULE__, as: Player
 
   @moduledoc """
 

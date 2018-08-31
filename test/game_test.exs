@@ -1,4 +1,6 @@
 defmodule GameTest do
+  alias TTT.Core.Game, as: Game
+  alias TTT.Core.Player, as: Player
   use ExUnit.Case
 
   test "player can make a move" do

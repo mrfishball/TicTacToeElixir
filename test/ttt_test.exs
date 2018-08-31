@@ -1,4 +1,7 @@
 defmodule TTTTest do
+  alias TTT.Core.Logic, as: Logic
+  alias TTT.Core.Game, as: Game
+  alias TTT.Core.Player, as: Player
   alias TTT.Console.Board, as: Board
   use ExUnit.Case
   import ExUnit.CaptureIO
@@ -8,11 +11,11 @@ defmodule TTTTest do
     game = Game.new_game(players, 1)
 
     first_player = :x
-    assert TTT.switch_turn(game, first_player) ==
+    assert Logic.switch_turn(game, first_player) ==
       %Player{name: "Connie", token: :o, type: :human}
 
     first_player = :o
-    assert TTT.switch_turn(game, first_player) ==
+    assert Logic.switch_turn(game, first_player) ==
       %Player{name: "Steven", token: :x, type: :human}
   end
 
@@ -23,7 +26,7 @@ defmodule TTTTest do
     moves = [{0, 0}, {2, 1}, {1, 0}, {1, 1}, {2, 0}]
     game = TestHelpers.simulate_moves(game, player_two, moves, 0)
 
-    assert capture_io(fn -> TTT.update_visual(board, game) end) ==
+    assert capture_io(fn -> Logic.update_visual(board, game) end) ==
       "\n\n \e[32mo\e[0m | \e[32mo\e[0m | \e[32mo\e[0m\n-----------\n 4 | \e[36mx\e[0m | \e[36mx\e[0m\n-----------\n 7 | 8 | 9\n\n\n"
   end
 
@@ -33,7 +36,7 @@ defmodule TTTTest do
 
     {:ok, game} = Game.play_turn(game, player_one, {0, 0})
 
-    assert TTT.generate_naive_move(game, 1) == {1, 0}
+    assert Logic.generate_naive_move(game, 1) == {1, 0}
   end
 
   test "Naive computer player will always take the first available spot preceding the opponent's move" do
@@ -42,7 +45,7 @@ defmodule TTTTest do
 
     {:ok, game} = Game.play_turn(game, player_one, {2, 0})
 
-    assert TTT.generate_naive_move(game, 1) == {0, 0}
+    assert Logic.generate_naive_move(game, 1) == {0, 0}
   end
 
   test "Random computer will generate random moves" do
@@ -52,6 +55,6 @@ defmodule TTTTest do
 
     {:ok, game} = Game.play_turn(game, player_one, {2, 0})
 
-    assert TTT.generate_random_move(game) == {2, 2}
+    assert Logic.generate_random_move(game) == {2, 2}
   end
 end

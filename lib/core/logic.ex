@@ -1,4 +1,6 @@
-defmodule TTT do
+defmodule TTT.Core.Logic do
+  alias TTT.Core.Game, as: Game
+  alias TTT.Core.Player, as: Player
   alias TTT.Console.Cli, as: Cli
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators

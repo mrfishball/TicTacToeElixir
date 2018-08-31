@@ -1,4 +1,6 @@
-defmodule Game do
+defmodule TTT.Core.Game do
+  alias __MODULE__, as: Game
+  alias TTT.Core.Player, as: Player
 
   @moduledoc """
 

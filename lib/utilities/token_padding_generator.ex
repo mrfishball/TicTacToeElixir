@@ -1,4 +1,5 @@
 defmodule TTT.Utilities.TokenPaddingGenerator do
+  alias TTT.Core.Player, as: Player
 
   @moduledoc """
     Apply paddings(whitespaces) to shorter token so that the visual board

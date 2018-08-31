@@ -1,4 +1,5 @@
 defmodule PlayerTest do
+  alias TTT.Core.Player, as: Player
   use ExUnit.Case
 
   test "Human player struct is correctly created" do

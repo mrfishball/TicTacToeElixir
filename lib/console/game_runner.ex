@@ -1,4 +1,7 @@
 defmodule TTT.Console.GameRunner do
+  alias TTT.Core.Player, as: Player
+  alias TTT.Core.Logic, as: Logic
+  alias TTT.Core.GameMaker, as: GameMaker
   alias TTT.Console.Cli, as: Cli
 
   @moduledoc """
@@ -19,7 +22,7 @@ defmodule TTT.Console.GameRunner do
     |> select_game_mode()
     |> GameMaker.polish_tokens_and_paddings()
     |> GameMaker.assemble_game()
-    |> TTT.play()
+    |> Logic.play()
   end
 
   defp game_menu_selection do

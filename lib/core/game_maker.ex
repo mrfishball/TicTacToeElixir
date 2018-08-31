@@ -1,4 +1,6 @@
-defmodule GameMaker do
+defmodule TTT.Core.GameMaker do
+  alias TTT.Core.Player, as: Player
+  alias TTT.Core.Game, as: Game
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators
   alias TTT.Utilities.TokenPaddingGenerator, as: TokenPaddingGenerator

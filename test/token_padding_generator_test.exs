@@ -1,4 +1,5 @@
 defmodule TokenPaddingGeneratorTest do
+  alias TTT.Core.Player, as: Player
   alias TTT.Utilities.TokenPaddingGenerator, as: TokenPaddingGenerator
   use ExUnit.Case
 

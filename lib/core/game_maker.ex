@@ -89,18 +89,18 @@ defmodule TTT.Core.GameMaker do
       Returns tuple of the result of the validation and the original payload.
   """
   def check_player_symbol(token) do
-    case !InputValidators.empty_input?(token) do
-      true -> {:ok, token}
-
-      false -> {:error, token}
+    if InputValidators.empty_input?(token) do
+      {:error, token}
+    else
+      {:ok, token}
     end
   end
 
-  defp check_identical_symbol(token_one, token_two) when token_one == token_two do
-    {:error, token_two}
-  end
-
-  defp check_identical_symbol(token_one, token_two) when token_one != token_two do
-    {:ok, token_two}
+  defp check_identical_symbol(token_one, token_two) do
+    if token_one == token_two do
+      {:error, token_two}
+    else
+      {:ok, token_two}
+    end
   end
 end

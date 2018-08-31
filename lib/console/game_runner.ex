@@ -3,6 +3,8 @@ defmodule TTT.Console.GameRunner do
   alias TTT.Core.Logic, as: Logic
   alias TTT.Core.GameMaker, as: GameMaker
   alias TTT.Console.Cli, as: Cli
+  alias TTT.Message.Messages, as: Messages
+  alias TTT.Message.MessageTags, as: MessageTags
 
   @moduledoc """
     A command line game runner.

@@ -1,4 +1,5 @@
 defmodule CliTest do
+  alias TTT.Message.MessageTags
   alias TTT.Console.Cli, as: Cli
   use ExUnit.Case
   import ExUnit.CaptureIO

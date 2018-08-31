@@ -1,6 +1,8 @@
 defmodule TTT.Core.Logic do
   alias TTT.Core.Game, as: Game
   alias TTT.Core.Player, as: Player
+  alias TTT.Message.Messages, as: Messages
+  alias TTT.Message.MessageTags, as: MessageTags
   alias TTT.Console.Cli, as: Cli
   alias TTT.Console.Board, as: Board
   alias TTT.Utilities.InputValidators, as: InputValidators

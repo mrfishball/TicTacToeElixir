@@ -1,4 +1,4 @@
-defmodule MessageTags do
+defmodule TTT.Message.MessageTags do
 
   @moduledoc """
     Tags that can be used to indicate message or request types for additional processing if needed.

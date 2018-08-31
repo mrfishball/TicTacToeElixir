@@ -1,4 +1,5 @@
 defmodule MessagesTest do
+  alias TTT.Message.Messages, as: Messages
   use ExUnit.Case
 
   test "when asking for a symbol, output message will show player's number" do

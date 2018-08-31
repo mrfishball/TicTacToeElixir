@@ -1,4 +1,4 @@
-defmodule Messages do
+defmodule TTT.Message.Messages do
 
   @moduledoc """
 

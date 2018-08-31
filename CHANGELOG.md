@@ -1,5 +1,9 @@
 # Changelog
 
-## v0.1.0
+## v0.1.0 (beta)
 
-* initial release
+* Initial release
+
+## v0.2.0 (beta)
+
+* Code re-organization to separate core libraries from the others.

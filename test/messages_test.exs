@@ -1,9 +1,10 @@
 defmodule MessagesTest do
+  alias TTT.Message.Messages, as: Messages
   use ExUnit.Case
 
-  test "when asking for a symbol, output message will show player's name" do
-    message = Messages.player_symbol("Steven")
-    assert message == "What do you want your token to be, Steven?: "
+  test "when asking for a symbol, output message will show player's number" do
+    message = Messages.player_symbol(2)
+    assert message == "What do you want your token to be? (Player 2): "
   end
 
   test "when asking for a name, output message will indicator player numbers" do
@@ -40,5 +41,23 @@ defmodule MessagesTest do
     {_status, error} = {:error, :cell_taken}
     message = Messages.invalid_move(error)
     assert message == "\nInvalid move: cell_taken. Please try again. \n"
+  end
+
+  test "invalid name error message will show original name" do
+    invalid_name = "   "
+    message = Messages.invalid_name(invalid_name)
+    assert message == "\n'   ' is not a valid name. Please try again.\n"
+  end
+
+  test "invalid token error message will show original token" do
+    invalid_token = "   "
+    message = Messages.invalid_token(invalid_token)
+    assert message == "\n'   ' is not a valid token. Please try again.\n"
+  end
+
+  test "token taken error message will show original token" do
+    taken_token = "X"
+    message = Messages.symbol_taken_error(taken_token)
+    assert message == "\nToken 'X' is taken. Please choose a different token.\n"
   end
 end

@@ -1,35 +1,40 @@
 defmodule GameMakerTest do
+  # alias TTT.Core.Game, as: Game
+  alias TTT.Core.Player, as: Player
+  alias TTT.Core.GameMaker, as: GameMaker
   use ExUnit.Case
 
-  test "string with whitespace will be consider an empty string" do
-    assert GameMaker.empty_input?(" ") == true
+  test "player is setup with the correct type" do
+    type = &Player.human/1
+    player = GameMaker.setup_player("Steven", "X", type)
+    assert player.type == :human
   end
 
-  test "a string with trailing whitespaces will not be consider an empty string" do
-    assert GameMaker.empty_input?(" Steven  ") == false
+  test "player is setup with the correct name" do
+    name = "Steven"
+    player = GameMaker.setup_player(name, "O", &Player.human/1)
+    assert player.name == "Steven"
   end
 
-  test "The player with the longest token will be returned" do
-    player1 = %Player{name: "Steven", token: "  x  ", type: :human}
-    player2 = %Player{name: "Connie", token: "o", type: :human}
-    players = {player1, player2}
-    assert GameMaker.longest_token_player(players) ==
-      %Player{name: "Steven", token: "  x  ", type: :human}
+  test "player is setup with the correct token" do
+    token = "D"
+    player = GameMaker.setup_player("Steven", token, &Player.human/1)
+    assert player.token == "D"
   end
 
-  test "The length of the paddings must be the difference between the tokens" do
-    long_token = "  vvvvv  "
-    short_token = "gg"
-    difference = String.length(long_token) - String.length(short_token)
-    {left_pad, right_pad} = GameMaker.symbol_paddings(long_token, short_token)
-    assert String.length(left_pad <> right_pad) == difference
+  test "status of ok with the name are expected to be return for a valid name" do
+    assert GameMaker.check_player_name("Steven") == {:ok, "Steven"}
   end
 
-  test "After adding padding, both tokens will have the same legnth" do
-    player1 = %Player{name: "Steven", token: "  x  ", type: :human}
-    player2 = %Player{name: "Connie", token: "o", type: :human}
-    players = {player1, player2}
-    {player1, player2} = GameMaker.add_paddings(player1, players)
-    assert String.length(player1.token) == String.length(player2.token)
+  test "error and with the name are returned if the name is invalid" do
+    assert GameMaker.check_player_name(" ") == {:error, " "}
+  end
+
+  test "status of ok with the token are expected to be return for a valid token" do
+    assert GameMaker.check_player_symbol("X") == {:ok, "X"}
+  end
+
+  test "error and with the token are returned if the token is invalid" do
+    assert GameMaker.check_player_symbol(" ") == {:error, " "}
   end
 end

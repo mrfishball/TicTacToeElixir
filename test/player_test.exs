@@ -1,4 +1,5 @@
 defmodule PlayerTest do
+  alias TTT.Core.Player, as: Player
   use ExUnit.Case
 
   test "Human player struct is correctly created" do
@@ -20,5 +21,12 @@ defmodule PlayerTest do
     token = :w
     assert Player.random_computer({name, token}) ==
       %Player{name: "Random computer", token: :w, type: :random_computer}
+  end
+
+  test "The player with the longest token will be returned" do
+    player1 = %Player{name: "Steven", token: "  x  ", type: :human}
+    player2 = %Player{name: "Connie", token: "o", type: :human}
+    players = {player1, player2}
+    assert Player.get_longer_token(players) == "  x  "
   end
 end

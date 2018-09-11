@@ -8,4 +8,5 @@ erl_crash.dump
 *.beam
 /config/*.secret.exs
 /ttt
-/.DS_Store
+*.DS_Store
+*.elixir_ls

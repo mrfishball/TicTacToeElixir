@@ -2,9 +2,45 @@
 
 [![Build Status](https://travis-ci.com/mrfishball/TicTacToeElixir.svg?branch=master)](https://travis-ci.com/mrfishball/TicTacToeElixir)
 
-A fun Tic Tac Toe game!
+A library for building/playing a fun Tic Tac Toe game!
 
-## Installation
+## Change Log
+
+See the CHANGELOG.md file for further details.
+
+## Building Your Own Game
+
+Add :ttt as a dependency to your project's mix.exs with hex package manager(default):
+
+```elixir
+def deps do
+  [
+    {:ttt, "~> 0.1.0"}
+  ]
+end
+```
+
+or through GitHub:
+
+```elixir
+def deps do
+  [
+    {:ttt, git: "https://github.com/mrfishball/TicTacToeElixir.git", tag: "0.1.0"}
+  ]
+end
+```
+
+And run:
+
+```sh
+$ mix deps.get
+```
+
+## Usage
+
+Visit https://hexdocs.pm/ttt/api-reference.html for documentation on how to use the APIs.
+
+## Compiling An Executable
 
 Clone this repo by running:
 
@@ -12,24 +48,13 @@ Clone this repo by running:
 $ git clone https://github.com/mrfishball/TicTacToeElixir.git
 ```
 
-## Prerequisites
-
-You need to have Elixir installed. Please refer to the [official guide](http://elixir-lang.org/install.html) for instructions.
-
-Next, cd to the root of the repo folder and fetch mix dependencies by running:
+In the root of the project folder, run:
 
 ```sh
 $ mix deps.get
 ```
 
-You might get prompted to install further dependencies. Reply "y".
-
-On Linux, you'll need to install `inotify-tools` to be able
-to use the autorunner in this project.
-
-## Compile
-
-In the root of the project folder, run:
+And run:
 
 ```sh
 $ mix escript.build
@@ -42,7 +67,8 @@ then, simply double click on the new executable file named "ttt" or run:
 ./ttt
 ```
 
-If you are getting warnings during the build process, follow these steps to update the dependencies in order to remove the warnings.
+## Warnings
+Follow these steps to update the dependencies in order to remove any warnings.
 
 ```sh
 rm -rf _build
@@ -63,7 +89,7 @@ Simply run:
 $ mix test
 ```
 
-## Credo
+## Credo (Optional)
 
 If you like to use Credo to check your code, run:
 
@@ -82,3 +108,12 @@ and
 ```sh
 $ mix credo list
 ```
+
+## Author
+
+Steven Kwok (@mrfishball)
+
+## License
+
+TTT is released under the MIT License. See the LICENSE file for further
+details.

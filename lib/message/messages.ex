@@ -1,21 +1,40 @@
-defmodule Messages do
+defmodule TTT.Message.Messages do
+
+  @moduledoc """
+
+    A collection of input and output strings.
+  """
 
   def title do
-    "Let's play Tic Tac Toe!\n\n"
+    "\n\nLet's play Tic Tac Toe!\n"
   end
 
   def select do
     "Your choice is "
   end
 
+  @doc """
+
+    ## Parameters
+
+      - player_number: Integer that represent the order of the player.
+
+  """
   def player_name(player_number) do
     "What is your name? (Player #{player_number}): "
   end
 
-  def player_symbol(player_name) do
-    "What do you want your token to be, #{player_name}?: "
+  def player_symbol(player_number) do
+    "What do you want your token to be? (Player #{player_number}): "
   end
 
+  @doc """
+
+    ## Parameters
+
+      - outcome: Atom that represent the outcome of the game.
+
+  """
   def game_status(outcome) do
     "Game over!\nIt's a #{outcome}!"
   end
@@ -40,12 +59,19 @@ defmodule Messages do
     "\nInvalid entry. Please try again.\n"
   end
 
-  def token_take(token) do
+  def invalid_name(name) do
+    "\n'#{name}' is not a valid name. Please try again.\n"
+  end
+
+  def invalid_token(token) do
+    "\n'#{token}' is not a valid token. Please try again.\n"
+  end
+
+  def symbol_taken_error(token) do
     "\nToken '#{token}' is taken. Please choose a different token.\n"
   end
 
   def game_menu do
-    "Let's play Tic Tac Toe!\n\n" <>
     "Select a game mode (Enter a number from 1 to 3)\n\n" <>
     "1. Player vs. Player\n" <>
     "2. Player vs. Computer\n" <>
